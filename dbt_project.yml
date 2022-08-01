@@ -1,0 +1,41 @@
+name: 'data_profiling'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+# Configuration required for CLI users.  Cloud users can leave as 'default'
+profile: 'default'
+
+vars:
+  source_name: cclf                     # configuration required
+                                        # name describing the dataset feeding this project
+
+  input_database: tuva                  # configuration required
+                                        # name of the database where sources feeding this project are stored
+
+  input_schema: claims_input            # configuration required
+                                        # name of the schema where sources feeding this project is stored
+
+  output_database: tuva                 # configuration required
+                                        # name of the database where output of this project should be written
+
+  output_schema: data_profiling         # configuration required
+                                        # name of the schema where output of this project should be written
+
+  medical_claim: "{{ source(var('source_name'),'medical_claim') }}"
+  eligibility: "{{ source(var('source_name'),'eligibility') }}"
+
+# These configurations specify where dbt should look for different types of files.
+# The `source-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
+model-paths: ["models"]
+analysis-paths: ["analysis"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
