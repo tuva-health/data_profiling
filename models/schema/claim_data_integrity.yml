@@ -1,0 +1,20 @@
+version: 2
+
+models:
+    - name: claim_data_integrity
+      config:
+        database: "{{ var('output_database') }}"
+        schema: "{{ var('output_schema') }}"
+      description: >
+        Overview of checks ran on every column in every source table: missing, 
+        blank, uniqueness, date checks, and valid value checks.
+
+      columns:
+        - name: table_name
+          description: The name of the table
+
+        - name: column_name
+          description: The name of the column
+
+        - name: data_type
+          description: The data type of the column
