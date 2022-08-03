@@ -18,3 +18,27 @@ models:
 
         - name: data_type
           description: The data type of the column
+
+        - name: table_total
+          description: Total row count for the table
+
+        - name: max_column_length
+          description: Max length for values in the column
+
+        - name: missing_values
+          description: Total count of missing (or null) values in the column
+
+        - name: missing_percentage
+          description:  Percentage of missing (or null) values in the column
+
+        - name: blank_values
+          description: Total count of blank (or '') values in the column
+
+        - name: blank_percentage
+          description: Percentage of blank (or '') values in the column
+
+        - name: unique_values
+          description: Total count of unique values in the column
+
+        - name: unique_percentage
+          description: Percentage of unique values in the column
