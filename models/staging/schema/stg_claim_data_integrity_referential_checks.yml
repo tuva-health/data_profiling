@@ -1,7 +1,7 @@
 version: 2
 
 models:
-    - name: stg_claim_data_integrity_referential_integrity_checks
+    - name: stg_claim_data_integrity_referential_checks
       config:
         database: "{{ var('output_database') }}"
         schema: "{{ var('output_schema') }}"
@@ -18,6 +18,6 @@ models:
         - name: referential_integrity_check
           description: Description of the referential integrity check
 
-        - name: referential_integrity_result
+        - name: referential_integrity_errors
           description: >
             Total count of rows that fail the referential integrity check

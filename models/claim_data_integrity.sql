@@ -44,7 +44,14 @@ date_relevance_checks as (
 referential_integrity_checks as (
 
     select *
-    from {{ ref('stg_claim_data_integrity_referential_integrity_checks') }}
+    from {{ ref('stg_claim_data_integrity_referential_checks') }}
+
+),
+
+valid_value_checks as (
+
+    select *
+    from {{ ref('stg_claim_data_integrity_valid_values') }}
 
 ),
 
@@ -93,21 +100,29 @@ joined as (
         , date_checks.min_date
         , date_checks.max_date
         , date_relevance_checks.date_relevance_check
-        , date_relevance_checks.date_relevance_result
+        , date_relevance_checks.date_relevance_errors
         , case
             when general_checks.table_total =  0 then null
-            else ((date_relevance_checks.date_relevance_result::decimal(18,2) /
+            else ((date_relevance_checks.date_relevance_errors::decimal(18,2) /
                    general_checks.table_total::decimal(18,2))*100
                  )::decimal(18, 2)
-          end as date_relevance_result_percentage
+          end as date_relevance_errors_percentage
         , referential_integrity_checks.referential_integrity_check
-        , referential_integrity_checks.referential_integrity_result
+        , referential_integrity_checks.referential_integrity_errors
         , case
             when general_checks.table_total =  0 then null
-            else ((referential_integrity_checks.referential_integrity_result::decimal(18,2) /
+            else ((referential_integrity_checks.referential_integrity_errors::decimal(18,2) /
                    general_checks.table_total::decimal(18,2))*100
                  )::decimal(18, 2)
-          end as referential_integrity_result_percentage
+          end as referential_integrity_errors_percentage
+        , valid_value_checks.valid_value_check
+        , valid_value_checks.valid_value_errors
+        , case
+            when general_checks.table_total =  0 then null
+            else ((valid_value_checks.valid_value_errors::decimal(18,2) /
+                   general_checks.table_total::decimal(18,2))*100
+                 )::decimal(18, 2)
+          end as valid_value_errors_percentage
     from general_checks
          left join date_checks
            on general_checks.table_name = date_checks.table_name
@@ -118,6 +133,9 @@ joined as (
          left join referential_integrity_checks
            on  general_checks.table_name = referential_integrity_checks.table_name
            and general_checks.column_name = referential_integrity_checks.column_name
+         left join valid_value_checks
+           on  general_checks.table_name = valid_value_checks.table_name
+           and general_checks.column_name = valid_value_checks.column_name
 
 )
 
@@ -136,9 +154,12 @@ select
     , min_date
     , max_date
     , date_relevance_check
-    , date_relevance_result
-    , date_relevance_result_percentage
+    , date_relevance_errors
+    , date_relevance_errors_percentage
     , referential_integrity_check
-    , referential_integrity_result
-    , referential_integrity_result_percentage
+    , referential_integrity_errors
+    , referential_integrity_errors_percentage
+    , valid_value_check
+    , valid_value_errors
+    , valid_value_errors_percentage
 from joined

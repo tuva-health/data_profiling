@@ -1,4 +1,4 @@
-{{ config(materialized='view') }}
+{{ config(materialized='ephemeral') }}
 
 with medical_claim_patient_id_check as (
 
@@ -6,7 +6,7 @@ with medical_claim_patient_id_check as (
           'medical_claim' as table_name
         , 'patient_id' as column_name
         , 'foreign key patient_id missing in patient' as referential_integrity_check
-        , count(*) as referential_integrity_result
+        , count(*) as referential_integrity_errors
     from {{ var('medical_claim') }} as medical_claim
          left join {{ var('eligibility') }} as eligibility
          on medical_claim.patient_id = eligibility.patient_id
@@ -24,5 +24,5 @@ select
       table_name
     , column_name
     , referential_integrity_check
-    , referential_integrity_result
+    , referential_integrity_errors
 from union_checks

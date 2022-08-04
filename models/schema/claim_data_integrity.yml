@@ -63,19 +63,28 @@ models:
             birth date", "discharge date before admission date", "claim end 
             date before start date", "claim line end date before start date".
 
-        - name: date_relevance_result
+        - name: date_relevance_errors
           description: Total count of rows that fail the date relevance check
 
-        - name: date_relevance_result_percentage
+        - name: date_relevance_errors_percentage
           description: Percentage of rows that fail the date relevance check
 
         - name: referential_integrity_check
           description: Description of the referential integrity check
 
-        - name: referential_integrity_result
+        - name: referential_integrity_errors
           description: >
             Total count of rows that fail the referential integrity check
 
-        - name: referential_integrity_result_percentage
+        - name: referential_integrity_errors_percentage
           description: >
             Percentage of rows that fail the referential integrity check
+
+        - name: valid_value_check
+          description: Description of the valid value check
+
+        - name: valid_value_errors
+          description: Total count of rows that fail the valid value check
+
+        - name: valid_value_errors_percentage
+          description: Percentage of rows that fail the valid value check
