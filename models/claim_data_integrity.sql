@@ -1,64 +1,144 @@
 {{ config(materialized='table') }}
 
-{% set table_list = ( 'eligibility', 'medical_claim' ) -%}
+{#
+    setting var to determine unique patients from member months
+#}
+{% set unique_patient_id_count -%}
+(select count(*)
+from (
+    select distinct patient_id, birth_date
+    from {{ var('eligibility') }}
+))
+{% endset -%}
 
-{%- for table_item in table_list %}
+{#
+    setting var to determine unique claims from claim line
+#}
+{% set unique_claim_id_count -%}
+(select count(*)
+from {{ var('medical_claim') }}
+where claim_line_number = 1)
+{% endset -%}
 
-    {%- set current_table = var( table_item ) -%}
+with general_checks as (
 
-    {%- set all_columns = adapter.get_columns_in_relation(
-        current_table
-    ) -%}
+    select *
+    from {{ ref('stg_claim_data_integrity_general_checks') }}
 
-    {%- for column_item in all_columns %}
+),
 
+date_checks as (
+
+    select *
+    from {{ ref('stg_claim_data_integrity_date_checks') }}
+
+),
+
+date_relevance_checks as (
+
+    select *
+    from {{ ref('stg_claim_data_integrity_date_relevance_checks') }}
+
+),
+
+referential_integrity_checks as (
+
+    select *
+    from {{ ref('stg_claim_data_integrity_referential_integrity_checks') }}
+
+),
+
+/*
+    join all checks together to create summary output and calculate percentages
+*/
+joined as (
     select
-          '{{ table_item }}' as table_name
-        , '{{ column_item.name|lower }}' as column_name
-        , '{{ column_item.data_type }}' as data_type
-        , (
-            select count(*)::integer as cnt
-            from {{ current_table }}
-          ) as table_total
-        , (
-            select max(len( {{ column_item.name }} ))::integer as cnt
-            from {{ current_table }}
-          ) as max_column_length
-        , (
-            select count(*)::integer as cnt
-            from {{ current_table }}
-            where {{ column_item.name }} is null
-          ) as missing_values
+          general_checks.table_name
+        , general_checks.column_name
+        , general_checks.data_type
+        , general_checks.table_total
+        , general_checks.max_column_length
+        , general_checks.missing_values
         , case
-            when table_total =  0 then null
-            else ((missing_values::decimal(18,2) / table_total::decimal(18,2))*100)::decimal(18,2)
+            when general_checks.table_total =  0 then null
+            else ((general_checks.missing_values::decimal(18,2) /
+                   general_checks.table_total::decimal(18,2))*100
+                 )::decimal(18,2)
           end as missing_percentage
-        , (
-            select count(*)::integer as cnt
-            from {{ current_table }}
-            where {{ column_item.name }}::varchar = ''
-          ) as blank_values
+        , general_checks.blank_values
         , case
-            when table_total =  0 then null
-            else ((blank_values::decimal(18,2) / table_total::decimal(18,2))*100)::decimal(18,2)
+            when general_checks.table_total =  0 then null
+            else ((general_checks.blank_values::decimal(18,2) /
+                   general_checks.table_total::decimal(18,2))*100
+                 )::decimal(18,2)
           end as blank_percentage
-        , (
-            select count(distinct {{ column_item.name }} )::integer as ct
-            from {{ current_table }}
-          ) as unique_values
+        , general_checks.unique_values
         , case
-            when table_total =  0 then null
-            else ((unique_values::decimal(18,2) / table_total::decimal(18,2))*100)::decimal(18, 2)
+            when general_checks.table_total =  0 then null
+            {# unique total logic for specific fields -#}
+            when (general_checks.table_name = 'eligibility'
+              and general_checks.column_name = 'patient_id')
+              then ((general_checks.unique_values::decimal(18,2) /
+                     {{ unique_patient_id_count }}::decimal(18,2))*100
+                   )::decimal(18, 2)
+            when (general_checks.table_name = 'medical_claim'
+              and general_checks.column_name = 'claim_id')
+              then ((general_checks.unique_values::decimal(18,2) /
+                     {{ unique_claim_id_count }}::decimal(18,2))*100
+                   )::decimal(18, 2)
+            else ((general_checks.unique_values::decimal(18,2) /
+                   general_checks.table_total::decimal(18,2))*100
+                 )::decimal(18, 2)
           end as unique_percentage
+        , date_checks.min_date
+        , date_checks.max_date
+        , date_relevance_checks.date_relevance_check
+        , date_relevance_checks.date_relevance_result
+        , case
+            when general_checks.table_total =  0 then null
+            else ((date_relevance_checks.date_relevance_result::decimal(18,2) /
+                   general_checks.table_total::decimal(18,2))*100
+                 )::decimal(18, 2)
+          end as date_relevance_result_percentage
+        , referential_integrity_checks.referential_integrity_check
+        , referential_integrity_checks.referential_integrity_result
+        , case
+            when general_checks.table_total =  0 then null
+            else ((referential_integrity_checks.referential_integrity_result::decimal(18,2) /
+                   general_checks.table_total::decimal(18,2))*100
+                 )::decimal(18, 2)
+          end as referential_integrity_result_percentage
+    from general_checks
+         left join date_checks
+           on general_checks.table_name = date_checks.table_name
+           and general_checks.column_name = date_checks.column_name
+         left join date_relevance_checks
+           on  general_checks.table_name = date_relevance_checks.table_name
+           and general_checks.column_name = date_relevance_checks.column_name
+         left join referential_integrity_checks
+           on  general_checks.table_name = referential_integrity_checks.table_name
+           and general_checks.column_name = referential_integrity_checks.column_name
 
-    {% if not loop.last -%}
-        union all
-    {%- endif -%}
+)
 
-    {%- endfor -%}
-
-    {% if not loop.last -%}
-        union all
-    {%- endif -%}
-
-{%- endfor -%}
+select
+      table_name
+    , column_name
+    , data_type
+    , table_total
+    , max_column_length
+    , missing_values
+    , missing_percentage
+    , blank_values
+    , blank_percentage
+    , unique_values
+    , unique_percentage
+    , min_date
+    , max_date
+    , date_relevance_check
+    , date_relevance_result
+    , date_relevance_result_percentage
+    , referential_integrity_check
+    , referential_integrity_result
+    , referential_integrity_result_percentage
+from joined

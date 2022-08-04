@@ -6,8 +6,9 @@ models:
         database: "{{ var('output_database') }}"
         schema: "{{ var('output_schema') }}"
       description: >
-        Overview of checks ran on every column in every source table: missing, 
-        blank, uniqueness, date checks, and valid value checks.
+        Overview of checks ran on every column in every claim input source 
+        table: missing, blank, uniqueness, dates, referential integrity, 
+        and valid value checks.
 
       columns:
         - name: table_name
@@ -26,7 +27,12 @@ models:
           description: Max length for values in the column
 
         - name: missing_values
-          description: Total count of missing (or null) values in the column
+          description: >
+            Total count of missing (or null) values in the column. Additional 
+            logic included for specific fields: "place_of_service_code" only 
+            checked for professional claims; "bill_type_code", 
+            "revenue_center_code", and "discharge_disposition_code" only 
+            checked for institutional claims
 
         - name: missing_percentage
           description:  Percentage of missing (or null) values in the column
@@ -41,4 +47,35 @@ models:
           description: Total count of unique values in the column
 
         - name: unique_percentage
-          description: Percentage of unique values in the column
+          description: >
+            Percentage of unique values in the column. Additional
+            unique total logic included for "patient_id" and "claim_id".
+
+        - name: min_date
+          description: Minimum date
+
+        - name: max_date
+          description: Maximum date
+
+        - name: date_relevance_check
+          description: >
+            Description of the date relevance check: "death date before 
+            birth date", "discharge date before admission date", "claim end 
+            date before start date", "claim line end date before start date".
+
+        - name: date_relevance_result
+          description: Total count of rows that fail the date relevance check
+
+        - name: date_relevance_result_percentage
+          description: Percentage of rows that fail the date relevance check
+
+        - name: referential_integrity_check
+          description: Description of the referential integrity check
+
+        - name: referential_integrity_result
+          description: >
+            Total count of rows that fail the referential integrity check
+
+        - name: referential_integrity_result_percentage
+          description: >
+            Percentage of rows that fail the referential integrity check
