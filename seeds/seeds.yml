@@ -3,7 +3,7 @@ version: 2
 seeds:
   - name: bill_type_code
     config:
-      database:  "{{ var('output_database') }}"
+      database: "{{ var('output_database') }}"
       schema:  terminology
       column_types:
         code: varchar

@@ -88,3 +88,6 @@ models:
 
         - name: valid_value_errors_percentage
           description: Percentage of rows that fail the valid value check
+
+        - name: run_date
+          description: Datetime the model was run used for snapshots

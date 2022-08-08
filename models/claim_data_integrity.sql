@@ -162,4 +162,5 @@ select
     , valid_value_check
     , valid_value_errors
     , valid_value_errors_percentage
+    , getdate()::datetime as run_date
 from joined
