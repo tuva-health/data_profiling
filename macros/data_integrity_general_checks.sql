@@ -8,7 +8,13 @@
 
     {%- for table_item in table_list %}
 
-        {%- set current_table = var( table_item ) -%}
+        {%- set source_relation = adapter.get_relation(
+            database = var('input_database'),
+            schema = var('input_schema'),
+            identifier = table_item
+        ) -%}
+
+        {%- set current_table = source_relation -%}
 
         {%- set all_columns = adapter.get_columns_in_relation(
             current_table
