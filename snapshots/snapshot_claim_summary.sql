@@ -1,4 +1,4 @@
-{% snapshot snapshot_claim_data_integrity %}
+{% snapshot snapshot_claim_summary %}
 
 {{
     config(
@@ -10,6 +10,6 @@
     )
 }}
 
-select * from {{ ref('claim_data_integrity') }}
+select * from {{ ref('claim_summary') }}
 
 {% endsnapshot %}

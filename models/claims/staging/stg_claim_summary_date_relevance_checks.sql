@@ -1,5 +1,3 @@
-{{ config(materialized='view') }}
-
 with death_date_check as (
 
     select

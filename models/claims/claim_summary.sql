@@ -1,5 +1,3 @@
-{{ config(materialized='table') }}
-
 {#
     setting var to determine unique patients from member months
 #}
@@ -23,35 +21,35 @@ where claim_line_number = 1)
 with general_checks as (
 
     select *
-    from {{ ref('stg_claim_data_integrity_general_checks') }}
+    from {{ ref('stg_claim_summary_general_checks') }}
 
 ),
 
 date_checks as (
 
     select *
-    from {{ ref('stg_claim_data_integrity_date_checks') }}
+    from {{ ref('stg_claim_summary_date_checks') }}
 
 ),
 
 date_relevance_checks as (
 
     select *
-    from {{ ref('stg_claim_data_integrity_date_relevance_checks') }}
+    from {{ ref('stg_claim_summary_date_relevance_checks') }}
 
 ),
 
 referential_integrity_checks as (
 
     select *
-    from {{ ref('stg_claim_data_integrity_referential_checks') }}
+    from {{ ref('stg_claim_summary_referential_checks') }}
 
 ),
 
 valid_value_checks as (
 
     select *
-    from {{ ref('stg_claim_data_integrity_valid_values') }}
+    from {{ ref('stg_claim_summary_valid_values') }}
 
 ),
 

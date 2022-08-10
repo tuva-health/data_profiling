@@ -1,10 +1,11 @@
 version: 2
 
 models:
-    - name: claim_data_integrity
+    - name: claim_summary
       config:
         database: "{{ var('output_database') }}"
         schema: "{{ var('output_schema') }}"
+        materialized: table
       description: >
         Overview of checks ran on every column in every claim input source 
         table: missing, blank, uniqueness, dates, referential integrity, 

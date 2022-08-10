@@ -1,10 +1,11 @@
 version: 2
 
 models:
-    - name: stg_claim_data_integrity_valid_values
+    - name: stg_claim_summary_valid_values
       config:
         database: "{{ var('output_database') }}"
         schema: "{{ var('output_schema') }}"
+        materialized: view
       description: Valid value checks for specific code sets.
 
       columns:

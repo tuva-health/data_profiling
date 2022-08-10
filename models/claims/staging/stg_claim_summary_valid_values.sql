@@ -1,5 +1,3 @@
-{{ config(materialized='view') }}
-
 with seed_bill_type as (
 
     select * from {{ ref('bill_type_code') }}

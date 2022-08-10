@@ -1,5 +1,3 @@
-{{ config(materialized='view') }}
-
 {#-
     setting vars used in for loops
 -#}

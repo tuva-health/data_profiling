@@ -1,5 +1,3 @@
-{{ config(materialized='view') }}
-
 with medical_claim_patient_id_check as (
 
     select
