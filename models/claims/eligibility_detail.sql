@@ -16,12 +16,40 @@ duplicate_record as (
           patient_id
         , month
         , year
-    from eligibility_src
-    group by
-          patient_id
-        , month
-        , year
-    having count(*) > 1
+    from (
+        select
+              patient_id
+            , gender
+            , birth_date
+            , race
+            , zip_code
+            , state
+            , deceased_flag
+            , death_date
+            , payer
+            , payer_type
+            , dual_status
+            , medicare_status
+            , month
+            , year
+        from eligibility_src
+        group by
+        patient_id
+            , gender
+            , birth_date
+            , race
+            , zip_code
+            , state
+            , deceased_flag
+            , death_date
+            , payer
+            , payer_type
+            , dual_status
+            , medicare_status
+            , month
+            , year
+        having count (*) > 1
+    )
 
 ),
 
@@ -59,8 +87,8 @@ joined as (
         , {{ missing_field_check('eligibility_src.gender') }} as missing_gender_flag
         , {{ missing_field_check('eligibility_src.birth_date') }} as missing_birth_date_flag
         , {{ missing_field_check('eligibility_src.death_date') }} as missing_death_date_flag
-        , {{ valid_past_or_current_date_check('birth_date') }} as invalid_birth_date_flag
-        , {{ valid_past_or_current_date_check('death_date') }} as invalid_death_date_flag
+        , {{ valid_past_or_current_date_check('eligibility_src.birth_date') }} as invalid_birth_date_flag
+        , {{ valid_past_or_current_date_check('eligibility_src.death_date') }} as invalid_death_date_flag
         , case
             when eligibility_src.death_date is null then 0
             when eligibility_src.death_date is not null
