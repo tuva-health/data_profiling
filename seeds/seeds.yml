@@ -20,6 +20,11 @@ seeds:
       column_types:
         discharge_disposition_code: varchar
 
+  - name: gender
+    config:
+      database: "{{ var('output_database') }}"
+      schema: terminology
+
   - name: place_of_service
     config:
       database: "{{ var('output_database') }}"
