@@ -22,6 +22,9 @@ vars:
   output_schema: data_profiling         # configuration required
                                         # name of the schema where output of this project should be written
 
+  terminology_schema: terminology       # configuration required
+                                        # name of the schema where output of this project should be written
+
   medical_claim: "{{ source(var('source_name'),'medical_claim') }}"
   eligibility: "{{ source(var('source_name'),'eligibility') }}"
 
