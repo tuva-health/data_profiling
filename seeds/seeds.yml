@@ -25,12 +25,29 @@ seeds:
       database: "{{ var('output_database') }}"
       schema: "{{ var('terminology_schema') }}"
 
+  - name: icd_10_cm
+    config:
+      database: "{{ var('output_database') }}"
+      schema: "{{ var('terminology_schema') }}"
+
+  - name: ms_drg
+    config:
+      database: "{{ var('output_database') }}"
+      schema: "{{ var('terminology_schema') }}"
+      column_types:
+        ms_drg: varchar
+
   - name: place_of_service
     config:
       database: "{{ var('output_database') }}"
       schema: "{{ var('terminology_schema') }}"
       column_types:
         place_of_service_code: varchar
+
+  - name: present_on_admission
+    config:
+      database: "{{ var('output_database') }}"
+      schema: "{{ var('terminology_schema') }}"
 
   - name: revenue_center_code
     config:
