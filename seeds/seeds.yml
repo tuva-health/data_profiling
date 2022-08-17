@@ -1,7 +1,7 @@
 version: 2
 
 seeds:
-  - name: bill_type_code
+  - name: bill_type
     config:
       database: "{{ var('output_database') }}"
       schema:  "{{ var('terminology_schema') }}"

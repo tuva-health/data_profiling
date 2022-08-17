@@ -6,7 +6,7 @@ with medical_claim_src as (
 
 seed_bill_type as (
 
-    select * from {{ ref('bill_type_code') }}
+    select * from {{ ref('bill_type') }}
 
 ),
 
