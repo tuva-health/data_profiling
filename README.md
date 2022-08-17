@@ -16,6 +16,7 @@ The output models of this project are:
 * Eligibility Detail - a data profiling table on the eligibility grain with columns for source primary keys and every data quality check performed.
 * Medical Claim Detail - a data profiling table on the medical claim line grain with columns for source primary keys and every data quality check performed.
 * Claim Summary - a summary table of checks ran on every column in Eligibility Detail and Medical Claim Detail with test fail percentages.
+* Snapshots - A "look back in time" of every model that gets generated during `dbt build` (or `dbt run` followed by `dbt snapshot`). 
 
 ## Pre-requisites
 1. You have claims data (e.g. medicare, medicaid, or commercial) in a data warehouse
