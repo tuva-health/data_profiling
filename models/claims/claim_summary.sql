@@ -1,164 +1,179 @@
-{#
-    setting var to determine unique patients from member months
-#}
+{#-
+    ***************************************************************
+    setting vars for unique counts, total counts, and test columns
+    ***************************************************************
+-#}
+
+{% set institutional_claim_count -%}
+    (select count(*)
+    from {{ var('medical_claim') }}
+    where claim_type = 'I')
+{% endset -%}
+
+{% set professional_claim_count -%}
+    (select count(*)
+    from {{ var('medical_claim') }}
+    where claim_type = 'P')
+{% endset -%}
+
+{% set total_eligibility_count -%}
+    (select count(*)
+     from {{ var('eligibility') }})
+{% endset -%}
+
+{% set total_claim_count -%}
+    (select count(*)
+    from {{ var('medical_claim') }})
+{% endset -%}
+
 {% set unique_patient_id_count -%}
-(select count(*)
-from (
-    select distinct patient_id, birth_date
-    from {{ var('eligibility') }}
-))
+    (select count(*)
+    from (
+        select distinct patient_id, birth_date
+        from {{ var('eligibility') }}
+    ))
 {% endset -%}
 
-{#
-    setting var to determine unique claims from claim line
-#}
 {% set unique_claim_id_count -%}
-(select count(*)
-from {{ var('medical_claim') }}
-where claim_line_number = 1)
+    (select count(*)
+    from {{ var('medical_claim') }}
+    where claim_line_number = 1)
 {% endset -%}
 
-with general_checks as (
+{% set eligibility_column_list = [
+      'duplicate_record_flag'
+    , 'duplicate_patient_id_flag'
+    , 'missing_patient_id_flag'
+    , 'missing_month_flag'
+    , 'missing_year_flag'
+    , 'missing_gender_flag'
+    , 'missing_birth_date_flag'
+    , 'missing_death_date_flag'
+    , 'invalid_birth_date_flag'
+    , 'invalid_death_date_flag'
+    , 'invalid_death_before_birth_flag'
+    , 'invalid_gender_flag'
+] -%}
 
-    select *
-    from {{ ref('stg_claim_summary_general_checks') }}
+{% set medical_claim_column_list = [
+      'duplicate_record_flag'
+    , 'duplicate_claim_id_flag'
+    , 'missing_fk_patient_id_flag'
+    , 'missing_claim_id_flag'
+    , 'missing_claim_line_number_flag'
+    , 'missing_patient_id_flag'
+    , 'missing_claim_start_date_flag'
+    , 'missing_claim_end_date_flag'
+    , 'missing_admission_date_flag'
+    , 'missing_discharge_date_flag'
+    , 'missing_claim_type_flag'
+    , 'missing_bill_type_code_flag'
+    , 'missing_place_of_service_code_flag'
+    , 'missing_discharge_disposition_code_flag'
+    , 'missing_ms_drg_flag'
+    , 'missing_revenue_center_code_flag'
+    , 'missing_hcpcs_code_flag'
+    , 'missing_billing_npi_flag'
+    , 'missing_rendering_npi_flag'
+    , 'missing_facility_npi_flag'
+    , 'missing_paid_date_flag'
+    , 'missing_paid_amount_flag'
+    , 'missing_diagnosis_code_1_flag'
+    , 'missing_diagnosis_poa_1_flag'
+    , 'invalid_claim_start_date_flag'
+    , 'invalid_claim_end_date_flag'
+    , 'invalid_admission_date_flag'
+    , 'invalid_discharge_date_flag'
+    , 'invalid_paid_date_flag'
+    , 'invalid_claim_end_before_start_flag'
+    , 'invalid_discharge_before_admission_flag'
+    , 'invalid_claim_type_flag'
+    , 'invalid_bill_type_code_flag'
+    , 'invalid_place_of_service_code_flag'
+    , 'invalid_discharge_disposition_code_flag'
+    , 'invalid_ms_drg_flag'
+    , 'invalid_revenue_center_code_flag'
+    , 'invalid_diagnosis_code_1_flag'
+    , 'invalid_diagnosis_poa_1_flag'
+] -%}
+
+with eligibility_detail as (
+
+    select * from {{ ref('eligibility_detail') }}
 
 ),
 
-date_checks as (
+medical_claim_detail as (
 
-    select *
-    from {{ ref('stg_claim_summary_date_checks') }}
-
-),
-
-date_relevance_checks as (
-
-    select *
-    from {{ ref('stg_claim_summary_date_relevance_checks') }}
+    select * from {{ ref('medical_claim_detail') }}
 
 ),
 
-referential_integrity_checks as (
+sum_eligibility_detail as (
 
-    select *
-    from {{ ref('stg_claim_summary_referential_checks') }}
-
-),
-
-valid_value_checks as (
-
-    select *
-    from {{ ref('stg_claim_summary_valid_values') }}
+    {{ sum_all_checks_in_table('eligibility_detail', eligibility_column_list) }}
 
 ),
 
-/*
-    join all checks together to create summary output and calculate percentages
-*/
-joined as (
+sum_medical_claim_detail as (
+
+    {{ sum_all_checks_in_table('medical_claim_detail', medical_claim_column_list) }}
+
+),
+
+add_totals_eligibility_detail as (
+
     select
-          general_checks.table_name
-        , general_checks.column_name
-        , general_checks.data_type
-        , general_checks.table_total
-        , general_checks.max_column_length
-        , general_checks.missing_values
+          table_name
+        , test_name
+        , test_fail_numerator
         , case
-            when general_checks.table_total =  0 then null
-            else ((general_checks.missing_values::decimal(18,2) /
-                   general_checks.table_total::decimal(18,2))*100
-                 )::decimal(18,2)
-          end as missing_percentage
-        , general_checks.blank_values
+            when test_name = 'duplicate_patient_id_flag' then {{ unique_patient_id_count }}
+            else {{ total_eligibility_count }}
+          end as test_fail_denominator
+        , ((test_fail_numerator::decimal(18,4)
+            / test_fail_denominator::decimal(18,4)
+           )*100
+          )::decimal(18,4) as test_fail_percentage
+        , getdate()::datetime as run_date
+    from sum_eligibility_detail
+
+),
+
+add_totals_medical_claim_detail as (
+
+    select
+          table_name
+        , test_name
+        , test_fail_numerator
         , case
-            when general_checks.table_total =  0 then null
-            else ((general_checks.blank_values::decimal(18,2) /
-                   general_checks.table_total::decimal(18,2))*100
-                 )::decimal(18,2)
-          end as blank_percentage
-        , general_checks.unique_values
-        , case
-            when general_checks.table_total =  0 then null
-            {# unique total logic for specific fields -#}
-            when (general_checks.table_name = 'eligibility'
-              and general_checks.column_name = 'patient_id')
-              then ((general_checks.unique_values::decimal(18,2) /
-                     {{ unique_patient_id_count }}::decimal(18,2))*100
-                   )::decimal(18, 2)
-            when (general_checks.table_name = 'medical_claim'
-              and general_checks.column_name = 'claim_id')
-              then ((general_checks.unique_values::decimal(18,2) /
-                     {{ unique_claim_id_count }}::decimal(18,2))*100
-                   )::decimal(18, 2)
-            else ((general_checks.unique_values::decimal(18,2) /
-                   general_checks.table_total::decimal(18,2))*100
-                 )::decimal(18, 2)
-          end as unique_percentage
-        , date_checks.min_date
-        , date_checks.max_date
-        , date_relevance_checks.date_relevance_check
-        , date_relevance_checks.date_relevance_errors
-        , case
-            when general_checks.table_total =  0 then null
-            else ((date_relevance_checks.date_relevance_errors::decimal(18,2) /
-                   general_checks.table_total::decimal(18,2))*100
-                 )::decimal(18, 2)
-          end as date_relevance_errors_percentage
-        , referential_integrity_checks.referential_integrity_check
-        , referential_integrity_checks.referential_integrity_errors
-        , case
-            when general_checks.table_total =  0 then null
-            else ((referential_integrity_checks.referential_integrity_errors::decimal(18,2) /
-                   general_checks.table_total::decimal(18,2))*100
-                 )::decimal(18, 2)
-          end as referential_integrity_errors_percentage
-        , valid_value_checks.valid_value_check
-        , valid_value_checks.valid_value_errors
-        , case
-            when general_checks.table_total =  0 then null
-            else ((valid_value_checks.valid_value_errors::decimal(18,2) /
-                   general_checks.table_total::decimal(18,2))*100
-                 )::decimal(18, 2)
-          end as valid_value_errors_percentage
-    from general_checks
-         left join date_checks
-           on general_checks.table_name = date_checks.table_name
-           and general_checks.column_name = date_checks.column_name
-         left join date_relevance_checks
-           on  general_checks.table_name = date_relevance_checks.table_name
-           and general_checks.column_name = date_relevance_checks.column_name
-         left join referential_integrity_checks
-           on  general_checks.table_name = referential_integrity_checks.table_name
-           and general_checks.column_name = referential_integrity_checks.column_name
-         left join valid_value_checks
-           on  general_checks.table_name = valid_value_checks.table_name
-           and general_checks.column_name = valid_value_checks.column_name
+            when test_name in (
+                  'missing_bill_type_code_flag'
+                , 'missing_discharge_disposition_code_flag'
+                , 'missing_ms_drg_flag'
+                , 'missing_revenue_center_code_flag'
+                , 'missing_hcpcs_code_flag'
+                , 'missing_diagnosis_poa_1_flag'
+               ) then {{ institutional_claim_count }}
+            when test_name = 'missing_place_of_service_code_flag' then {{ professional_claim_count }}
+            when test_name = 'duplicate_claim_id_flag' then {{ unique_claim_id_count }}
+            else {{ total_claim_count }}
+          end as test_fail_denominator
+        , ((test_fail_numerator::decimal(18,4)
+            / test_fail_denominator::decimal(18,4)
+           )*100
+          )::decimal(18,4) as test_fail_percentage
+        , getdate()::datetime as run_date
+    from sum_medical_claim_detail
+
+),
+
+union_details as (
+
+    select * from add_totals_eligibility_detail
+    union all
+    select * from add_totals_medical_claim_detail
 
 )
 
-select
-      table_name
-    , column_name
-    , data_type
-    , table_total
-    , max_column_length
-    , missing_values
-    , missing_percentage
-    , blank_values
-    , blank_percentage
-    , unique_values
-    , unique_percentage
-    , min_date
-    , max_date
-    , date_relevance_check
-    , date_relevance_errors
-    , date_relevance_errors_percentage
-    , referential_integrity_check
-    , referential_integrity_errors
-    , referential_integrity_errors_percentage
-    , valid_value_check
-    , valid_value_errors
-    , valid_value_errors_percentage
-    , getdate()::datetime as run_date
-from joined
+select * from union_details
