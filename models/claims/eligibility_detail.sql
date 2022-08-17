@@ -34,7 +34,7 @@ duplicate_record as (
             , year
         from eligibility_src
         group by
-        patient_id
+              patient_id
             , gender
             , birth_date
             , race
@@ -92,10 +92,12 @@ joined as (
         , case
             when eligibility_src.death_date is null then 0
             when eligibility_src.death_date is not null
-              and eligibility_src.death_date > birth_date then 0
+              and eligibility_src.death_date > eligibility_src.birth_date
+              then 0
             else 1
           end as invalid_death_before_birth_flag
         , case
+            when eligibility_src.gender is null then 0
             when seed_gender.description is not null then 0
             else 1
           end as invalid_gender_flag
