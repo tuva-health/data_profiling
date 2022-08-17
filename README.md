@@ -9,13 +9,13 @@ Check out the latest [DAG](https://tuva-health.github.io/data_profiling/#!/overv
 Check out our [Docs](http://thetuvaproject.com/)
 
 Healthcare data profiling helps to systematically identify problems in your data with a special focus on issues that can cause downstream analysis problems.
+These data integrity checks include general fill rates, fill rates specific to claim types, uniqueness, referential integrity, date validation, and valid values (gender, healthcare codes, etc).
 
 The output models of this project are:
 
-* Data Integrity Overview - 
-  over all integrity checks on your data including fill rates, uniqueness, referential integrity, date validation, and valid values (gender, race, healthcare codes, etc).
-* Tuva Project Concepts - 
-  checks on your data to understand what Tuva Project concepts (e.g. Claims Preprocessing) you will be able to run with your data.
+* Eligibility Detail - a data profiling table on the eligibility grain with columns for source primary keys and every data quality check performed.
+* Medical Claim Detail - a data profiling table on the medical claim line grain with columns for source primary keys and every data quality check performed.
+* Claim Summary - a summary table of checks ran on every column in Eligibility Detail and Medical Claim Detail with test fail percentages.
 
 ## Pre-requisites
 1. You have claims data (e.g. medicare, medicaid, or commercial) in a data warehouse
@@ -42,6 +42,7 @@ Complete the following steps to configure the package to run in your environment
         - output_database - database where output of this project should be written.  
         We suggest using the Tuva database but any database will work.
         - output_schema - name of the schema where output of this project should be written
+        - terminology_schema - name of the schema where output of this project should be written
 4. Review [sources.yml](models/sources.yml).  The table names listed are the same as in the Tuva data model (linked above).  If you decided to rename these tables:
     - Update table names in sources.yml
 5. Execute `dbt build` to load seed files, run models, and perform tests.
