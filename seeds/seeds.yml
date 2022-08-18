@@ -1,35 +1,57 @@
 version: 2
 
 seeds:
-  - name: bill_type_code
+  - name: bill_type
     config:
       database: "{{ var('output_database') }}"
-      schema:  terminology
+      schema:  "{{ var('terminology_schema') }}"
       column_types:
         code: varchar
 
   - name: claim_type
     config:
       database: "{{ var('output_database') }}"
-      schema: terminology
+      schema: "{{ var('terminology_schema') }}"
 
   - name: discharge_disposition
     config:
       database: "{{ var('output_database') }}"
-      schema: terminology
+      schema: "{{ var('terminology_schema') }}"
       column_types:
         discharge_disposition_code: varchar
+
+  - name: gender
+    config:
+      database: "{{ var('output_database') }}"
+      schema: "{{ var('terminology_schema') }}"
+
+  - name: icd_10_cm
+    config:
+      database: "{{ var('output_database') }}"
+      schema: "{{ var('terminology_schema') }}"
+
+  - name: ms_drg
+    config:
+      database: "{{ var('output_database') }}"
+      schema: "{{ var('terminology_schema') }}"
+      column_types:
+        ms_drg: varchar
 
   - name: place_of_service
     config:
       database: "{{ var('output_database') }}"
-      schema: terminology
+      schema: "{{ var('terminology_schema') }}"
       column_types:
         place_of_service_code: varchar
+
+  - name: present_on_admission
+    config:
+      database: "{{ var('output_database') }}"
+      schema: "{{ var('terminology_schema') }}"
 
   - name: revenue_center_code
     config:
       database: "{{ var('output_database') }}"
-      schema: terminology
+      schema: "{{ var('terminology_schema') }}"
       column_types:
         revenue_center_code: varchar

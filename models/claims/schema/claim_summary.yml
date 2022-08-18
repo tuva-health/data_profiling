@@ -1,0 +1,33 @@
+version: 2
+
+models:
+    - name: claim_summary
+      config:
+        database: "{{ var('output_database') }}"
+        schema: "{{ var('output_schema') }}"
+        materialized: table
+      description: >
+        Summary of checks ran on every column in eligibility_detail and
+        medical_claim_detail.
+
+      columns:
+        - name: table_name
+          description: The name of the table
+
+        - name: test_name
+          description: The name of the data profiling test
+
+        - name: test_fail_numerator
+          description: Total count of records that failed the test
+
+        - name: test_fail_denominator
+          description: > 
+            Total count of records the test was applied to, in some cases
+            this may be a unique count (unique patient id, unique claim id) 
+            or a claim type count (institutional claims, professional claims) 
+
+        - name: test_fail_percentage
+          description: Percentage of records that failed test
+
+        - name: run_date
+          description: Datetime the model was run used for snapshots

@@ -1,0 +1,78 @@
+version: 2
+
+models:
+    - name: eligibility_detail
+      config:
+        database: "{{ var('output_database') }}"
+        schema: "{{ var('output_schema') }}"
+        materialized: table
+      description: >
+        Data profiling on eligibility source data with columns for source 
+        primary keys and every data quality check performed.
+
+      columns:
+        - name: patient_id
+          description: Primary key for grain - value from source file
+
+        - name: month
+          description: Primary key for grain - value from source file
+
+        - name: year
+          description: Primary key for grain - value from source file
+
+        - name: duplicate_record_flag
+          description: >
+            Boolean value if the entire record is a duplicate, 0 (pass) 
+            or 1 (fail)
+
+        - name: duplicate_patient_id_flag
+          description: >
+            Boolean value if not unique out of deduplicated eligibility, 
+            0 (pass) or 1 (fail)
+
+        - name: missing_patient_id_flag
+          description: >
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail)
+
+        - name: missing_month_flag
+          description: >
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail)
+
+        - name: missing_year_flag
+          description: >
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail)
+
+        - name: missing_gender_flag
+          description: >
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail)
+
+        - name: missing_birth_date_flag
+          description: >
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail)
+
+        - name: missing_death_date_flag
+          description: >
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail)
+
+        - name: invalid_birth_date_flag
+          description: >
+            Boolean value if invalid or future date, 0 (pass) or 1 (fail) 
+            or null (not applicable)
+
+        - name: invalid_death_date_flag
+          description: >
+            Boolean value if invalid or future date, 0 (pass) or 1 (fail) 
+            or null (not applicable)
+
+        - name: invalid_death_before_birth_flag
+          description: >
+            Time sequence test: boolean value if death date is before birth 
+            date, 0 (pass) or 1 (fail) or null (not applicable)
+
+        - name: invalid_gender_flag
+          description: >
+            Valid values test: boolean value if invalid value, 0 (pass) or 
+            1 (fail) or null (not applicable)
+
+        - name: run_date
+          description: Datetime the model was run used for snapshots
