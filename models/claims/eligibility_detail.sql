@@ -59,7 +59,7 @@ duplicate_patient_id as (
     from (
         select distinct
               patient_id
-            , birth_date
+            , payer
         from eligibility_src
     )
     group by patient_id

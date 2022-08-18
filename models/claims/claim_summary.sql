@@ -29,7 +29,7 @@
 {% set unique_patient_id_count -%}
     (select count(*)
     from (
-        select distinct patient_id, birth_date
+        select distinct patient_id, payer
         from {{ var('eligibility') }}
     ))
 {% endset -%}
