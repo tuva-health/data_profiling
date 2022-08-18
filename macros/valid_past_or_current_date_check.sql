@@ -9,7 +9,7 @@
 case
   when {{ column_name }} is null then 0
   when {{ column_name }} is not null
-    and {{ column_name }} between '1900-01-01' and getdate()::date
+    and {{ column_name }} between '2000-01-01' and getdate()::date
     then 0
   else 1
 end
