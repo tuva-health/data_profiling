@@ -129,5 +129,5 @@ select
     , invalid_death_date_flag
     , invalid_death_before_birth_flag
     , invalid_gender_flag
-    , getdate()::datetime as run_date
+    , {{ current_date_or_timestamp('timestamp') }} as run_date
 from joined
