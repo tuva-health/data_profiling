@@ -9,6 +9,9 @@ models:
       description: >
         Summary of checks ran on every column in eligibility_detail and
         medical_claim_detail.
+      tests:
+        - unique:
+            column_name: "(table_name||'-'||test_name)"
 
       columns:
         - name: table_name
