@@ -6,7 +6,10 @@ seeds:
       database: "{{ var('output_database') }}"
       schema:  "{{ var('terminology_schema') }}"
       column_types:
-        code: varchar
+        code: |
+          {%- if target.type == "bigquery" -%} string
+          {%- else -%} varchar
+          {%- endif -%}
 
   - name: claim_type
     config:
@@ -18,7 +21,10 @@ seeds:
       database: "{{ var('output_database') }}"
       schema: "{{ var('terminology_schema') }}"
       column_types:
-        discharge_disposition_code: varchar
+        discharge_disposition_code: |
+          {%- if target.type == "bigquery" -%} string
+          {%- else -%} varchar
+          {%- endif -%}
 
   - name: gender
     config:
@@ -35,14 +41,20 @@ seeds:
       database: "{{ var('output_database') }}"
       schema: "{{ var('terminology_schema') }}"
       column_types:
-        ms_drg: varchar
+        ms_drg: |
+          {%- if target.type == "bigquery" -%} string
+          {%- else -%} varchar
+          {%- endif -%}
 
   - name: place_of_service
     config:
       database: "{{ var('output_database') }}"
       schema: "{{ var('terminology_schema') }}"
       column_types:
-        place_of_service_code: varchar
+        place_of_service_code: |
+          {%- if target.type == "bigquery" -%} string
+          {%- else -%} varchar
+          {%- endif -%}
 
   - name: present_on_admission
     config:
@@ -54,4 +66,7 @@ seeds:
       database: "{{ var('output_database') }}"
       schema: "{{ var('terminology_schema') }}"
       column_types:
-        revenue_center_code: varchar
+        revenue_center_code: |
+          {%- if target.type == "bigquery" -%} string
+          {%- else -%} varchar
+          {%- endif -%}

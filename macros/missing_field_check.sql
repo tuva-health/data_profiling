@@ -1,5 +1,5 @@
 {#
-    This macro takes in a column to check if that column is null or blank ('').
+    Takes in a column to check if that column is null or blank ('').
 #}
 
 {%- macro missing_field_check(column_name) -%}
