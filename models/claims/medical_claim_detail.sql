@@ -366,5 +366,5 @@ select
     , invalid_revenue_center_code_flag
     , invalid_diagnosis_code_1_flag
     , invalid_diagnosis_poa_1_flag
-    , getdate()::datetime as run_date
+    , {{ current_date_or_timestamp('timestamp') }} as run_date
 from joined

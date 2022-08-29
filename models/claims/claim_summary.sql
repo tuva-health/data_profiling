@@ -121,7 +121,7 @@ sum_medical_claim_detail as (
 
 ),
 
-add_totals_eligibility_detail as (
+add_denominator_eligibility_detail as (
 
     select
           table_name
@@ -131,16 +131,11 @@ add_totals_eligibility_detail as (
             when test_name = 'duplicate_patient_id_flag' then {{ unique_patient_id_count }}
             else {{ total_eligibility_count }}
           end as test_fail_denominator
-        , ((test_fail_numerator::decimal(18,4)
-            / test_fail_denominator::decimal(18,4)
-           )*100
-          )::decimal(18,4) as test_fail_percentage
-        , getdate()::datetime as run_date
     from sum_eligibility_detail
 
 ),
 
-add_totals_medical_claim_detail as (
+add_denominator_medical_claim_detail as (
 
     select
           table_name
@@ -159,12 +154,33 @@ add_totals_medical_claim_detail as (
             when test_name = 'duplicate_claim_id_flag' then {{ unique_claim_id_count }}
             else {{ total_claim_count }}
           end as test_fail_denominator
-        , ((test_fail_numerator::decimal(18,4)
-            / test_fail_denominator::decimal(18,4)
-           )*100
-          )::decimal(18,4) as test_fail_percentage
-        , getdate()::datetime as run_date
     from sum_medical_claim_detail
+
+),
+
+add_totals_eligibility_detail as (
+
+    select
+          table_name
+        , test_name
+        , test_fail_numerator
+        , test_fail_denominator
+        , (round(test_fail_numerator / test_fail_denominator, 4)
+          )*100 as test_fail_percentage
+    from add_denominator_eligibility_detail
+
+),
+
+add_totals_medical_claim_detail as (
+
+    select
+          table_name
+        , test_name
+        , test_fail_numerator
+        , test_fail_denominator
+        , (round(test_fail_numerator / test_fail_denominator, 4)
+          )*100 as test_fail_percentage
+    from add_denominator_medical_claim_detail
 
 ),
 
@@ -176,4 +192,11 @@ union_details as (
 
 )
 
-select * from union_details
+select
+      table_name
+    , test_name
+    , test_fail_numerator
+    , test_fail_denominator
+    , test_fail_percentage
+    , {{ current_date_or_timestamp('timestamp') }} as run_date
+from union_details

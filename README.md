@@ -62,4 +62,4 @@ If so, we highly encourage and welcome contributions!
 Join the conversation on [Slack](https://tuvahealth.slack.com/ssb/redirect#/shared-invite/email)!  We'd love to hear from you on the #claims-preprocessing channel.
 
 ## Database Support
-This package has been tested on Snowflake and Redshift.
+This package has been tested on BigQuery, Redshift, and Snowflake.

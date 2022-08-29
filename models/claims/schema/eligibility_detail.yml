@@ -9,6 +9,9 @@ models:
       description: >
         Data profiling on eligibility source data with columns for source 
         primary keys and every data quality check performed.
+      tests:
+        - unique:
+            column_name: "(patient_id||'-'||month||'-'||year)"
 
       columns:
         - name: patient_id
