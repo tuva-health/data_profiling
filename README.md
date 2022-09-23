@@ -13,14 +13,10 @@ The output data models of this project are:
 * Snapshots - A "look back in time" of every model that gets generated during `dbt build` (or `dbt run` followed by `dbt snapshot`). 
 
 ## Pre-requisites
-1. You have claims data (e.g. medicare, medicaid, or commercial) in a data warehouse
-2. You have mapped your claims data to the [claim input layer](https://docs.google.com/spreadsheets/d/1NuMEhcx6D6MSyZEQ6yk0LWU0HLvaeVma8S-5zhOnbcE/edit?usp=sharing)
-   *Note: this is a prerequisite for running Claims Preprocessing, you will only need to map your data to this claim input layer once.*
-    - The claim input layer is at a claim line level and each claim id and claim line number is unique
-    - The eligibility input layer is unique at the month/year grain per patient and payer
-    - Revenue code is 4 digits in length
-4. You have [dbt](https://www.getdbt.com/) installed and configured (i.e. connected to your data warehouse)
-
+1. You have healthcare data (e.g. claims data) in a data warehouse (e.g. Snowflake)
+2. You have [dbt](https://www.getdbt.com/) installed and configured (i.e. connected to your data warehouse)
+3. You have mapped your claims data to [Claims Input Layer](https://thetuvaproject.com/docs/data-models/claims-input-layer)
+    
 [Here](https://docs.getdbt.com/dbt-cli/installation) are instructions for installing dbt.
 
 ## Getting Started
