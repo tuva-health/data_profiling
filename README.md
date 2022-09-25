@@ -2,7 +2,7 @@
 
 # Data Profiling
 
-This is the Tuva Project's Data Profiling Engine, which is a dbt project to test raw claims data for data quality issues. Data profiling systematically identifies problems in your data with a special focus on issues that can cause downstream analysis problems.  These data integrity checks include general fill rates, fill rates specific to claim types, uniqueness, referential integrity, date validation, and valid values (gender, healthcare codes, etc).
+This is the Tuva Project's Data Profiling data mart, which is a dbt project to test raw claims data for data quality issues. Data profiling systematically identifies problems in your data with a special focus on issues that can cause downstream analysis problems.  These data integrity checks include general fill rates, fill rates specific to claim types, uniqueness, referential integrity, date validation, and valid values (gender, healthcare codes, etc).
 
 Check out the [DAG](https://tuva-health.github.io/data_profiling/#!/overview?g_v=1) for data profiling.
 
