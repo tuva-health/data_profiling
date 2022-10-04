@@ -2,14 +2,19 @@
 
 # Data Profiling
 
-This is the Tuva Project's Data Profiling data mart, which is a dbt project to test raw claims data for data quality issues. Data profiling systematically identifies problems in your data with a special focus on issues that can cause downstream analysis problems.  These data integrity checks include general fill rates, fill rates specific to claim types, uniqueness, referential integrity, date validation, and valid values (gender, healthcare codes, etc).
+This is the Tuva Project's Data Profiling data mart, which is a dbt project to test raw claims data for data quality issues. 
+Data profiling systematically identifies problems in your data with a special focus on issues that can cause downstream analysis problems. 
+These data integrity checks include general fill rates, fill rates specific to claim types, uniqueness, referential integrity, date validation, and valid values (gender, healthcare codes, etc). 
+This engine runs off of the input layer of source data upstream of Claims Preprocessing and high-level marts.
 
 Check out the [DAG](https://tuva-health.github.io/data_profiling/#!/overview?g_v=1) for data profiling.
 
 The output data models of this engine are:
-- **Eligibility Detail:** A data profiling table on the eligibility grain with columns for source primary keys and every data quality check performed.
-- **Medical Claim Detail:** A data profiling table on the medical claim line grain with columns for source primary keys and every data quality check performed.
-- **Claim Summary:** A summary table of checks ran on every column in Eligibility Detail and Medical Claim Detail with test fail percentages.
+
+- **Claims Input Layer**
+  - **Eligibility Detail:** A data profiling table on the eligibility grain with columns for source primary keys and every data quality check performed.
+  - **Medical Claim Detail:** A data profiling table on the medical claim line grain with columns for source primary keys and every data quality check performed.
+  - **Claim Summary:** A summary table of checks ran on every column in Eligibility Detail and Medical Claim Detail with test fail percentages.
 - **Snapshots:** A "look back in time" of every model that gets generated during `dbt build` (or `dbt run` followed by `dbt snapshot`). 
 
 ## Pre-requisites
@@ -31,7 +36,9 @@ Complete the following steps to configure the data mart to run in your environme
       - input_schema - schema where sources feeding this project is stored 
       - output_database - database where output of this project should be written. We suggest using the Tuva database but any database will work. 
       - output_schema - name of the schema where output of this project should be written
-3. Execute `dbt build` to load seed files, run models, and perform tests.
+3. _Optional_ Configure [source.yml](/models/source.yml)
+    - Update the table `identifier` properties if your source table names are different from what's expected
+4. Execute `dbt build` to load seed files, run models, and perform tests.
 
 Alternatively you can execute the following code and skip step 2b and step 3.
 ```

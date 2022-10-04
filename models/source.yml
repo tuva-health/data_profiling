@@ -6,6 +6,7 @@ sources:
     schema:  "{{ var('input_schema') }}"
     tables:
       - name: eligibility
+        identifier: eligibility # configuration required if source table name is different
         description: >
           Year-month eligibility data per patient and payer.
         columns:
@@ -22,28 +23,37 @@ sources:
             description: Patient's race.
 
           - name: zip_code
-            description: Patient's most recent zip code of residence (home address).
+            description: >
+              Patient's most recent zip code of residence (home address).
 
           - name: state
-            description: Patient's most recent state of residence (home address).
+            description: >
+              Patient's most recent state of residence (home address).
 
           - name: deceased_flag
-            description: Flag (0 or 1) indicating whether the patient is deceased.
+            description: >
+              Flag (0 or 1) indicating whether the patient is deceased.
 
           - name: death_date
             description: Patient's date of death.
 
           - name: payer
-            description: The name of payer giving the patient insurance coverage.
+            description: >
+              The name of payer giving the patient insurance coverage.
 
           - name: payer_type
-            description: Type of insurer (e.g. commercial | medicare | medicaid | unknown)
+            description: >
+              Type of insurer (e.g. commercial | medicare | medicaid | unknown)
 
           - name: dual_status
-            description: Indicates whether the patient was dually eligible for Medicare and Medicaid for the month.
+            description: >
+              Indicates whether the patient was dually eligible for Medicare 
+              and Medicaid for the month.
 
           - name: medicare_status
-            description: Indicates how the patient originally received Medicare eligibility.
+            description: >
+              Indicates how the patient originally received Medicare 
+              eligibility.
 
           - name: month
             description: The month of coverage.
@@ -51,10 +61,11 @@ sources:
           - name: year
             description: The year of coverage.
 
-
       - name: medical_claim
+        identifier: medical_claim # configuration required if source table name is different
         description: >
-          Line-level claims data, including revenue and HCPCS codes where each claim id and claim line number is unique.
+          Line-level claims data, including revenue and HCPCS codes where each 
+          claim id and claim line number is unique.
         columns:
           - name: claim_id
             description: Unique ID for each claim.
@@ -87,28 +98,38 @@ sources:
             description: The type of claim (e.g. professional, institutional)
 
           - name: bill_type_code
-            description: Bill type code of the claim (institutional claims only).
+            description: >
+              Bill type code of the claim (institutional claims only).
 
           - name: place_of_service_code
-            description: The place of service for the claim (professional claims only).
+            description: >
+              The place of service for the claim (professional claims only).
 
           - name: admit_source_code
-            description: Indicates the point of origin for the patient prior to admission (e.g. Non-Health Care | Emergency Room | Transfer).
+            description: >
+              Indicates the point of origin for the patient prior to admission 
+              (e.g. Non-Health Care | Emergency Room | Transfer).
 
           - name: admit_type_code
-            description: Indicates the type of admission (e.g. elective | urgent | emergency | newborn).
+            description: >
+              Indicates the type of admission 
+              (e.g. elective | urgent | emergency | newborn).
 
           - name: discharge_disposition_code
-            description: Indicates the type of setting the patient was discharged to (e.g. Home | SNF | Home Health).
+            description: >
+              Indicates the type of setting the patient was discharged to 
+              (e.g. Home | SNF | Home Health).
 
           - name: ms_drg
             description: The MS-DRG billed on the encounter.
 
           - name: revenue_center_code
-            description: The revenue code for the claim (institutional claims only).
+            description: >
+              The revenue code for the claim (institutional claims only).
 
           - name: service_unit_quantity
-            description: The number of units for the given service (revenue code).
+            description: >
+              The number of units for the given service (revenue code).
 
           - name: hcpcs_code
             description: HCPCS level 1 and level 2 codes.
@@ -132,7 +153,8 @@ sources:
             description: NPI for the organization billing for the service.
 
           - name: rendering_npi
-            description: NPI for the provider that performed the service being billed.
+            description: >
+              NPI for the provider that performed the service being billed.
 
           - name: facility_npi
             description: NPI for the facility where the service was performed.
@@ -144,7 +166,8 @@ sources:
             description: The total paid amount for the claim.
 
           - name: charge_amount
-            description: The total amount charged by the provider for the encounter.
+            description: >
+              The total amount charged by the provider for the encounter.
 
           - name: adjustment_type_code
             description: Indicates type of adjustment.
@@ -300,10 +323,12 @@ sources:
             description: Diagnosis code present on admission.
 
           - name: diagnosis_code_type
-            description: Type of diagnosis code (e.g. icd-9-cm | icd-10-cm | snomed-ct).
+            description: >
+              Type of diagnosis code (e.g. icd-9-cm | icd-10-cm | snomed-ct).
 
           - name: procedure_code_type
-            description: Indicates the type of procedure (e.g. cpt | icd-10-pcs).
+            description: >
+              Indicates the type of procedure (e.g. cpt | icd-10-pcs).
 
           - name: procedure_code_1
             description: Procedure code.
