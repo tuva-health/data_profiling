@@ -279,7 +279,7 @@ joined as (
           end invalid_discharge_disposition_code_flag
         , case
             when medical_claim_src.ms_drg is null then 0
-            when seed_ms_drg.ms_drg is not null then 0
+            when seed_ms_drg.code is not null then 0
             else 1
           end invalid_ms_drg_flag
         , case
@@ -314,7 +314,7 @@ joined as (
          left join seed_icd_10_cm
             on medical_claim_src.diagnosis_code_1 = seed_icd_10_cm.icd_10_cm
          left join seed_ms_drg
-            on medical_claim_src.ms_drg = seed_ms_drg.ms_drg
+            on medical_claim_src.ms_drg = seed_ms_drg.code
          left join seed_place_of_service
             on medical_claim_src.place_of_service_code = seed_place_of_service.place_of_service_code
          left join seed_present_on_admission
