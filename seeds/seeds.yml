@@ -2,6 +2,7 @@ version: 2
 
 seeds:
   - name: bill_type
+    description: Dataset from the Tuva Terminology repo
     config:
       database: "{{ var('output_database') }}"
       schema:  "{{ var('terminology_schema') }}"
@@ -12,11 +13,13 @@ seeds:
           {%- endif -%}
 
   - name: claim_type
+    description: Dataset from the Tuva Terminology repo
     config:
       database: "{{ var('output_database') }}"
       schema: "{{ var('terminology_schema') }}"
 
   - name: discharge_disposition
+    description: Dataset from the Tuva Terminology repo
     config:
       database: "{{ var('output_database') }}"
       schema: "{{ var('terminology_schema') }}"
@@ -27,16 +30,19 @@ seeds:
           {%- endif -%}
 
   - name: gender
+    description: Dataset from the Tuva Terminology repo
     config:
       database: "{{ var('output_database') }}"
       schema: "{{ var('terminology_schema') }}"
 
   - name: icd_10_cm
+    description: Dataset from the Tuva Terminology repo
     config:
       database: "{{ var('output_database') }}"
       schema: "{{ var('terminology_schema') }}"
 
   - name: ms_drg
+    description: Dataset from the Tuva Terminology repo
     config:
       database: "{{ var('output_database') }}"
       schema: "{{ var('terminology_schema') }}"
@@ -47,6 +53,7 @@ seeds:
           {%- endif -%}
 
   - name: place_of_service
+    description: Dataset from the Tuva Terminology repo
     config:
       database: "{{ var('output_database') }}"
       schema: "{{ var('terminology_schema') }}"
@@ -57,11 +64,13 @@ seeds:
           {%- endif -%}
 
   - name: present_on_admission
+    description: Dataset from the Tuva Terminology repo
     config:
       database: "{{ var('output_database') }}"
       schema: "{{ var('terminology_schema') }}"
 
   - name: revenue_center_code
+    description: Dataset from the Tuva Terminology repo
     config:
       database: "{{ var('output_database') }}"
       schema: "{{ var('terminology_schema') }}"
@@ -70,3 +79,39 @@ seeds:
           {%- if target.type == "bigquery" -%} string
           {%- else -%} varchar
           {%- endif -%}
+
+  - name: test_catalog
+    description: A complete list of all data profiling tests
+    config:
+      database: "{{ var('output_database') }}"
+      schema: "{{ var('terminology_schema') }}"
+      column_types:
+        test_id: |
+          {%- if target.type == "bigquery" -%} string
+          {%- else -%} varchar
+          {%- endif -%}
+    columns:
+      - name: test_id
+        description: Unique identifier for the test
+      - name: test_name
+        description: Column name of the test
+      - name: test_description
+        description: Guideline or reasoning for the test
+      - name: table_name
+        description: The name of the source table the test is ran on
+      - name: columns
+        description: List of column(s) the test is ran on
+      - name: grain
+        description: >
+          Grain the test is ran on (table name or column name), may not always
+          be the same as the table grain
+      - name: category
+        description: >
+          Category or class of test (e.g. data type, unique, missing, etc.)
+      - name: record_source
+        description: >
+          Source of records the test is ran on 
+          (e.g. all claims, institutional claims, etc.)
+      - name: blocking_error
+        description: >
+          Indicates whether the test is a blocking error for the input layer

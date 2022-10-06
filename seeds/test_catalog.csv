@@ -1,0 +1,52 @@
+test_id,test_name,test_description,table_name,columns,grain,category,record_source,blocking_error
+0001,duplicate_record_flag,"Every record should be unique, 0 (pass) or 1 (fail)",eligibility_detail,all,table,unique,all eligibility,1
+0002,duplicate_patient_id_flag,"Every combination of patient_id and payer should be unique, 0 (pass) or 1 (fail)",eligibility_detail,patient_id,patient_id,unique,all eligibility,1
+0003,missing_patient_id_flag,"Must never be missing (null) or blank (''), 0 (pass) or 1 (fail)",eligibility_detail,patient_id,table,missing,all eligibility,1
+0004,missing_month_flag,"Must never be missing (null) or blank (''), 0 (pass) or 1 (fail)",eligibility_detail,month,table,missing,all eligibility,1
+0005,missing_year_flag,"Must never be missing (null) or blank (''), 0 (pass) or 1 (fail)",eligibility_detail,year,table,missing,all eligibility,1
+0006,missing_gender_flag,"Should not be missing (null) or blank (''), 0 (pass) or 1 (fail)",eligibility_detail,gender,table,missing,all eligibility,0
+0007,missing_birth_date_flag,"Should not be missing (null) or blank (''), 0 (pass) or 1 (fail)",eligibility_detail,birth_date,table,missing,all eligibility,0
+0008,missing_death_date_flag,"Should not be missing (null) or blank (''), 0 (pass) or 1 (fail)",eligibility_detail,death_date,table,missing,all eligibility,0
+0009,invalid_birth_date_flag,"Should not be invalid or a future date, 0 (pass) or 1 (fail)",eligibility_detail,birth_date,table,date,all eligibility,0
+0010,invalid_death_date_flag,"Should not be invalid or a future date, 0 (pass) or 1 (fail)",eligibility_detail,death_date,table,date,all eligibility,0
+0011,invalid_death_before_birth_flag,"Death date should be after birth date, 0 (pass) or 1 (fail)",eligibility_detail,"birth_date, death_date",table,sequence,all eligibility,0
+0012,invalid_gender_flag,"Every code must match a value in the terminology dataset, 0 (pass) or 1 (fail)",eligibility_detail,gender,table,valid,all eligibility,0
+0013,duplicate_record_flag,"Every record should be unique, 0 (pass) or 1 (fail)",medical_claim_detail,all,table,unique,all claims,1
+0014,duplicate_claim_id_flag,"Every combination of claim_id and claim_line_number must be unique, 0 (pass) or 1 (fail)",medical_claim_detail,claim_id,claim_id,unique,all claims,1
+0015,missing_fk_patient_id_flag,"Every patient_id should have a matching eligibility record, 0 (pass) or 1 (fail)",medical_claim_detail,patient_id,table,missing,all claims,1
+0016,missing_claim_id_flag,"Must never be missing (null) or blank (''), 0 (pass) or 1 (fail)",medical_claim_detail,claim_id,table,missing,all claims,1
+0017,missing_claim_line_number_flag,"Must never be missing (null) or blank (''), 0 (pass) or 1 (fail)",medical_claim_detail,claim_line_number,table,missing,all claims,1
+0018,missing_patient_id_flag,"Must never be missing (null) or blank (''), 0 (pass) or 1 (fail)",medical_claim_detail,patient_id,table,missing,all claims,1
+0019,missing_claim_start_date_flag,"Must never be missing (null) or blank (''), 0 (pass) or 1 (fail)",medical_claim_detail,claim_start_date,table,missing,all claims,1
+0020,missing_claim_end_date_flag,"Must never be missing (null) or blank (''), 0 (pass) or 1 (fail)",medical_claim_detail,claim_end_date,table,missing,all claims,1
+0021,missing_admission_date_flag,"Must never be missing (null) or blank (''), 0 (pass) or 1 (fail)",medical_claim_detail,admission_date,table,missing,all claims,1
+0022,missing_discharge_date_flag,"Must never be missing (null) or blank (''), 0 (pass) or 1 (fail)",medical_claim_detail,discharge_date,table,missing,all claims,1
+0023,missing_claim_type_flag,"Must never be missing (null) or blank (''), 0 (pass) or 1 (fail)",medical_claim_detail,claim_type,table,missing,all claims,1
+0024,missing_bill_type_code_flag,"Must never be missing (null) or blank ('') when claim type is institutional, 0 (pass) or 1 (fail)",medical_claim_detail,"bill_type_code, claim_type",table,missing,institutional claims,1
+0025,missing_place_of_service_code_flag,"Must never be missing (null) or blank ('') when claim type is professional, 0 (pass) or 1 (fail)",medical_claim_detail,"place_of_service, claim_type",table,missing,professional claims,1
+0026,missing_discharge_disposition_code_flag,"Must never be missing (null) or blank ('') when claim type is institutional, 0 (pass) or 1 (fail)",medical_claim_detail,"discharge_disposition_code, claim_type",table,missing,institutional claims,1
+0027,missing_ms_drg_flag,"Must never be missing (null) or blank ('') when claim type is institutional, 0 (pass) or 1 (fail)",medical_claim_detail,"ms_drg, claim_type",table,missing,institutional claims,1
+0028,missing_revenue_center_code_flag,"Must never be missing (null) or blank ('') when claim type is institutional, 0 (pass) or 1 (fail)",medical_claim_detail,"revenue_center_code, claim_type",table,missing,institutional claims,1
+0029,missing_hcpcs_code_flag,"Should not be missing (null) or blank ('') when claim type is institutional, 0 (pass) or 1 (fail)",medical_claim_detail,"hcpcs_code, claim_type",table,missing,institutional claims,0
+0030,missing_billing_npi_flag,"Should not be missing (null) or blank (''), 0 (pass) or 1 (fail)",medical_claim_detail,billing_npi,table,missing,all claims,0
+0031,missing_rendering_npi_flag,"Should not be missing (null) or blank (''), 0 (pass) or 1 (fail)",medical_claim_detail,rendering_npi,table,missing,all claims,0
+0032,missing_facility_npi_flag,"Should not be missing (null) or blank (''), 0 (pass) or 1 (fail)",medical_claim_detail,facility_npi,table,missing,all claims,0
+0033,missing_paid_date_flag,"Should not be missing (null) or blank (''), 0 (pass) or 1 (fail)",medical_claim_detail,paid_date,table,missing,all claims,0
+0034,missing_paid_amount_flag,"Should not be missing (null) or blank (''), 0 (pass) or 1 (fail)",medical_claim_detail,paid_amount,table,missing,all claims,0
+0035,missing_diagnosis_code_1_flag,"Should not be missing (null) or blank (''), 0 (pass) or 1 (fail)",medical_claim_detail,diagnosis_code_1,table,missing,all claims,0
+0036,missing_diagnosis_poa_1_flag,"Should not be missing (null) when claim type is institutional (note: this is only present for inpatient claims which will be tested in the CPP concept), 0 (pass) or 1 (fail)",medical_claim_detail,diagnosis_poa_1,table,missing,institutional claims,0
+0037,invalid_claim_start_date_flag,"Should not be invalid or a future date, 0 (pass) or 1 (fail)",medical_claim_detail,claim_start_date,table,date,all claims,0
+0038,invalid_claim_end_date_flag,"Should not be invalid or a future date, 0 (pass) or 1 (fail)",medical_claim_detail,claim_end_date,table,date,all claims,0
+0039,invalid_admission_date_flag,"Should not be invalid or a future date, 0 (pass) or 1 (fail)",medical_claim_detail,admission_date,table,date,all claims,0
+0040,invalid_discharge_date_flag,"Should not be invalid or a future date, 0 (pass) or 1 (fail)",medical_claim_detail,discharge_date,table,date,all claims,0
+0041,invalid_paid_date_flag,"Should not be invalid or a future date, 0 (pass) or 1 (fail)",medical_claim_detail,paid_date,table,date,all claims,0
+0042,invalid_claim_end_before_start_flag,"Claim end date should be after claim start date,  0 (pass) or 1 (fail)",medical_claim_detail,"claim_start_date, claim_end_date",table,sequence,all claims,1
+0043,invalid_discharge_before_admission_flag,"Discharge date should be after admission date, 0 (pass) or 1 (fail)",medical_claim_detail,"admission_date, discharge_date",table,sequence,all claims,1
+0044,invalid_claim_type_flag,"Every code must match a value in the terminology dataset, 0 (pass) or 1 (fail)",medical_claim_detail,claim_type,table,valid,all claims,1
+0045,invalid_bill_type_code_flag,"Every code must match a value in the terminology dataset, 0 (pass) or 1 (fail)",medical_claim_detail,bill_type_code,table,valid,all claims,1
+0046,invalid_place_of_service_code_flag,"Every code must match a value in the terminology dataset, 0 (pass) or 1 (fail)",medical_claim_detail,place_of_service,table,valid,all claims,1
+0047,invalid_discharge_disposition_code_flag,"Every code must match a value in the terminology dataset, 0 (pass) or 1 (fail)",medical_claim_detail,discharge_disposition_code,table,valid,all claims,1
+0048,invalid_ms_drg_flag,"Every code must match a value in the terminology dataset, 0 (pass) or 1 (fail)",medical_claim_detail,ms_drg,table,valid,all claims,1
+0049,invalid_revenue_center_code_flag,"Every code must match a value in the terminology dataset, 0 (pass) or 1 (fail)",medical_claim_detail,revenue_center_code,table,valid,all claims,1
+0050,invalid_diagnosis_code_1_flag,"Every code must match a value in the terminology dataset, 0 (pass) or 1 (fail)",medical_claim_detail,diagnosis_code_1,table,valid,all claims,0
+0051,invalid_diagnosis_poa_1_flag,"Every code must match a value in the terminology dataset, 0 (pass) or 1 (fail)",medical_claim_detail,diagnosis_poa_1,table,valid,all claims,0
