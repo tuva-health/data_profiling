@@ -42,17 +42,18 @@
 
 {% set eligibility_column_list = [
       'duplicate_record_flag'
-    , 'duplicate_patient_id_flag'
-    , 'missing_patient_id_flag'
-    , 'missing_month_flag'
-    , 'missing_year_flag'
-    , 'missing_gender_flag'
-    , 'missing_birth_date_flag'
-    , 'missing_death_date_flag'
-    , 'invalid_birth_date_flag'
-    , 'invalid_death_date_flag'
-    , 'invalid_death_before_birth_flag'
-    , 'invalid_gender_flag'
+    , 'test_0001'
+    , 'test_0002'
+    , 'test_0003'
+    , 'test_0004'
+    , 'test_0005'
+    , 'test_0006'
+    , 'test_0007'
+    , 'test_0008'
+    , 'test_0009'
+    , 'test_0010'
+    , 'test_0011'
+    , 'test_0012'
 ] -%}
 
 {% set medical_claim_column_list = [
@@ -128,7 +129,7 @@ add_denominator_eligibility_detail as (
         , test_name
         , test_fail_numerator
         , case
-            when test_name = 'duplicate_patient_id_flag' then {{ unique_patient_id_count }}
+            when test_name = 'test_0002' /*duplicate_patient_id_flag*/ then {{ unique_patient_id_count }}
             else {{ total_eligibility_count }}
           end as test_fail_denominator
     from sum_eligibility_detail

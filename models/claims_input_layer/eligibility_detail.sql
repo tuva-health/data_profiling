@@ -76,31 +76,31 @@ joined as (
         , case
             when duplicate_record.patient_id is null then 0
             else 1
-          end as duplicate_record_flag
+          end as test_0001 /*duplicate_record_flag*/
         , case
             when duplicate_patient_id.patient_id is null then 0
             else 1
-          end as duplicate_patient_id_flag
-        , {{ missing_field_check('eligibility_src.patient_id') }} as missing_patient_id_flag
-        , {{ missing_field_check('eligibility_src.month') }} as missing_month_flag
-        , {{ missing_field_check('eligibility_src.year') }} as missing_year_flag
-        , {{ missing_field_check('eligibility_src.gender') }} as missing_gender_flag
-        , {{ missing_field_check('eligibility_src.birth_date') }} as missing_birth_date_flag
-        , {{ missing_field_check('eligibility_src.death_date') }} as missing_death_date_flag
-        , {{ valid_past_or_current_date_check('eligibility_src.birth_date') }} as invalid_birth_date_flag
-        , {{ valid_past_or_current_date_check('eligibility_src.death_date') }} as invalid_death_date_flag
+          end as test_0002	/*duplicate_patient_id_flag*/
+        , {{ missing_field_check('eligibility_src.patient_id') }} as test_0003 /*missing_patient_id_flag*/
+        , {{ missing_field_check('eligibility_src.month') }} as test_0004 /*missing_month_flag*/
+        , {{ missing_field_check('eligibility_src.year') }} as test_0005 /*missing_year_flag*/
+        , {{ missing_field_check('eligibility_src.gender') }} as test_0006 /*missing_gender_flag*/
+        , {{ missing_field_check('eligibility_src.birth_date') }} as test_0007 /*missing_birth_date_flag*/
+        , {{ missing_field_check('eligibility_src.death_date') }} as test_0008 /*missing_death_date_flag*/
+        , {{ valid_past_or_current_date_check('eligibility_src.birth_date') }} as test_0009 /*invalid_birth_date_flag*/
+        , {{ valid_past_or_current_date_check('eligibility_src.death_date') }} as test_0010 /*invalid_death_date_flag*/
         , case
             when eligibility_src.death_date is null then 0
             when eligibility_src.death_date is not null
               and eligibility_src.death_date > eligibility_src.birth_date
               then 0
             else 1
-          end as invalid_death_before_birth_flag
+          end as test_0011 /*invalid_death_before_birth_flag*/
         , case
             when eligibility_src.gender is null then 0
             when seed_gender.description is not null then 0
             else 1
-          end as invalid_gender_flag
+          end as test_0012 /*invalid_gender_flag*/
     from eligibility_src
          left join duplicate_record
             on eligibility_src.patient_id = duplicate_record.patient_id
@@ -117,17 +117,17 @@ select
       patient_id
     , month
     , year
-    , duplicate_record_flag
-    , duplicate_patient_id_flag
-    , missing_patient_id_flag
-    , missing_month_flag
-    , missing_year_flag
-    , missing_gender_flag
-    , missing_birth_date_flag
-    , missing_death_date_flag
-    , invalid_birth_date_flag
-    , invalid_death_date_flag
-    , invalid_death_before_birth_flag
-    , invalid_gender_flag
+    , test_0001 /*duplicate_record_flag*/
+    , test_0002 /*duplicate_patient_id_flag*/
+    , test_0003 /*missing_patient_id_flag*/
+    , test_0004 /*missing_month_flag*/
+    , test_0005 /*missing_year_flag*/
+    , test_0006 /*missing_gender_flag*/
+    , test_0007 /*missing_birth_date_flag*/
+    , test_0008 /*missing_death_date_flag*/
+    , test_0009 /*invalid_birth_date_flag*/
+    , test_0010 /*invalid_death_date_flag*/
+    , test_0011 /*invalid_death_before_birth_flag*/
+    , test_0012 /*invalid_gender_flag*/
     , {{ current_date_or_timestamp('timestamp') }} as run_date
 from joined
