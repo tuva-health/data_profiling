@@ -6,14 +6,14 @@
 
 {% set institutional_claim_count -%}
     (select count(*)
-    from {{ var('medical_claim') }}
-    where claim_type = 'I')
+     from {{ var('medical_claim') }}
+     where claim_type = 'I')
 {% endset -%}
 
 {% set professional_claim_count -%}
     (select count(*)
-    from {{ var('medical_claim') }}
-    where claim_type = 'P')
+     from {{ var('medical_claim') }}
+     where claim_type = 'P')
 {% endset -%}
 
 {% set total_eligibility_count -%}
@@ -23,21 +23,23 @@
 
 {% set total_claim_count -%}
     (select count(*)
-    from {{ var('medical_claim') }})
+     from {{ var('medical_claim') }})
 {% endset -%}
 
 {% set unique_patient_id_count -%}
     (select count(*)
-    from (
-        select distinct patient_id, payer
-        from {{ var('eligibility') }}
+     from (
+         select distinct patient_id, payer
+         from {{ var('eligibility') }}
     ))
 {% endset -%}
 
 {% set unique_claim_id_count -%}
     (select count(*)
-    from {{ var('medical_claim') }}
-    where claim_line_number = 1)
+     from (
+        select distinct claim_id, claim_line_number
+        from {{ var('medical_claim') }}
+    ))
 {% endset -%}
 
 {% set eligibility_column_list = [

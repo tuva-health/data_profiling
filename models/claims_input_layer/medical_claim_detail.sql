@@ -154,10 +154,9 @@ duplicate_record as (
 
 duplicate_claim_id as (
 
-    select claim_id
+    select claim_id, claim_line_number
     from medical_claim_src
-    where claim_line_number = 1
-    group by claim_id
+    group by claim_id, claim_line_number
     having count(*) > 1
 
 ),
