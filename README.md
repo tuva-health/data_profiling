@@ -53,4 +53,4 @@ If so, we highly encourage and welcome contributions!
 Join our growing community of healthcare data practitioners on [Slack](https://join.slack.com/t/thetuvaproject/shared_invite/zt-16iz61187-G522Mc2WGA2mHF57e0il0Q)!
 
 ## Database Support
-This package has been tested on Snowflake and Redshift.
+This package has been tested on BigQuery, Redshift, and Snowflake.
