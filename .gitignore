@@ -4,3 +4,4 @@ dbt_modules/
 logs/
 .idea/
 .DS_Store
+dbt_packages/
