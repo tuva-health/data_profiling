@@ -12,7 +12,7 @@ test_0010,invalid_death_date_flag,"Should not be invalid or a future date, 0 (pa
 test_0011,invalid_death_before_birth_flag,"Death date should be after birth date, 0 (pass) or 1 (fail)",eligibility_detail,"birth_date, death_date",table,sequence,all eligibility,0
 test_0012,invalid_gender_flag,"Every code must match a value in the terminology dataset, 0 (pass) or 1 (fail)",eligibility_detail,gender,table,valid,all eligibility,0
 test_0013,duplicate_record_flag,"Every record should be unique, 0 (pass) or 1 (fail)",medical_claim_detail,all,table,unique,all claims,1
-test_0014,duplicate_claim_id_flag,"Every combination of claim_id and claim_line_number must be unique, 0 (pass) or 1 (fail)",medical_claim_detail,claim_id,claim_id,unique,all claims,1
+test_0014,duplicate_claim_id_flag,"Every combination of claim_id and claim_line_number must be unique, 0 (pass) or 1 (fail)",medical_claim_detail,"claim_id, claim_line_number",claim_id,unique,all claims,1
 test_0015,missing_fk_patient_id_flag,"Every patient_id should have a matching eligibility record, 0 (pass) or 1 (fail)",medical_claim_detail,patient_id,table,missing,all claims,1
 test_0016,missing_claim_id_flag,"Must never be missing (null) or blank (''), 0 (pass) or 1 (fail)",medical_claim_detail,claim_id,table,missing,all claims,1
 test_0017,missing_claim_line_number_flag,"Must never be missing (null) or blank (''), 0 (pass) or 1 (fail)",medical_claim_detail,claim_line_number,table,missing,all claims,1
@@ -50,3 +50,17 @@ test_0048,invalid_ms_drg_flag,"Every code must match a value in the terminology 
 test_0049,invalid_revenue_center_code_flag,"Every code must match a value in the terminology dataset, 0 (pass) or 1 (fail)",medical_claim_detail,revenue_center_code,table,valid,all claims,1
 test_0050,invalid_diagnosis_code_1_flag,"Every code must match a value in the terminology dataset, 0 (pass) or 1 (fail)",medical_claim_detail,diagnosis_code_1,table,valid,all claims,0
 test_0051,invalid_diagnosis_poa_1_flag,"Every code must match a value in the terminology dataset, 0 (pass) or 1 (fail)",medical_claim_detail,diagnosis_poa_1,table,valid,all claims,0
+test_0052,duplicate_record_flag,"Every record should be unique, 0 (pass) or 1 (fail)",pharmacy_claim_detail,all,table,unique,pharmacy claims,1
+test_0053,duplicate_claim_id_flag,"Every combination of claim_id and claim_line_number must be unique, 0 (pass) or 1 (fail)",pharmacy_claim_detail,"claim_id, claim_line_number",claim_id,unique,pharmacy claims,1
+test_0054,missing_fk_patient_id_flag,"Every patient_id should have a matching eligibility record, 0 (pass) or 1 (fail)",pharmacy_claim_detail,patient_id,table,missing,pharmacy claims,1
+test_0055,missing_claim_id_flag,"Must never be missing (null) or blank (''), 0 (pass) or 1 (fail)",pharmacy_claim_detail,claim_id,table,missing,pharmacy claims,1
+test_0056,missing_claim_line_number_flag,"Must never be missing (null) or blank (''), 0 (pass) or 1 (fail)",pharmacy_claim_detail,claim_line_number,table,missing,pharmacy claims,1
+test_0057,missing_patient_id_flag,"Must never be missing (null) or blank (''), 0 (pass) or 1 (fail)",pharmacy_claim_detail,patient_id,table,missing,pharmacy claims,1
+test_0058,missing_prescribing_provider_npi_flag,"Should not be missing (null) or blank (''), 0 (pass) or 1 (fail)",pharmacy_claim_detail,prescribing_provider_npi,table,missing,pharmacy claims,0
+test_0059,missing_dispensing_provider_npi_flag,"Should not be missing (null) or blank (''), 0 (pass) or 1 (fail)",pharmacy_claim_detail,dispensing_provider_npi,table,missing,pharmacy claims,0
+test_0060,missing_dispensing_date_flag,"Should not be missing (null) or blank (''), 0 (pass) or 1 (fail)",pharmacy_claim_detail,dispensing_date,table,missing,pharmacy claims,0
+test_0061,missing_ndc_flag,"Must never be missing (null) or blank (''), 0 (pass) or 1 (fail)",pharmacy_claim_detail,ndc,table,missing,pharmacy claims,1
+test_0062,missing_paid_amount_flag,"Should not be missing (null) or blank (''), 0 (pass) or 1 (fail)",pharmacy_claim_detail,paid_amount,table,missing,pharmacy claims,0
+test_0063,missing_paid_date_flag,"Should not be missing (null) or blank (''), 0 (pass) or 1 (fail)",pharmacy_claim_detail,paid_date,table,missing,pharmacy claims,0
+test_0064,invalid_dispensing_date_flag,"Should not be invalid or a future date, 0 (pass) or 1 (fail)",pharmacy_claim_detail,dispensing_date,table,date,pharmacy claims,0
+test_0065,invalid_paid_date_flag,"Should not be invalid or a future date, 0 (pass) or 1 (fail)",pharmacy_claim_detail,paid_date,table,date,pharmacy claims,0
