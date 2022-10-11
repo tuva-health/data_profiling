@@ -93,11 +93,22 @@ seeds:
     columns:
       - name: test_id
         description: Unique identifier for the test
+        tests:
+          - unique
+          - not_null
       - name: test_name
-        description: Column name of the test
+        description: >
+          Unique column name of the test in the format 
+          "[test type]_[field name]_[table]" or 
+          "[test type]_[table]" if test is unique
+        tests:
+          - unique
+          - not_null
       - name: test_description
         description: Guideline or reasoning for the test
-      - name: table_name
+      - name: detail_table_name
+        description: The name of the data profiling detail table
+      - name: source_table_name
         description: The name of the source table the test is ran on
       - name: columns
         description: List of column(s) the test is ran on
