@@ -24,7 +24,7 @@
 
         select
               '{{ table_name }}' as table_name
-            , '{{ column_item.name|lower }}' as test_id
+            , '{{ column_item.name|lower }}' as test_name
             , sum( {{ column_item.name }} ) as test_fail_numerator
         from {{ current_table }}
 

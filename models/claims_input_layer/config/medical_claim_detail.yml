@@ -23,179 +23,209 @@ models:
         - name: duplicate_record_flag
           description: > 
             Boolean value if the entire record is a duplicate, 0 (pass) 
-            or 1 (fail)
+            or 1 (fail). Join to test_catalog on test_name for more details.
 
         - name: duplicate_claim_id_flag
           description: > 
-            Boolean value if not unique out of deduplicated claim lines, 
-            0 (pass) or 1 (fail)
+            Boolean value if not a unique combination of claim_id and 
+            claim_line_number, 0 (pass) or 1 (fail). Join to test_catalog on 
+            test_name for more details.
 
         - name: missing_fk_patient_id_flag
           description: >
             Referential integrity: boolean value if patient_id missing from 
-            eligibility, 0 (pass) or 1 (fail) or null (not applicable)
+            eligibility, 0 (pass) or 1 (fail) or null (not applicable). Join 
+            to test_catalog on test_name for more details.
 
         - name: missing_claim_id_flag
           description: >
-            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail)
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail).
+            Join to test_catalog on test_name for more details.
 
         - name: missing_claim_line_number_flag
           description: > 
-            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail)
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail). 
+            Join to test_catalog on test_name for more details.
 
         - name: missing_patient_id_flag
           description: >
-            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail)
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail). 
+            Join to test_catalog on test_name for more details.
 
         - name: missing_claim_start_date_flag
           description: >
-            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail)
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail). 
+            Join to test_catalog on test_name for more details.
 
         - name: missing_claim_end_date_flag
           description: >
-            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail)
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail). 
+            Join to test_catalog on test_name for more details.
 
         - name: missing_admission_date_flag
           description: >
-            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail)
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail). 
+            Join to test_catalog on test_name for more details.
 
         - name: missing_discharge_date_flag
           description: >
-            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail)
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail). 
+            Join to test_catalog on test_name for more details.
 
         - name: missing_claim_type_flag
           description: >
-            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail)
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail). 
+            Join to test_catalog on test_name for more details.
 
         - name: missing_bill_type_code_flag
           description: >
             Boolean value if missing (null) or blank ('') and claim type is 
-            institutional, 0 (pass) or 1 (fail)
+            institutional, 0 (pass) or 1 (fail). Join to test_catalog on 
+            test_name for more details.
 
         - name: missing_place_of_service_code_flag
           description: >
             Boolean value if missing (null) or blank ('') and claim type is 
-            professional, 0 (pass) or 1 (fail)
+            professional, 0 (pass) or 1 (fail). Join to test_catalog on 
+            test_name for more details.
 
         - name: missing_discharge_disposition_code_flag
           description: >
             Boolean value if missing (null) or blank ('') and claim type is 
-            institutional, 0 (pass) or 1 (fail)
+            institutional, 0 (pass) or 1 (fail). Join to test_catalog on 
+            test_name for more details.
 
         - name: missing_ms_drg_flag
           description: >
             Boolean value if missing (null) or blank ('') and claim type is 
-            institutional, 0 (pass) or 1 (fail)
+            institutional, 0 (pass) or 1 (fail). Join to test_catalog on 
+            test_name for more details.
 
         - name: missing_revenue_center_code_flag
           description: >
             Boolean value if missing (null) or blank ('') and claim type is 
-            institutional, 0 (pass) or 1 (fail)
+            institutional, 0 (pass) or 1 (fail). Join to test_catalog on 
+            test_name for more details.
 
         - name: missing_hcpcs_code_flag
           description: >
             Boolean value if missing (null) or blank ('') and claim type is 
-            institutional, 0 (pass) or 1 (fail)
+            institutional, 0 (pass) or 1 (fail). Join to test_catalog on 
+            test_name for more details.
 
         - name: missing_billing_npi_flag
           description: >
-            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail)
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail). 
+            Join to test_catalog on test_name for more details.
 
         - name: missing_rendering_npi_flag
           description: >
-            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail)
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail). 
+            Join to test_catalog on test_name for more details.
 
         - name: missing_facility_npi_flag
           description: >
-            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail)
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail). 
+            Join to test_catalog on test_name for more details.
 
         - name: missing_paid_date_flag
           description: >
-            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail)
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail). 
+            Join to test_catalog on test_name for more details.
 
         - name: missing_paid_amount_flag
           description: >
-            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail)
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail). 
+            Join to test_catalog on test_name for more details.
 
         - name: missing_diagnosis_code_1_flag
           description: >
-            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail)
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail). 
+            Join to test_catalog on test_name for more details.
 
         - name: missing_diagnosis_poa_1_flag
           description: >
             Boolean value if missing (null) and claim type is institutional 
             (note: this is only present for inpatient claims which will be 
-            tested in the CPP concept), 0 (pass) or 1 (fail)
+            tested in the CPP concept), 0 (pass) or 1 (fail). Join to 
+            test_catalog on test_name for more details.
 
         - name: invalid_claim_start_date_flag
           description: >
-            Boolean value if invalid or future date, 0 (pass) or 1 (fail)
+            Boolean value if invalid or future date, 0 (pass) or 1 (fail). Join 
+            to test_catalog on test_name for more details.
 
         - name: invalid_claim_end_date_flag
           description: >
-            Boolean value if invalid or future date, 0 (pass) or 1 (fail)
+            Boolean value if invalid or future date, 0 (pass) or 1 (fail). Join 
+            to test_catalog on test_name for more details.
 
         - name: invalid_admission_date_flag
           description: >
-            Boolean value if invalid or future date, 0 (pass) or 1 (fail)
+            Boolean value if invalid or future date, 0 (pass) or 1 (fail). Join 
+            to test_catalog on test_name for more details.
 
         - name: invalid_discharge_date_flag
           description: >
-            Boolean value if invalid or future date, 0 (pass) or 1 (fail)
+            Boolean value if invalid or future date, 0 (pass) or 1 (fail). Join 
+            to test_catalog on test_name for more details.
 
         - name: invalid_paid_date_flag
           description: >
-            Boolean value if invalid or future date, 0 (pass) or 1 (fail)
+            Boolean value if invalid or future date, 0 (pass) or 1 (fail). Join 
+            to test_catalog on test_name for more details.
 
         - name: invalid_claim_end_before_start_flag
           description: >
             Time sequence test: boolean value if claim end date before start 
-            date, 0 (pass) or 1 (fail)
+            date, 0 (pass) or 1 (fail). Join to test_catalog on test_name for 
+            more details.
 
         - name: invalid_discharge_before_admission_flag
           description: >
             Time sequence test: boolean value if discharge date before 
-            admission date, 0 (pass) or 1 (fail)
+            admission date, 0 (pass) or 1 (fail). Join to test_catalog on 
+            test_name for more details.
 
         - name: invalid_claim_type_flag
           description: >
             Valid values test: boolean value if invalid value, 0 (pass) 
-            or 1 (fail)
+            or 1 (fail). Join to test_catalog on test_name for more details.
 
         - name: invalid_bill_type_code_flag
           description: >
             Valid values test: boolean value if invalid value, 0 (pass) 
-            or 1 (fail)
+            or 1 (fail). Join to test_catalog on test_name for more details.
 
         - name: invalid_place_of_service_code_flag
           description: >
             Valid values test: boolean value if invalid value, 0 (pass) 
-            or 1 (fail)
+            or 1 (fail). Join to test_catalog on test_name for more details.
 
         - name: invalid_discharge_disposition_code_flag
           description: >
             Valid values test: boolean value if invalid value, 0 (pass) 
-            or 1 (fail)
+            or 1 (fail). Join to test_catalog on test_name for more details.
 
         - name: invalid_ms_drg_flag
           description: >
             Valid values test: boolean value if invalid value, 0 (pass) 
-            or 1 (fail)
+            or 1 (fail). Join to test_catalog on test_name for more details.
 
         - name: invalid_revenue_center_code_flag
           description: >
             Valid values test: boolean value if invalid value, 0 (pass) 
-            or 1 (fail)
+            or 1 (fail). Join to test_catalog on test_name for more details.
 
         - name: invalid_diagnosis_code_1_flag
           description: >
             Valid values test: boolean value if invalid value, 0 (pass) 
-            or 1 (fail)
+            or 1 (fail). Join to test_catalog on test_name for more details.
 
         - name: invalid_diagnosis_poa_1_flag
           description: >
             Valid values test: boolean value if invalid value, 0 (pass) 
-            or 1 (fail)
+            or 1 (fail). Join to test_catalog on test_name for more details.
 
         - name: run_date
           description: Datetime the model was run used for snapshots

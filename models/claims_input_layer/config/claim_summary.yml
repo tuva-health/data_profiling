@@ -26,8 +26,8 @@ models:
         - name: test_fail_denominator
           description: > 
             Total count of records the test was applied to, in some cases
-            this may be a unique count (unique patient id, unique claim id) 
-            or a claim type count (institutional claims, professional claims) 
+            this may be a claim type count (institutional claims, 
+            professional claims) 
 
         - name: test_fail_percentage
           description: Percentage of records that failed test

@@ -38,11 +38,13 @@ Complete the following steps to configure the data mart to run in your environme
       - output_schema - name of the schema where output of this project should be written
 3. _Optional_ Configure [source.yml](/models/source.yml)
     - Update the table `identifier` properties if your source table names are different from what's expected
-4. Execute `dbt build` to load seed files, run models, and perform tests.
+4. Execute `dbt deps` to install packages.
+5. Execute `dbt build` to load seed files, run models, and perform tests.
 
 Alternatively you can execute the following code and skip step 2b and step 3.
 ```
-dbt build --vars '{input_database: my_database, input_schema: my_input, output_database: my_other_database, output_schema: i_love_data}'
+dbt deps \
+&& dbt build --vars '{input_database: my_database, input_schema: my_input, output_database: my_other_database, output_schema: i_love_data}'
 ```
 
 ## Contributions
