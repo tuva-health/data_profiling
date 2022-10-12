@@ -14,11 +14,24 @@ models:
             column_name: "(table_name||'-'||test_name)"
 
       columns:
-        - name: table_name
-          description: The name of the table
+        - name: test_table_name
+          description: The name of the data profiling detail table
+
+        - name: source_table_name
+          description: The name of the source table the test is ran on
+
+        - name: columns
+          description: >
+            List of column(s) the test runs on - makes it easy to filter test 
+            results to certain columns
+
+        - name: test_id
+          description: Unique identifier for the data profiling test
 
         - name: test_name
-          description: The name of the data profiling test
+          description: >
+            Unique column name of the test. Join to test_catalog 
+            on test_name for more details.
 
         - name: test_fail_numerator
           description: Total count of records that failed the test
@@ -31,6 +44,11 @@ models:
 
         - name: test_fail_percentage
           description: Percentage of records that failed test
+
+        - name: blocking_error_flag
+          description: >
+            Indicates whether the test is a blocking error if 
+            test_fail_numerator > 0
 
         - name: run_date
           description: Datetime the model was run used for snapshots

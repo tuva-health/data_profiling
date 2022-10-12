@@ -95,6 +95,12 @@ medical_claim_detail as (
 
 ),
 
+seed_test_catalog as (
+
+    select * from {{ ref('test_catalog') }}
+
+),
+
 sum_eligibility_detail as (
 
     {{ sum_all_checks_in_table('eligibility_detail', eligibility_column_list) }}
@@ -172,13 +178,39 @@ union_details as (
     union all
     select * from add_totals_medical_claim_detail
 
+),
+
+add_catalog_details as (
+
+    select
+          union_details.table_name as test_table_name
+        , union_details.test_name
+        , union_details.test_fail_numerator
+        , union_details.test_fail_denominator
+        , union_details.test_fail_percentage
+        , seed_test_catalog.source_table_name
+        , seed_test_catalog.columns
+        , seed_test_catalog.test_id
+        , case
+            when union_details.test_fail_numerator > 0
+            then seed_test_catalog.blocking_error_flag
+            else 0
+          end as blocking_error_flag
+    from union_details
+         left join seed_test_catalog
+         on union_details.test_name = seed_test_catalog.test_name
+
 )
 
 select
-      table_name
+      test_id
     , test_name
+    , test_table_name
+    , source_table_name
+    , columns
     , test_fail_numerator
     , test_fail_denominator
     , test_fail_percentage
+    , blocking_error_flag
     , {{ current_date_or_timestamp('timestamp') }} as run_date
-from union_details
+from add_catalog_details
