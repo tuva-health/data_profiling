@@ -30,9 +30,9 @@ models:
 
         - name: duplicate_patient_id_elig
           description: >
-            Boolean value if not a unique combination of patient_id and payer, 
-            0 (pass) or 1 (fail). Join to test_catalog on test_name for 
-            more details.
+            Boolean value if not a unique combination of patient_id, month,
+            year, and payer, 0 (pass) or 1 (fail). Join to test_catalog on 
+            test_name for more details.
 
         - name: missing_patient_id_elig
           description: >
