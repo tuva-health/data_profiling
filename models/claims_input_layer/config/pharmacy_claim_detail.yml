@@ -1,0 +1,96 @@
+version: 2
+
+models:
+    - name: pharmacy_claim_detail
+      config:
+        database: "{{ var('output_database') }}"
+        schema: "{{ var('output_schema') }}"
+        materialized: table
+      description: >
+        Data profiling on pharmacy claim line source data with columns for 
+        source primary keys and every data quality check performed.
+      tests:
+        - unique:
+            column_name: "(claim_id||'-'||claim_line_number)"
+
+      columns:
+        - name: claim_id
+          description: Primary key for grain - value from source file
+
+        - name: claim_line_number
+          description: Primary key for grain - value from source file
+
+        - name: duplicate_record_pharm
+          description: > 
+            Boolean value if the entire record is a duplicate, 0 (pass) 
+            or 1 (fail). Join to test_catalog on test_name for more details.
+
+        - name: duplicate_claim_id_pharm
+          description: > 
+            Boolean value if not a unique combination of claim_id and 
+            claim_line_number, 0 (pass) or 1 (fail). Join to test_catalog on 
+            test_name for more details.
+
+        - name: missing_fk_patient_id_pharm
+          description: >
+            Referential integrity: boolean value if patient_id missing from 
+            eligibility, 0 (pass) or 1 (fail) or null (not applicable). Join 
+            to test_catalog on test_name for more details.
+
+        - name: missing_claim_id_pharm
+          description: >
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail).
+            Join to test_catalog on test_name for more details.
+
+        - name: missing_claim_line_number_pharm
+          description: > 
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail). 
+            Join to test_catalog on test_name for more details.
+
+        - name: missing_patient_id_pharm
+          description: >
+            Boolean value if missing (null) or blank (''), 0 (pass) or 1 (fail). 
+            Join to test_catalog on test_name for more details.
+
+        - name: missing_prescribing_provider_npi_pharm
+          description: >
+            Boolean value if missing (null) or blank (''), 0 (pass) 
+            Join to test_catalog on test_name for more details. 
+
+        - name: missing_dispensing_provider_npi_pharm
+          description: >
+            Boolean value if missing (null) or blank (''), 0 (pass) 
+            Join to test_catalog on test_name for more details.
+
+        - name: missing_dispensing_date_pharm
+          description: >
+            Boolean value if missing (null) or blank (''), 0 (pass) 
+            Join to test_catalog on test_name for more details.
+
+        - name: missing_ndc_pharm
+          description: >
+            Boolean value if missing (null) or blank (''), 0 (pass) 
+            Join to test_catalog on test_name for more details.
+
+        - name: missing_paid_amount_pharm
+          description: >
+            Boolean value if missing (null) or blank (''), 0 (pass) 
+            Join to test_catalog on test_name for more details.
+
+        - name: missing_paid_date_pharm
+          description: >
+            Boolean value if missing (null) or blank (''), 0 (pass) 
+            Join to test_catalog on test_name for more details.
+
+        - name: invalid_dispensing_date_pharm
+          description: >
+            Boolean value if invalid or future date, 0 (pass) or 1 (fail). Join 
+            to test_catalog on test_name for more details.
+
+        - name: invalid_paid_date_pharm
+          description: >
+            Boolean value if invalid or future date, 0 (pass) or 1 (fail). Join 
+            to test_catalog on test_name for more details.
+
+        - name: run_date
+          description: Datetime the model was run used for snapshots

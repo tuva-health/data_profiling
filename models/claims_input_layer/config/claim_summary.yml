@@ -7,8 +7,8 @@ models:
         schema: "{{ var('output_schema') }}"
         materialized: table
       description: >
-        Summary of checks ran on every column in eligibility_detail and
-        medical_claim_detail.
+        Summary of checks ran on every column in eligibility_detail,
+        medical_claim_detail, and pharmacy_claim_detail.
       tests:
         - unique:
             column_name: "(table_name||'-'||test_name)"

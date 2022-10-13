@@ -21,9 +21,14 @@
      from {{ var('eligibility') }})
 {% endset -%}
 
-{% set total_claim_count -%}
+{% set total_med_claim_count -%}
     (select count(*)
      from {{ var('medical_claim') }})
+{% endset -%}
+
+{% set total_pharm_claim_count -%}
+    (select count(*)
+     from {{ ref('pharmacy_claim_detail') }})
 {% endset -%}
 
 {% set eligibility_column_list = [
@@ -83,6 +88,23 @@
     , 'invalid_diagnosis_poa_1_med'
 ] -%}
 
+{% set pharmacy_claim_column_list = [
+      'duplicate_record_pharm'
+    , 'duplicate_claim_id_pharm'
+    , 'missing_fk_patient_id_pharm'
+    , 'missing_claim_id_pharm'
+    , 'missing_claim_line_number_pharm'
+    , 'missing_patient_id_pharm'
+    , 'missing_prescribing_provider_npi_pharm'
+    , 'missing_dispensing_provider_npi_pharm'
+    , 'missing_dispensing_date_pharm'
+    , 'missing_ndc_pharm'
+    , 'missing_paid_amount_pharm'
+    , 'missing_paid_date_pharm'
+    , 'invalid_dispensing_date_pharm'
+    , 'invalid_paid_date_pharm'
+] -%}
+
 with eligibility_detail as (
 
     select * from {{ ref('eligibility_detail') }}
@@ -92,6 +114,12 @@ with eligibility_detail as (
 medical_claim_detail as (
 
     select * from {{ ref('medical_claim_detail') }}
+
+),
+
+pharmacy_claim_detail as (
+
+    select * from {{ ref('pharmacy_claim_detail') }}
 
 ),
 
@@ -110,6 +138,12 @@ sum_eligibility_detail as (
 sum_medical_claim_detail as (
 
     {{ sum_all_checks_in_table('medical_claim_detail', medical_claim_column_list) }}
+
+),
+
+sum_pharmacy_claim_detail as (
+
+    {{ sum_all_checks_in_table('pharmacy_claim_detail', pharmacy_claim_column_list) }}
 
 ),
 
@@ -140,9 +174,20 @@ add_denominator_medical_claim_detail as (
                 , 'missing_diagnosis_poa_1_med'
                ) then {{ institutional_claim_count }}
             when test_name = 'missing_place_of_service_code_med' then {{ professional_claim_count }}
-            else {{ total_claim_count }}
+            else {{ total_med_claim_count }}
           end as test_fail_denominator
     from sum_medical_claim_detail
+
+),
+
+add_denominator_pharmacy_claim_detail as (
+
+    select
+          table_name
+        , test_name
+        , test_fail_numerator
+        , {{ total_pharm_claim_count }} as test_fail_denominator
+    from sum_pharmacy_claim_detail
 
 ),
 
@@ -172,11 +217,26 @@ add_totals_medical_claim_detail as (
 
 ),
 
+add_totals_pharmacy_claim_detail as (
+
+    select
+          table_name
+        , test_name
+        , test_fail_numerator
+        , test_fail_denominator
+        , (round(test_fail_numerator / test_fail_denominator, 4)
+          )*100 as test_fail_percentage
+    from add_denominator_pharmacy_claim_detail
+
+),
+
 union_details as (
 
     select * from add_totals_eligibility_detail
     union all
     select * from add_totals_medical_claim_detail
+    union all
+    select * from add_totals_pharmacy_claim_detail
 
 ),
 
