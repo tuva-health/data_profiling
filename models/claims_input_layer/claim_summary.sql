@@ -6,29 +6,29 @@
 
 {% set institutional_claim_count -%}
     (select count(*)
-     from {{ var('medical_claim') }}
+     from {{ ref('base_medical_claim') }}
      where claim_type = 'I')
 {% endset -%}
 
 {% set professional_claim_count -%}
     (select count(*)
-     from {{ var('medical_claim') }}
+     from {{ ref('base_medical_claim') }}
      where claim_type = 'P')
 {% endset -%}
 
 {% set total_eligibility_count -%}
     (select count(*)
-     from {{ var('eligibility') }})
+     from {{ ref('base_eligibility') }})
 {% endset -%}
 
 {% set total_med_claim_count -%}
     (select count(*)
-     from {{ var('medical_claim') }})
+     from {{ ref('base_medical_claim') }})
 {% endset -%}
 
 {% set total_pharm_claim_count -%}
     (select count(*)
-     from {{ ref('pharmacy_claim_detail') }})
+     from {{ ref('base_pharmacy_claim') }})
 {% endset -%}
 
 {% set eligibility_column_list = [
