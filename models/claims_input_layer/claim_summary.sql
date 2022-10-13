@@ -34,9 +34,9 @@
     , 'missing_year_elig'
     , 'missing_gender_elig'
     , 'missing_birth_date_elig'
-    , 'missing_death_date_elig'
+    , 'missing_deceased_date_elig'
     , 'invalid_birth_date_elig'
-    , 'invalid_death_date_elig'
+    , 'invalid_deceased_date_elig'
     , 'invalid_death_before_birth_elig'
     , 'invalid_gender_elig'
 ] -%}

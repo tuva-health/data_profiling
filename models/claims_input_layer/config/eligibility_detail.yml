@@ -59,7 +59,7 @@ models:
             Boolean value if missing (null) or blank (''), 0 (pass) 
             or 1 (fail). Join to test_catalog on test_name for more details.
 
-        - name: missing_death_date_elig
+        - name: missing_deceased_date_elig
           description: >
             Boolean value if missing (null) or blank (''), 0 (pass) 
             or 1 (fail). Join to test_catalog on test_name for more details.
@@ -70,7 +70,7 @@ models:
             or null (not applicable). Join to test_catalog on test_name for 
             more details.
 
-        - name: invalid_death_date_elig
+        - name: invalid_deceased_date_elig
           description: >
             Boolean value if invalid or future date, 0 (pass) or 1 (fail) 
             or null (not applicable). Join to test_catalog on test_name for 

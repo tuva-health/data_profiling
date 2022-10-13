@@ -21,7 +21,7 @@ eligibility_with_row_key as (
                , 'zip_code'
                , 'state'
                , 'deceased_flag'
-               , 'death_date'
+               , 'deceased_date'
                , 'payer'
                , 'payer_type'
                , 'dual_status'
@@ -81,13 +81,13 @@ joined as (
         , {{ missing_field_check('eligibility_with_row_key.year') }} as missing_year_elig
         , {{ missing_field_check('eligibility_with_row_key.gender') }} as missing_gender_elig
         , {{ missing_field_check('eligibility_with_row_key.birth_date') }} as missing_birth_date_elig
-        , {{ missing_field_check('eligibility_with_row_key.death_date') }} as missing_death_date_elig
+        , {{ missing_field_check('eligibility_with_row_key.deceased_date') }} as missing_deceased_date_elig
         , {{ valid_past_or_current_date_check('eligibility_with_row_key.birth_date') }} as invalid_birth_date_elig
-        , {{ valid_past_or_current_date_check('eligibility_with_row_key.death_date') }} as invalid_death_date_elig
+        , {{ valid_past_or_current_date_check('eligibility_with_row_key.deceased_date') }} as invalid_deceased_date_elig
         , case
-            when eligibility_with_row_key.death_date is null then 0
-            when eligibility_with_row_key.death_date is not null
-              and eligibility_with_row_key.death_date > eligibility_with_row_key.birth_date
+            when eligibility_with_row_key.deceased_date is null then 0
+            when eligibility_with_row_key.deceased_date is not null
+              and eligibility_with_row_key.deceased_date > eligibility_with_row_key.birth_date
               then 0
             else 1
           end as invalid_death_before_birth_elig
@@ -117,9 +117,9 @@ select
     , missing_year_elig
     , missing_gender_elig
     , missing_birth_date_elig
-    , missing_death_date_elig
+    , missing_deceased_date_elig
     , invalid_birth_date_elig
-    , invalid_death_date_elig
+    , invalid_deceased_date_elig
     , invalid_death_before_birth_elig
     , invalid_gender_elig
     , {{ current_date_or_timestamp('timestamp') }} as run_date

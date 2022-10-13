@@ -6,10 +6,10 @@ test_id,test_name,test_description,test_table_name,source_table_name,columns,gra
 0005,missing_year_elig,"Must never be missing (null) or blank (''), 0 (pass) or 1 (fail)",eligibility_detail,eligibility,year,table,missing,all eligibility,1
 0006,missing_gender_elig,"Should not be missing (null) or blank (''), 0 (pass) or 1 (fail)",eligibility_detail,eligibility,gender,table,missing,all eligibility,0
 0007,missing_birth_date_elig,"Should not be missing (null) or blank (''), 0 (pass) or 1 (fail)",eligibility_detail,eligibility,birth_date,table,missing,all eligibility,0
-0008,missing_death_date_elig,"Should not be missing (null) or blank (''), 0 (pass) or 1 (fail)",eligibility_detail,eligibility,death_date,table,missing,all eligibility,0
+0008,missing_deceased_date_elig,"Should not be missing (null) or blank (''), 0 (pass) or 1 (fail)",eligibility_detail,eligibility,death_date,table,missing,all eligibility,0
 0009,invalid_birth_date_elig,"Should not be invalid or a future date, 0 (pass) or 1 (fail)",eligibility_detail,eligibility,birth_date,table,date,all eligibility,0
-0010,invalid_death_date_elig,"Should not be invalid or a future date, 0 (pass) or 1 (fail)",eligibility_detail,eligibility,death_date,table,date,all eligibility,0
-0011,invalid_death_before_birth_elig,"Death date should be after birth date, 0 (pass) or 1 (fail)",eligibility_detail,eligibility,"birth_date, death_date",table,sequence,all eligibility,0
+0010,invalid_deceased_date_elig,"Should not be invalid or a future date, 0 (pass) or 1 (fail)",eligibility_detail,eligibility,death_date,table,date,all eligibility,0
+0011,invalid_death_before_birth_elig,"Deceased date should be after birth date, 0 (pass) or 1 (fail)",eligibility_detail,eligibility,"birth_date, death_date",table,sequence,all eligibility,0
 0012,invalid_gender_elig,"Every code must match a value in the terminology dataset, 0 (pass) or 1 (fail)",eligibility_detail,eligibility,gender,table,valid,all eligibility,0
 0013,duplicate_record_med,"Every record should be unique, 0 (pass) or 1 (fail)",medical_claim_detail,medical_claim,all,table,unique,all claims,1
 0014,duplicate_claim_id_med,"Every combination of claim_id and claim_line_number must be unique, 0 (pass) or 1 (fail)",medical_claim_detail,medical_claim,"claim_id, claim_line_number",claim_id,unique,all claims,1
