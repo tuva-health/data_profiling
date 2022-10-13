@@ -19,7 +19,7 @@ sources:
           in the README for schema.
 
       - name: pharmacy_claim
-          identifier: pharmacy_claim # configuration required if source table name is different
-          description: >
-            Line-level pharmacy claims data where each claim id and claim line 
-            number is unique. See documentation linked in the README for schema.
+        identifier: pharmacy_claim # configuration required if source table name is different
+        description: >
+          Line-level pharmacy claims data where each claim id and claim line 
+          number is unique. See documentation linked in the README for schema.
