@@ -44,15 +44,21 @@ duplicate_record as (
 
 duplicate_patient_id as (
 
-    select patient_id
+    select distinct patient_id
     from (
-        select distinct
+        select
               patient_id
+            , month
+            , year
             , payer
         from eligibility_with_row_key
+        group by
+              patient_id
+            , month
+            , year
+            , payer
+        having count(*) > 1
     )
-    group by patient_id
-    having count(*) > 1
 
 ),
 

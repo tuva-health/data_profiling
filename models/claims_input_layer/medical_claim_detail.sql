@@ -118,9 +118,13 @@ duplicate_claim_id as (
 
     select distinct claim_id
     from (
-        select claim_id, claim_line_number
+        select
+              claim_id
+            , claim_line_number
         from medical_claim_with_row_key
-        group by claim_id, claim_line_number
+        group by
+              claim_id
+            , claim_line_number
         having count (*) > 1
     )
 
