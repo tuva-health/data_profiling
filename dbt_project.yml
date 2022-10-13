@@ -25,8 +25,9 @@ vars:
   terminology_schema: terminology       # configuration required
                                         # name of the schema where output of this project should be written
 
-  medical_claim: "{{ source(var('source_name'),'medical_claim') }}"
   eligibility: "{{ source(var('source_name'),'eligibility') }}"
+  medical_claim: "{{ source(var('source_name'),'medical_claim') }}"
+  pharmacy_claim: "{{ source(var('source_name'),'pharmacy_claim') }}"
 
 # These configurations specify where dbt should look for different types of files.
 # The `source-paths` config, for example, states that models in this project can be
