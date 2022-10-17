@@ -11,7 +11,7 @@ models:
         primary keys and every data quality check performed.
       tests:
         - unique:
-            column_name: "(patient_id||'-'||month||'-'||year)"
+            column_name: "(patient_id||'-'||month||'-'||year||'-'||payer||'-'||payer_type)"
 
       columns:
         - name: patient_id

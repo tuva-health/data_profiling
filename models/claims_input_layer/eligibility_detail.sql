@@ -28,12 +28,14 @@ duplicate_patient_id as (
             , month
             , year
             , payer
+            , payer_type
         from eligibility
         group by
               patient_id
             , month
             , year
             , payer
+            , payer_type
         having count(*) > 1
     )
 
