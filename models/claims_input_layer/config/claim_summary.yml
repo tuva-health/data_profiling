@@ -11,7 +11,7 @@ models:
         medical_claim_detail, and pharmacy_claim_detail.
       tests:
         - unique:
-            column_name: "(table_name||'-'||test_name)"
+            column_name: test_name
 
       columns:
         - name: test_table_name
