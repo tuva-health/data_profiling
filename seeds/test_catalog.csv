@@ -1,6 +1,6 @@
 test_id,test_name,test_description,test_table_name,source_table_name,columns,grain,category,record_source,blocking_error_flag
 0001,duplicate_record_elig,"Every record should be unique, 0 (pass) or 1 (fail)",eligibility_detail,eligibility,all,table,unique,all eligibility,1
-0002,duplicate_patient_id_elig,"Every combination of patient_id and payer should be unique, 0 (pass) or 1 (fail)",eligibility_detail,eligibility,patient_id,patient_id,unique,all eligibility,1
+0002,duplicate_patient_id_elig,"Every combination of patient_id, month, year, payer, and payer_type should be unique, 0 (pass) or 1 (fail)",eligibility_detail,eligibility,patient_id,patient_id,unique,all eligibility,1
 0003,missing_patient_id_elig,"Must never be missing (null) or blank (''), 0 (pass) or 1 (fail)",eligibility_detail,eligibility,patient_id,table,missing,all eligibility,1
 0004,missing_month_elig,"Must never be missing (null) or blank (''), 0 (pass) or 1 (fail)",eligibility_detail,eligibility,month,table,missing,all eligibility,1
 0005,missing_year_elig,"Must never be missing (null) or blank (''), 0 (pass) or 1 (fail)",eligibility_detail,eligibility,year,table,missing,all eligibility,1
