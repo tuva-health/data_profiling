@@ -47,6 +47,8 @@ joined as (
           eligibility.patient_id
         , eligibility.month
         , eligibility.year
+        , eligibility.payer
+        , eligibility.payer_type
         , case
             when duplicate_record.row_hash is null then 0
             else 1
@@ -85,10 +87,13 @@ joined as (
 
 )
 
+/* casting fields used as unique key in snapshot */
 select
-      patient_id
-    , month
-    , year
+      {{ cast_string_or_varchar('patient_id') }} as patient_id
+    , {{ cast_string_or_varchar('month') }} as month
+    , {{ cast_string_or_varchar('year') }} as year
+    , {{ cast_string_or_varchar('payer') }} as payer
+    , {{ cast_string_or_varchar('payer_type') }} as payer_type
     , duplicate_record_elig
     , duplicate_patient_id_elig
     , missing_patient_id_elig

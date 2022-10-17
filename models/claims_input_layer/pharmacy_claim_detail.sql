@@ -78,8 +78,8 @@ joined as (
 )
 
 select
-      claim_id
-    , claim_line_number
+      {{ cast_string_or_varchar('claim_id') }} as claim_id
+    , {{ cast_string_or_varchar('claim_line_number') }} as claim_line_number
     , duplicate_record_pharm
     , duplicate_claim_id_pharm
     , missing_fk_patient_id_pharm

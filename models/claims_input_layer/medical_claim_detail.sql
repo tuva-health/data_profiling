@@ -238,9 +238,10 @@ joined as (
 
 )
 
+/* casting fields used as unique key in snapshot */
 select
-      claim_id
-    , claim_line_number
+      {{ cast_string_or_varchar('claim_id') }} as claim_id
+    , {{ cast_string_or_varchar('claim_line_number') }} as claim_line_number
     , duplicate_record_med
     , duplicate_claim_id_med
     , missing_fk_patient_id_med

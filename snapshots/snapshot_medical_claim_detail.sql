@@ -6,7 +6,7 @@
       , target_schema = var('output_schema')
       , strategy = 'timestamp'
       , updated_at = 'run_date'
-      , unique_key = "claim_id||'-'||claim_line_number"
+      , unique_key = 'claim_id||claim_line_number'
     )
 }}
 
