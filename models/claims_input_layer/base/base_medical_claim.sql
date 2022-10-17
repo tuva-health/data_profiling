@@ -18,7 +18,6 @@ with medical_claim_src as (
     select
           null as claim_id
         , null as claim_line_number
-        , null as claim_type
         , null as patient_id
         , null as claim_start_date
         , null as claim_end_date
@@ -26,6 +25,7 @@ with medical_claim_src as (
         , null as claim_line_end_date
         , null as admission_date
         , null as discharge_date
+        , null as claim_type
         , null as bill_type_code
         , null as place_of_service_code
         , null as admit_source_code
@@ -33,7 +33,6 @@ with medical_claim_src as (
         , null as discharge_disposition_code
         , null as ms_drg
         , null as revenue_center_code
-        , null as service_unit_quantity
         , null as hcpcs_code
         , null as hcpcs_modifier_1
         , null as hcpcs_modifier_2
@@ -97,6 +96,7 @@ with medical_claim_src as (
         , null as diagnosis_poa_24
         , null as diagnosis_poa_25
         , null as diagnosis_code_type
+        , null as procedure_code_type
         , null as procedure_code_1
         , null as procedure_code_2
         , null as procedure_code_3
@@ -122,7 +122,6 @@ with medical_claim_src as (
         , null as procedure_code_23
         , null as procedure_code_24
         , null as procedure_code_25
-        , null as procedure_code_type
         , null as procedure_date_1
         , null as procedure_date_2
         , null as procedure_date_3
