@@ -109,8 +109,16 @@ joined as (
         , {{ missing_field_check('medical_claim.patient_id') }} as missing_patient_id_med
         , {{ missing_field_check('medical_claim.claim_start_date') }} as missing_claim_start_date_med
         , {{ missing_field_check('medical_claim.claim_end_date') }} as missing_claim_end_date_med
-        , {{ missing_field_check('medical_claim.admission_date') }} as missing_admission_date_med
-        , {{ missing_field_check('medical_claim.discharge_date') }} as missing_discharge_date_med
+        , case
+            when medical_claim.claim_type = 'I'
+            then {{ missing_field_check('medical_claim.admission_date') }}
+            else 0
+          end as missing_admission_date_med
+        , case
+            when medical_claim.claim_type = 'I'
+            then {{ missing_field_check('medical_claim.discharge_date') }}
+            else 0
+          end as missing_discharge_date_med
         , {{ missing_field_check('medical_claim.claim_type') }} as missing_claim_type_med
         , case
             when medical_claim.claim_type = 'I'
@@ -124,27 +132,25 @@ joined as (
           end as missing_place_of_service_code_med
         , case
             when medical_claim.claim_type = 'I'
-            then {{ missing_field_check('medical_claim.discharge_disposition_code') }}
-            else 0
-          end as missing_discharge_disposition_code_med
-        , case
-            when medical_claim.claim_type = 'I'
-            then {{ missing_field_check('medical_claim.ms_drg') }}
-            else 0
-          end as missing_ms_drg_med
-        , case
-            when medical_claim.claim_type = 'I'
             then {{ missing_field_check('medical_claim.revenue_center_code') }}
             else 0
           end as missing_revenue_center_code_med
         , case
-            when medical_claim.claim_type = 'I'
+            when medical_claim.claim_type = 'P'
             then {{ missing_field_check('medical_claim.hcpcs_code') }}
             else 0
           end as missing_hcpcs_code_med
-        , {{ missing_field_check('medical_claim.billing_npi') }} as missing_billing_npi_med
+        , case
+            when medical_claim.claim_type = 'P'
+            then {{ missing_field_check('medical_claim.billing_npi') }}
+            else 0
+          end as missing_billing_npi_med
         , {{ missing_field_check('medical_claim.rendering_npi') }} as missing_rendering_npi_med
-        , {{ missing_field_check('medical_claim.facility_npi') }} as missing_facility_npi_med
+        , case
+            when medical_claim.claim_type = 'I'
+            then {{ missing_field_check('medical_claim.facility_npi') }}
+            else 0
+          end as missing_facility_npi_med
         , {{ missing_field_check('medical_claim.paid_date') }} as missing_paid_date_med
         , {{ missing_field_check('medical_claim.paid_amount') }} as missing_paid_amount_med
         , {{ missing_field_check('medical_claim.diagnosis_code_1') }} as missing_diagnosis_code_1_med
@@ -155,8 +161,16 @@ joined as (
           end as missing_diagnosis_poa_1_med
         , {{ valid_past_or_current_date_check('medical_claim.claim_start_date') }} as invalid_claim_start_date_med
         , {{ valid_past_or_current_date_check('medical_claim.claim_end_date') }} as invalid_claim_end_date_med
-        , {{ valid_past_or_current_date_check('medical_claim.admission_date') }} as invalid_admission_date_med
-        , {{ valid_past_or_current_date_check('medical_claim.discharge_date') }} as invalid_discharge_date_med
+        , case
+            when medical_claim.claim_type = 'I'
+            then {{ valid_past_or_current_date_check('medical_claim.admission_date') }}
+            else 0
+          end as invalid_admission_date_med
+        , case
+            when medical_claim.claim_type = 'I'
+            then {{ valid_past_or_current_date_check('medical_claim.discharge_date') }}
+            else 0
+          end as invalid_discharge_date_med
         , {{ valid_past_or_current_date_check('medical_claim.paid_date') }} as invalid_paid_date_med
         , case
             when medical_claim.claim_end_date is null then 0
@@ -255,8 +269,6 @@ select
     , missing_claim_type_med
     , missing_bill_type_code_med
     , missing_place_of_service_code_med
-    , missing_discharge_disposition_code_med
-    , missing_ms_drg_med
     , missing_revenue_center_code_med
     , missing_hcpcs_code_med
     , missing_billing_npi_med

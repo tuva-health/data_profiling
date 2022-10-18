@@ -60,8 +60,6 @@
     , 'missing_claim_type_med'
     , 'missing_bill_type_code_med'
     , 'missing_place_of_service_code_med'
-    , 'missing_discharge_disposition_code_med'
-    , 'missing_ms_drg_med'
     , 'missing_revenue_center_code_med'
     , 'missing_hcpcs_code_med'
     , 'missing_billing_npi_med'
@@ -166,14 +164,20 @@ add_denominator_medical_claim_detail as (
         , test_fail_numerator
         , case
             when test_name in (
-                  'missing_bill_type_code_med'
-                , 'missing_discharge_disposition_code_med'
-                , 'missing_ms_drg_med'
-                , 'missing_revenue_center_code_med'
-                , 'missing_hcpcs_code_med'
+                  'invalid_admission_date_med'
+                , 'invalid_discharge_date_med'
+                , 'missing_admission_date_med'
+                , 'missing_bill_type_code_med'
                 , 'missing_diagnosis_poa_1_med'
+                , 'missing_discharge_date_med'
+                , 'missing_facility_npi_med'
+                , 'missing_revenue_center_code_med'
                ) then {{ institutional_claim_count }}
-            when test_name = 'missing_place_of_service_code_med' then {{ professional_claim_count }}
+            when test_name in (
+                  'missing_billing_npi_med'
+                , 'missing_hcpcs_code_med'
+                , 'missing_place_of_service_code_med'
+                ) then {{ professional_claim_count }}
             else {{ total_med_claim_count }}
           end as test_fail_denominator
     from sum_medical_claim_detail
@@ -251,6 +255,7 @@ add_catalog_details as (
         , seed_test_catalog.source_table_name
         , seed_test_catalog.columns
         , seed_test_catalog.test_id
+        , seed_test_catalog.test_description
         , case
             when union_details.test_fail_numerator > 0
             then seed_test_catalog.blocking_error_flag
@@ -265,6 +270,7 @@ add_catalog_details as (
 select
       test_id
     , test_name
+    , test_description
     , test_table_name
     , source_table_name
     , columns
