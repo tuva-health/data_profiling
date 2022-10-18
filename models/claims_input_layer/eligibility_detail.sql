@@ -63,8 +63,8 @@ joined as (
         , {{ missing_field_check('eligibility.gender') }} as missing_gender_elig
         , {{ missing_field_check('eligibility.birth_date') }} as missing_birth_date_elig
         , {{ missing_field_check('eligibility.deceased_date') }} as missing_deceased_date_elig
-        , {{ valid_past_or_current_date_check('eligibility.birth_date') }} as invalid_birth_date_elig
-        , {{ valid_past_or_current_date_check('eligibility.deceased_date') }} as invalid_deceased_date_elig
+        , {{ valid_birth_or_death_date_check('eligibility.birth_date') }} as invalid_birth_date_elig
+        , {{ valid_birth_or_death_date_check('eligibility.deceased_date') }} as invalid_deceased_date_elig
         , case
             when eligibility.deceased_date is null then 0
             when eligibility.deceased_date is not null

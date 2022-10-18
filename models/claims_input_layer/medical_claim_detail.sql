@@ -159,19 +159,19 @@ joined as (
             then {{ missing_field_check('medical_claim.diagnosis_poa_1') }}
             else 0
           end as missing_diagnosis_poa_1_med
-        , {{ valid_past_or_current_date_check('medical_claim.claim_start_date') }} as invalid_claim_start_date_med
-        , {{ valid_past_or_current_date_check('medical_claim.claim_end_date') }} as invalid_claim_end_date_med
+        , {{ valid_claim_date_check('medical_claim.claim_start_date') }} as invalid_claim_start_date_med
+        , {{ valid_claim_date_check('medical_claim.claim_end_date') }} as invalid_claim_end_date_med
         , case
             when medical_claim.claim_type = 'I'
-            then {{ valid_past_or_current_date_check('medical_claim.admission_date') }}
+            then {{ valid_claim_date_check('medical_claim.admission_date') }}
             else 0
           end as invalid_admission_date_med
         , case
             when medical_claim.claim_type = 'I'
-            then {{ valid_past_or_current_date_check('medical_claim.discharge_date') }}
+            then {{ valid_claim_date_check('medical_claim.discharge_date') }}
             else 0
           end as invalid_discharge_date_med
-        , {{ valid_past_or_current_date_check('medical_claim.paid_date') }} as invalid_paid_date_med
+        , {{ valid_claim_date_check('medical_claim.paid_date') }} as invalid_paid_date_med
         , case
             when medical_claim.claim_end_date is null then 0
             when medical_claim.claim_end_date is not null
