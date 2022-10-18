@@ -9,9 +9,6 @@ models:
       description: >
         Summary of checks ran on every column in eligibility_detail,
         medical_claim_detail, and pharmacy_claim_detail.
-      tests:
-        - unique:
-            column_name: test_name
 
       columns:
         - name: test_table_name
@@ -32,6 +29,12 @@ models:
           description: >
             Unique column name of the test. Join to test_catalog 
             on test_name for more details.
+          tests:
+            - unique:
+                column_name: test_name
+
+        - name: test_description
+          description: Guideline or reasoning for the test
 
         - name: test_fail_numerator
           description: Total count of records that failed the test

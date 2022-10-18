@@ -25,67 +25,62 @@ models:
 
         - name: duplicate_record_elig
           description: >
-            Boolean value if the entire record is a duplicate, 0 (pass) 
-            or 1 (fail). Join to test_catalog on test_name for more details.
+            See test_catalog seed table and join on test_name 
+            for more details.
 
         - name: duplicate_patient_id_elig
           description: >
-            Boolean value if not a unique combination of patient_id, month,
-            year, and payer, 0 (pass) or 1 (fail). Join to test_catalog on 
-            test_name for more details.
+            See test_catalog seed table and join on test_name 
+            for more details.
 
         - name: missing_patient_id_elig
           description: >
-            Boolean value if missing (null) or blank (''), 0 (pass) 
-            or 1 (fail). Join to test_catalog on test_name for more details.
+            See test_catalog seed table and join on test_name 
+            for more details.
 
         - name: missing_month_elig
           description: >
-            Boolean value if missing (null) or blank (''), 0 (pass) 
-            or 1 (fail). Join to test_catalog on test_name for more details.
+            See test_catalog seed table and join on test_name 
+            for more details.
 
         - name: missing_year_elig
           description: >
-            Boolean value if missing (null) or blank (''), 0 (pass) 
-            or 1 (fail). Join to test_catalog on test_name for more details.
+            See test_catalog seed table and join on test_name 
+            for more details.
 
         - name: missing_gender_elig
           description: >
-            Boolean value if missing (null) or blank (''), 0 (pass) 
-            or 1 (fail). Join to test_catalog on test_name for more details.
+            See test_catalog seed table and join on test_name 
+            for more details.
 
         - name: missing_birth_date_elig
           description: >
-            Boolean value if missing (null) or blank (''), 0 (pass) 
-            or 1 (fail). Join to test_catalog on test_name for more details.
+            See test_catalog seed table and join on test_name 
+            for more details.
 
         - name: missing_deceased_date_elig
           description: >
-            Boolean value if missing (null) or blank (''), 0 (pass) 
-            or 1 (fail). Join to test_catalog on test_name for more details.
+            See test_catalog seed table and join on test_name 
+            for more details.
 
         - name: invalid_birth_date_elig
           description: >
-            Boolean value if invalid or future date, 0 (pass) or 1 (fail) 
-            or null (not applicable). Join to test_catalog on test_name for 
-            more details.
+            See test_catalog seed table and join on test_name 
+            for more details.
 
         - name: invalid_deceased_date_elig
           description: >
-            Boolean value if invalid or future date, 0 (pass) or 1 (fail) 
-            or null (not applicable). Join to test_catalog on test_name for 
-            more details.
+            See test_catalog seed table and join on test_name 
+            for more details.
 
         - name: invalid_death_before_birth_elig
           description: >
-            Time sequence test: boolean value if death date is before birth 
-            date, 0 (pass) or 1 (fail) or null (not applicable). Join to 
-            test_catalog on test_name for more details.
+            See test_catalog seed table and join on test_name 
+            for more details.
 
         - name: invalid_gender_elig
           description: >
-            Valid values test: boolean value if invalid value, 0 (pass) or 
-            1 (fail) or null (not applicable). Join to test_catalog on test_name 
+            See test_catalog seed table and join on test_name 
             for more details.
 
         - name: run_date
