@@ -10,6 +10,14 @@ seed_gender as (
 
 ),
 
+deaths_from_claims as (
+
+    select distinct patient_id
+    from {{ ref('base_medical_claim') }}
+    where discharge_disposition_code  = '20'
+
+),
+
 duplicate_record as (
 
     select row_hash
@@ -62,7 +70,15 @@ joined as (
         , {{ missing_field_check('eligibility.year') }} as missing_year_elig
         , {{ missing_field_check('eligibility.gender') }} as missing_gender_elig
         , {{ missing_field_check('eligibility.birth_date') }} as missing_birth_date_elig
-        , {{ missing_field_check('eligibility.deceased_date') }} as missing_deceased_date_elig
+        , case
+            when eligibility.deceased_date is null
+              and eligibility.deceased_flag is not null
+              then 1
+            when eligibility.deceased_date is null
+              and deaths_from_claims.patient_id is not null
+              then 1
+            else 0
+          end as missing_deceased_date_elig
         , {{ valid_birth_or_death_date_check('eligibility.birth_date') }} as invalid_birth_date_elig
         , {{ valid_birth_or_death_date_check('eligibility.deceased_date') }} as invalid_deceased_date_elig
         , case
@@ -84,6 +100,8 @@ joined as (
             on eligibility.patient_id = duplicate_patient_id.patient_id
          left join seed_gender
             on eligibility.gender = seed_gender.description
+         left join deaths_from_claims
+            on eligibility.patient_id = deaths_from_claims.patient_id
 
 )
 
