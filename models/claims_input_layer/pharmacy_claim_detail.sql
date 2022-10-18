@@ -65,8 +65,8 @@ joined as (
         , {{ missing_field_check('pharmacy_claim.ndc') }} as missing_ndc_pharm
         , {{ missing_field_check('pharmacy_claim.paid_amount') }} as missing_paid_amount_pharm
         , {{ missing_field_check('pharmacy_claim.paid_date') }} as missing_paid_date_pharm
-        , {{ valid_past_or_current_date_check('pharmacy_claim.dispensing_date') }} as invalid_dispensing_date_pharm
-        , {{ valid_past_or_current_date_check('pharmacy_claim.paid_date') }} as invalid_paid_date_pharm
+        , {{ valid_claim_date_check('pharmacy_claim.dispensing_date') }} as invalid_dispensing_date_pharm
+        , {{ valid_claim_date_check('pharmacy_claim.paid_date') }} as invalid_paid_date_pharm
     from pharmacy_claim
          left join duplicate_record
             on pharmacy_claim.row_hash = duplicate_record.row_hash
