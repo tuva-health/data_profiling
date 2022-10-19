@@ -6,7 +6,7 @@
       , target_schema = var('output_schema')
       , strategy = 'timestamp'
       , updated_at = 'run_date'
-      , unique_key = 'patient_id||month||year||payer||payer_type'
+      , unique_key = 'patient_id||month||year||payer||payer_type||run_date'
     )
 }}
 

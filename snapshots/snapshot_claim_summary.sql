@@ -6,7 +6,7 @@
       , target_schema = var('output_schema')
       , strategy = 'timestamp'
       , updated_at = 'run_date'
-      , unique_key = 'test_name'
+      , unique_key = 'test_name||run_date'
     )
 }}
 
