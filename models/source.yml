@@ -6,13 +6,13 @@ sources:
     schema:  "{{ var('input_schema') }}"
     tables:
       - name: eligibility
-        identifier: eligibility # configuration required if source table name is different
+        identifier: eligibility_pipe_v2 # configuration required if source table name is different
         description: >
           Year-month eligibility data per patient and payer. See documentation
           linked in the README for schema.
 
       - name: medical_claim
-        identifier: medical_claim # configuration required if source table name is different
+        identifier: medical_claim_pipe_v2 # configuration required if source table name is different
         description: >
           Line-level claims data, including revenue and HCPCS codes where each 
           claim id and claim line number is unique. See documentation linked 
