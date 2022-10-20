@@ -7,13 +7,13 @@
 {% set institutional_claim_count -%}
     (select count(*)
      from {{ ref('base_medical_claim') }}
-     where claim_type = 'I')
+     where claim_type = 'institutional')
 {% endset -%}
 
 {% set professional_claim_count -%}
     (select count(*)
      from {{ ref('base_medical_claim') }}
-     where claim_type = 'P')
+     where claim_type = 'professional')
 {% endset -%}
 
 {% set total_eligibility_count -%}
@@ -202,7 +202,7 @@ add_totals_eligibility_detail as (
         , test_name
         , test_fail_numerator
         , test_fail_denominator
-        , (round(test_fail_numerator / test_fail_denominator, 4)
+        , (round(test_fail_numerator / test_fail_denominator, 5)
           )*100 as test_fail_percentage
     from add_denominator_eligibility_detail
 
@@ -215,7 +215,7 @@ add_totals_medical_claim_detail as (
         , test_name
         , test_fail_numerator
         , test_fail_denominator
-        , (round(test_fail_numerator / test_fail_denominator, 4)
+        , (round(test_fail_numerator / test_fail_denominator, 5)
           )*100 as test_fail_percentage
     from add_denominator_medical_claim_detail
 
@@ -228,7 +228,7 @@ add_totals_pharmacy_claim_detail as (
         , test_name
         , test_fail_numerator
         , test_fail_denominator
-        , (round(test_fail_numerator / test_fail_denominator, 4)
+        , (round(test_fail_numerator / test_fail_denominator, 5)
           )*100 as test_fail_percentage
     from add_denominator_pharmacy_claim_detail
 
