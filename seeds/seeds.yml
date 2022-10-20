@@ -7,7 +7,7 @@ seeds:
       database: "{{ var('output_database') }}"
       schema:  "{{ var('terminology_schema') }}"
       column_types:
-        code: |
+        CODE: |
           {%- if target.type == "bigquery" -%} string
           {%- else -%} varchar
           {%- endif -%}
@@ -47,7 +47,7 @@ seeds:
       database: "{{ var('output_database') }}"
       schema: "{{ var('terminology_schema') }}"
       column_types:
-        code: |
+        CODE: |
           {%- if target.type == "bigquery" -%} string
           {%- else -%} varchar
           {%- endif -%}
