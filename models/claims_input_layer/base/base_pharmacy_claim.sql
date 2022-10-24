@@ -16,9 +16,9 @@ with pharmacy_claim_src as (
     {{- log("Pharmacy claim source doesn't exist using blank table instead.", info=true) -}}
 
     select
-          null as claim_id
-        , null as claim_line_number
-        , null as patient_id
+          'blank' as claim_id
+        , 'blank' as claim_line_number
+        , 'blank' as patient_id
         , null as prescribing_provider_npi
         , null as prescribing_provider_name
         , null as dispensing_provider_npi
@@ -27,15 +27,14 @@ with pharmacy_claim_src as (
         , null as dispensing_provider_city
         , null as dispensing_provider_state
         , null as dispensing_provider_zip_code
-        , null as dispensing_date
+        , cast(null as date) as dispensing_date
         , null as ndc
         , null as quantity
         , null as days_supply
         , null as refills
-        , null as paid_date
+        , cast(null as date) as paid_date
         , null as paid_amount
         , null as allowed_amount
-    where false
 
     {%- endif %}
 

@@ -16,21 +16,20 @@ with eligibility_src as (
     {{- log("Eligibility source doesn't exist using blank table instead.", info=true) -}}
 
     select
-          null as patient_id
+          'blank' as patient_id
         , null as gender
-        , null as birth_date
+        , cast(null as date) as birth_date
         , null as race
         , null as zip_code
         , null as state
         , null as deceased_flag
-        , null as deceased_date
+        , cast(null as date) as deceased_date
         , null as payer
         , null as payer_type
         , null as dual_status
         , null as medicare_status
         , null as month
         , null as year
-    where false
 
     {%- endif %}
 

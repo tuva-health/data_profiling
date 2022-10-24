@@ -16,15 +16,15 @@ with medical_claim_src as (
     {{- log("Medical claim source doesn't exist using blank table instead.", info=true) -}}
 
     select
-          null as claim_id
-        , null as claim_line_number
-        , null as patient_id
-        , null as claim_start_date
-        , null as claim_end_date
-        , null as claim_line_start_date
-        , null as claim_line_end_date
-        , null as admission_date
-        , null as discharge_date
+          'blank' as claim_id
+        , 'blank' as claim_line_number
+        , 'blank' as patient_id
+        , cast(null as date) as claim_start_date
+        , cast(null as date) as claim_end_date
+        , cast(null as date) as claim_line_start_date
+        , cast(null as date) as claim_line_end_date
+        , cast(null as date) as admission_date
+        , cast(null as date) as discharge_date
         , null as claim_type
         , null as bill_type_code
         , null as place_of_service_code
@@ -42,7 +42,7 @@ with medical_claim_src as (
         , null as billing_npi
         , null as rendering_npi
         , null as facility_npi
-        , null as paid_date
+        , cast(null as date) as paid_date
         , null as paid_amount
         , null as charge_amount
         , null as diagnosis_code_1
@@ -122,32 +122,31 @@ with medical_claim_src as (
         , null as procedure_code_23
         , null as procedure_code_24
         , null as procedure_code_25
-        , null as procedure_date_1
-        , null as procedure_date_2
-        , null as procedure_date_3
-        , null as procedure_date_4
-        , null as procedure_date_5
-        , null as procedure_date_6
-        , null as procedure_date_7
-        , null as procedure_date_8
-        , null as procedure_date_9
-        , null as procedure_date_10
-        , null as procedure_date_11
-        , null as procedure_date_12
-        , null as procedure_date_13
-        , null as procedure_date_14
-        , null as procedure_date_15
-        , null as procedure_date_16
-        , null as procedure_date_17
-        , null as procedure_date_18
-        , null as procedure_date_19
-        , null as procedure_date_20
-        , null as procedure_date_21
-        , null as procedure_date_22
-        , null as procedure_date_23
-        , null as procedure_date_24
-        , null as procedure_date_25
-    where false
+        , cast(null as date) as procedure_date_1
+        , cast(null as date) as procedure_date_2
+        , cast(null as date) as procedure_date_3
+        , cast(null as date) as procedure_date_4
+        , cast(null as date) as procedure_date_5
+        , cast(null as date) as procedure_date_6
+        , cast(null as date) as procedure_date_7
+        , cast(null as date) as procedure_date_8
+        , cast(null as date) as procedure_date_9
+        , cast(null as date) as procedure_date_10
+        , cast(null as date) as procedure_date_11
+        , cast(null as date) as procedure_date_12
+        , cast(null as date) as procedure_date_13
+        , cast(null as date) as procedure_date_14
+        , cast(null as date) as procedure_date_15
+        , cast(null as date) as procedure_date_16
+        , cast(null as date) as procedure_date_17
+        , cast(null as date) as procedure_date_18
+        , cast(null as date) as procedure_date_19
+        , cast(null as date) as procedure_date_20
+        , cast(null as date) as procedure_date_21
+        , cast(null as date) as procedure_date_22
+        , cast(null as date) as procedure_date_23
+        , cast(null as date) as procedure_date_24
+        , cast(null as date) as procedure_date_25
 
     {%- endif %}
 

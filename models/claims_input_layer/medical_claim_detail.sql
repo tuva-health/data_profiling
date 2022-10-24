@@ -79,9 +79,9 @@ duplicate_claim_id as (
 
 missing_fk_patient_id as (
 
-    select row_hash
+    select medical_claim.row_hash
     from medical_claim
-         left join {{ var('eligibility') }} as eligibility
+         left join {{ ref('base_eligibility') }} as eligibility
          on medical_claim.patient_id = eligibility.patient_id
     where eligibility.patient_id is null
 
