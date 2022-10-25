@@ -20,189 +20,189 @@ models:
         - name: claim_line_number
           description: Primary key for grain - value from source file
 
-        - name: duplicate_record_med
+        - name: duplicate_med_claim_record
           description: >
             See test_catalog seed table and join on test_name 
             for more details.
 
-        - name: duplicate_claim_id_med
+        - name: duplicate_med_claim_id
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_fk_patient_id_med
+        - name: missing_med_claim_patient_id
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_claim_id_med
+        - name: missing_med_claim_patient_id_fk
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_claim_line_number_med
+        - name: missing_med_claim_id
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_patient_id_med
+        - name: missing_med_claim_line_number
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_claim_start_date_med
+        - name: missing_claim_type
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_claim_end_date_med
+        - name: invalid_claim_type
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_admission_date_med
+        - name: missing_claim_start_date
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_discharge_date_med
+        - name: invalid_claim_start_date
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_claim_type_med
+        - name: missing_claim_end_date
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_bill_type_code_med
+        - name: invalid_claim_end_date
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_place_of_service_code_med
+        - name: invalid_claim_end_before_start
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_revenue_center_code_med
+        - name: missing_admission_date
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_hcpcs_code_med
+        - name: invalid_admission_date
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_billing_npi_med
+        - name: missing_discharge_date
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_rendering_npi_med
+        - name: invalid_discharge_date
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_facility_npi_med
+        - name: invalid_discharge_before_admission
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_paid_date_med
+        - name: missing_med_claim_paid_date
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_paid_amount_med
+        - name: invalid_med_claim_paid_date
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_diagnosis_code_1_med
+        - name: missing_med_claim_paid_amount
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_diagnosis_poa_1_med
+        - name: missing_bill_type_code
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: invalid_claim_start_date_med
+        - name: invalid_bill_type_code
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: invalid_claim_end_date_med
+        - name: missing_place_of_service_code
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: invalid_admission_date_med
+        - name: invalid_place_of_service_code
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: invalid_discharge_date_med
+        - name: missing_revenue_center_code
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: invalid_paid_date_med
+        - name: invalid_revenue_center_code
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: invalid_claim_end_before_start_med
+        - name: missing_diagnosis_code_1
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: invalid_discharge_before_admission_med
+        - name: invalid_diagnosis_code_1
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: invalid_claim_type_med
+        - name: missing_diagnosis_poa_1
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: invalid_bill_type_code_med
+        - name: invalid_diagnosis_poa_1
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: invalid_place_of_service_code_med
+        - name: missing_hcpcs_code
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: invalid_discharge_disposition_code_med
+        - name: invalid_discharge_disposition_code
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: invalid_ms_drg_med
+        - name: invalid_ms_drg
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: invalid_revenue_center_code_med
+        - name: missing_billing_npi
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: invalid_diagnosis_code_1_med
+        - name: missing_facility_npi
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: invalid_diagnosis_poa_1_med
+        - name: missing_rendering_npi
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
         - name: run_date

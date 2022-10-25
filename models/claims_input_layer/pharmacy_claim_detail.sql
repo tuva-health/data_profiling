@@ -47,26 +47,26 @@ joined as (
         , case
             when duplicate_record.row_hash is null then 0
             else 1
-          end as duplicate_record_pharm
+          end as duplicate_pharm_claim_record
         , case
             when duplicate_claim_id.claim_id is null then 0
             else 1
-          end as duplicate_claim_id_pharm
+          end as duplicate_pharm_claim_id
+        , {{ missing_field_check('pharmacy_claim.patient_id') }} as missing_pharm_claim_patient_id
         , case
             when missing_fk_patient_id.row_hash is null then 0
             else 1
-          end as missing_fk_patient_id_pharm
-        , {{ missing_field_check('pharmacy_claim.claim_id') }} as missing_claim_id_pharm
-        , {{ missing_field_check('pharmacy_claim.claim_line_number') }} as missing_claim_line_number_pharm
-        , {{ missing_field_check('pharmacy_claim.patient_id') }} as missing_patient_id_pharm
-        , {{ missing_field_check('pharmacy_claim.prescribing_provider_npi') }} as missing_prescribing_provider_npi_pharm
-        , {{ missing_field_check('pharmacy_claim.dispensing_provider_npi') }} as missing_dispensing_provider_npi_pharm
-        , {{ missing_field_check('pharmacy_claim.dispensing_date') }} as missing_dispensing_date_pharm
-        , {{ missing_field_check('pharmacy_claim.ndc') }} as missing_ndc_pharm
-        , {{ missing_field_check('pharmacy_claim.paid_amount') }} as missing_paid_amount_pharm
-        , {{ missing_field_check('pharmacy_claim.paid_date') }} as missing_paid_date_pharm
-        , {{ valid_claim_date_check('pharmacy_claim.dispensing_date') }} as invalid_dispensing_date_pharm
-        , {{ valid_claim_date_check('pharmacy_claim.paid_date') }} as invalid_paid_date_pharm
+          end as missing_pharm_claim_patient_id_fk
+        , {{ missing_field_check('pharmacy_claim.claim_id') }} as missing_pharm_claim_id
+        , {{ missing_field_check('pharmacy_claim.claim_line_number') }} as missing_pharm_claim_line_number
+        , {{ missing_field_check('pharmacy_claim.dispensing_date') }} as missing_dispensing_date
+        , {{ valid_claim_date_check('pharmacy_claim.dispensing_date') }} as invalid_dispensing_date
+        , {{ missing_field_check('pharmacy_claim.paid_date') }} as missing_pharm_claim_paid_date
+        , {{ valid_claim_date_check('pharmacy_claim.paid_date') }} as invalid_pharm_claim_paid_date
+        , {{ missing_field_check('pharmacy_claim.paid_amount') }} as missing_pharm_claim_paid_amount
+        , {{ missing_field_check('pharmacy_claim.prescribing_provider_npi') }} as missing_prescribing_provider_npi
+        , {{ missing_field_check('pharmacy_claim.dispensing_provider_npi') }} as missing_dispensing_provider_npi
+        , {{ missing_field_check('pharmacy_claim.ndc') }} as missing_ndc
     from pharmacy_claim
          left join duplicate_record
             on pharmacy_claim.row_hash = duplicate_record.row_hash
@@ -80,19 +80,19 @@ joined as (
 select
       {{ cast_string_or_varchar('claim_id') }} as claim_id
     , {{ cast_string_or_varchar('claim_line_number') }} as claim_line_number
-    , duplicate_record_pharm
-    , duplicate_claim_id_pharm
-    , missing_fk_patient_id_pharm
-    , missing_claim_id_pharm
-    , missing_claim_line_number_pharm
-    , missing_patient_id_pharm
-    , missing_prescribing_provider_npi_pharm
-    , missing_dispensing_provider_npi_pharm
-    , missing_dispensing_date_pharm
-    , missing_ndc_pharm
-    , missing_paid_amount_pharm
-    , missing_paid_date_pharm
-    , invalid_dispensing_date_pharm
-    , invalid_paid_date_pharm
+    , duplicate_pharm_claim_record
+    , duplicate_pharm_claim_id
+    , missing_pharm_claim_patient_id
+    , missing_pharm_claim_patient_id_fk
+    , missing_pharm_claim_id
+    , missing_pharm_claim_line_number
+    , missing_dispensing_date
+    , invalid_dispensing_date
+    , missing_pharm_claim_paid_date
+    , invalid_pharm_claim_paid_date
+    , missing_pharm_claim_paid_amount
+    , missing_prescribing_provider_npi
+    , missing_dispensing_provider_npi
+    , missing_ndc
     , {{ current_date_or_timestamp('timestamp') }} as run_date
 from joined

@@ -13,7 +13,7 @@ with pharmacy_claim_src as (
     select * from {{ var('pharmacy_claim') }}
 
     {%- else -%}
-    {{- log("Pharmacy claim source doesn't exist using blank table instead.", info=true) -}}
+    {{- log("Pharmacy claim source doesn't exist using an empty table instead.", info=true) -}}
 
     /*
         casting fields used in joins and tested to correct data types
@@ -23,14 +23,9 @@ with pharmacy_claim_src as (
           {{ cast_string_or_varchar('null') }} as claim_id
         , null as claim_line_number
         , {{ cast_string_or_varchar('null') }} as patient_id
+        , {{ cast_string_or_varchar('null') }} as member_id
         , null as prescribing_provider_npi
-        , null as prescribing_provider_name
         , null as dispensing_provider_npi
-        , null as dispensing_provider_name
-        , null as dispensing_provider_address
-        , null as dispensing_provider_city
-        , null as dispensing_provider_state
-        , null as dispensing_provider_zip_code
         , cast(null as date) as dispensing_date
         , null as ndc
         , null as quantity
@@ -39,6 +34,7 @@ with pharmacy_claim_src as (
         , cast(null as date) as paid_date
         , null as paid_amount
         , null as allowed_amount
+        , null as data_source
     limit 0
 
     {%- endif %}
@@ -52,21 +48,18 @@ pharmacy_claim_with_row_hash as (
                   'claim_id'
                 , 'claim_line_number'
                 , 'patient_id'
+                , 'member_id'
                 , 'prescribing_provider_npi'
-                , 'prescribing_provider_name'
                 , 'dispensing_provider_npi'
-                , 'dispensing_provider_name'
-                , 'dispensing_provider_address'
-                , 'dispensing_provider_city'
-                , 'dispensing_provider_state'
-                , 'dispensing_provider_zip_code'
                 , 'dispensing_date'
                 , 'ndc'
                 , 'quantity'
                 , 'days_supply'
-                , 'allowed_amount'
-                , 'paid_amount'
+                , 'refills'
                 , 'paid_date'
+                , 'paid_amount'
+                , 'allowed_amount'
+                , 'data_source'
                ]) }}
            as row_hash
     from pharmacy_claim_src

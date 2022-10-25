@@ -25,69 +25,74 @@ models:
             See test_catalog seed table and join on test_name 
             for more details.
 
-        - name: duplicate_claim_id_pharm
+        - name: duplicate_pharm_claim_record
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_fk_patient_id_pharm
+        - name: duplicate_pharm_claim_id
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_claim_id_pharm
+        - name: missing_pharm_claim_patient_id
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_claim_line_number_pharm
+        - name: missing_pharm_claim_patient_id_fk
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_patient_id_pharm
+        - name: missing_pharm_claim_id
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_prescribing_provider_npi_pharm
+        - name: missing_pharm_claim_line_number
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_dispensing_provider_npi_pharm
+        - name: missing_dispensing_date
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_dispensing_date_pharm
+        - name: invalid_dispensing_date
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_ndc_pharm
+        - name: missing_pharm_claim_paid_date
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_paid_amount_pharm
+        - name: invalid_pharm_claim_paid_date
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: missing_paid_date_pharm
+        - name: missing_pharm_claim_paid_amount
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: invalid_dispensing_date_pharm
+        - name: missing_prescribing_provider_npi
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
             for more details.
 
-        - name: invalid_paid_date_pharm
+        - name: missing_dispensing_provider_npi
           description: >
-            See test_catalog seed table and join on test_name 
+            See test_catalog seed table and join on test_name
+            for more details.
+
+        - name: missing_ndc
+          description: >
+            See test_catalog seed table and join on test_name
             for more details.
 
         - name: run_date

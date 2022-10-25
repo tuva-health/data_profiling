@@ -11,17 +11,6 @@ models:
         medical_claim_detail, and pharmacy_claim_detail.
 
       columns:
-        - name: test_table_name
-          description: The name of the data profiling detail table
-
-        - name: source_table_name
-          description: The name of the source table the test is ran on
-
-        - name: columns
-          description: >
-            List of column(s) the test runs on - makes it easy to filter test 
-            results to certain columns
-
         - name: test_id
           description: Unique identifier for the data profiling test
 
@@ -33,25 +22,36 @@ models:
             - unique:
                 column_name: test_name
 
-        - name: test_description
-          description: Guideline or reasoning for the test
-
-        - name: test_fail_numerator
-          description: Total count of records that failed the test
-
-        - name: test_fail_denominator
-          description: > 
-            Total count of records the test was applied to, in some cases
-            this may be a claim type count (institutional claims, 
-            professional claims) 
-
-        - name: test_fail_percentage
-          description: Percentage of records that failed test
+        - name: source_table_name
+          description: The name of the source table the test is ran on
 
         - name: blocking_error_flag
           description: >
             Indicates whether the test is a blocking error if 
             test_fail_numerator > 0
+
+        - name: test_fail_percentage
+          description: Percentage of records that failed test
+
+        - name: test_fail_numerator
+          description: Total count of records that failed the test
+
+        - name: test_fail_denominator
+          description: >
+            Total count of records the test was applied to, in some cases
+            this may be a claim type count (institutional claims, 
+            professional claims) 
+
+        - name: test_description
+          description: Guideline or reasoning for the test
+
+        - name: test_table_name
+          description: The name of the data profiling detail table
+
+        - name: columns
+          description: >
+            List of column(s) the test runs on - makes it easy to filter test 
+            results to certain columns
 
         - name: run_date
           description: Datetime the model was run used for snapshots

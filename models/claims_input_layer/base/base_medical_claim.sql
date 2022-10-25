@@ -13,7 +13,7 @@ with medical_claim_src as (
     select * from {{ var('medical_claim') }}
 
     {%- else -%}
-    {{- log("Medical claim source doesn't exist using blank table instead.", info=true) -}}
+    {{- log("Medical claim source doesn't exist using an empty table instead.", info=true) -}}
 
     /*
         casting fields used in joins and tested to correct data types
@@ -22,21 +22,23 @@ with medical_claim_src as (
     select
           {{ cast_string_or_varchar('null') }} as claim_id
         , null as claim_line_number
+        , {{ cast_string_or_varchar('null') }} as claim_type
         , {{ cast_string_or_varchar('null') }} as patient_id
+        , {{ cast_string_or_varchar('null') }} as member_id
         , cast(null as date) as claim_start_date
         , cast(null as date) as claim_end_date
         , cast(null as date) as claim_line_start_date
         , cast(null as date) as claim_line_end_date
         , cast(null as date) as admission_date
         , cast(null as date) as discharge_date
-        , {{ cast_string_or_varchar('null') }} as claim_type
-        , {{ cast_string_or_varchar('null') }} as bill_type_code
-        , {{ cast_string_or_varchar('null') }} as place_of_service_code
         , null as admit_source_code
         , null as admit_type_code
         , {{ cast_string_or_varchar('null') }} as discharge_disposition_code
+        , {{ cast_string_or_varchar('null') }} as place_of_service_code
+        , {{ cast_string_or_varchar('null') }} as bill_type_code
         , {{ cast_string_or_varchar('null') }} as ms_drg
         , {{ cast_string_or_varchar('null') }} as revenue_center_code
+        , null as service_unit_quantity
         , {{ cast_string_or_varchar('null') }} as hcpcs_code
         , null as hcpcs_modifier_1
         , null as hcpcs_modifier_2
@@ -48,7 +50,9 @@ with medical_claim_src as (
         , null as facility_npi
         , cast(null as date) as paid_date
         , null as paid_amount
+        , null as allowed_amount
         , null as charge_amount
+        , null as diagnosis_code_type
         , {{ cast_string_or_varchar('null') }} as diagnosis_code_1
         , null as diagnosis_code_2
         , null as diagnosis_code_3
@@ -99,7 +103,6 @@ with medical_claim_src as (
         , null as diagnosis_poa_23
         , null as diagnosis_poa_24
         , null as diagnosis_poa_25
-        , null as diagnosis_code_type
         , null as procedure_code_type
         , null as procedure_code_1
         , null as procedure_code_2
@@ -151,6 +154,7 @@ with medical_claim_src as (
         , null as procedure_date_23
         , null as procedure_date_24
         , null as procedure_date_25
+        , null as data_source
     limit 0
 
     {%- endif %}
@@ -161,16 +165,18 @@ medical_claim_with_row_hash as (
 
     select *
          , {{ dbt_utils.surrogate_key([
-                 'claim_id', 'claim_line_number', 'patient_id'
-               , 'claim_start_date', 'claim_end_date', 'claim_line_start_date'
+                 'claim_id', 'claim_line_number', 'claim_type'
+               , 'patient_id', 'member_id', 'claim_start_date'
+               , 'claim_end_date', 'claim_line_start_date'
                , 'claim_line_end_date', 'admission_date', 'discharge_date'
-               , 'claim_type', 'bill_type_code', 'place_of_service_code'
                , 'admit_source_code', 'admit_type_code'
-               , 'discharge_disposition_code', 'ms_drg', 'revenue_center_code'
-               , 'hcpcs_code', 'hcpcs_modifier_1', 'hcpcs_modifier_2'
-               , 'hcpcs_modifier_3', 'hcpcs_modifier_4', 'hcpcs_modifier_5'
-               , 'billing_npi', 'rendering_npi', 'facility_npi'
-               , 'paid_date', 'paid_amount', 'charge_amount'
+               , 'discharge_disposition_code', 'place_of_service_code'
+               , 'bill_type_code', 'ms_drg', 'revenue_center_code'
+               , 'service_unit_quantity', 'hcpcs_code', 'hcpcs_modifier_1'
+               , 'hcpcs_modifier_2', 'hcpcs_modifier_3', 'hcpcs_modifier_4'
+               , 'hcpcs_modifier_5', 'billing_npi', 'rendering_npi'
+               , 'facility_npi', 'paid_date', 'paid_amount'
+               , 'allowed_amount', 'charge_amount', 'diagnosis_code_type'
                , 'diagnosis_code_1', 'diagnosis_code_2', 'diagnosis_code_3'
                , 'diagnosis_code_4', 'diagnosis_code_5', 'diagnosis_code_6'
                , 'diagnosis_code_7', 'diagnosis_code_8', 'diagnosis_code_9'
@@ -187,24 +193,24 @@ medical_claim_with_row_hash as (
                , 'diagnosis_poa_15', 'diagnosis_poa_16', 'diagnosis_poa_17'
                , 'diagnosis_poa_18', 'diagnosis_poa_19', 'diagnosis_poa_20'
                , 'diagnosis_poa_21', 'diagnosis_poa_22', 'diagnosis_poa_23'
-               , 'diagnosis_poa_24', 'diagnosis_poa_25', 'diagnosis_code_type'
-               , 'procedure_code_type', 'procedure_code_1', 'procedure_code_2'
-               , 'procedure_code_3', 'procedure_code_4', 'procedure_code_5'
-               , 'procedure_code_6', 'procedure_code_7', 'procedure_code_8'
-               , 'procedure_code_9', 'procedure_code_10', 'procedure_code_11'
-               , 'procedure_code_12', 'procedure_code_13', 'procedure_code_14'
-               , 'procedure_code_15', 'procedure_code_16', 'procedure_code_17'
-               , 'procedure_code_18', 'procedure_code_19', 'procedure_code_20'
-               , 'procedure_code_21', 'procedure_code_22', 'procedure_code_23'
-               , 'procedure_code_24', 'procedure_code_25', 'procedure_date_1'
-               , 'procedure_date_2', 'procedure_date_3', 'procedure_date_4'
-               , 'procedure_date_5', 'procedure_date_6', 'procedure_date_7'
-               , 'procedure_date_8', 'procedure_date_9', 'procedure_date_10'
-               , 'procedure_date_11', 'procedure_date_12', 'procedure_date_13'
-               , 'procedure_date_14', 'procedure_date_15', 'procedure_date_16'
-               , 'procedure_date_17', 'procedure_date_18', 'procedure_date_19'
-               , 'procedure_date_20', 'procedure_date_21', 'procedure_date_22'
-               , 'procedure_date_23', 'procedure_date_24', 'procedure_date_25'
+               , 'diagnosis_poa_24', 'diagnosis_poa_25', 'procedure_code_type'
+               , 'procedure_code_1', 'procedure_code_2', 'procedure_code_3'
+               , 'procedure_code_4', 'procedure_code_5', 'procedure_code_6'
+               , 'procedure_code_7', 'procedure_code_8', 'procedure_code_9'
+               , 'procedure_code_10', 'procedure_code_11', 'procedure_code_12'
+               , 'procedure_code_13', 'procedure_code_14', 'procedure_code_15'
+               , 'procedure_code_16', 'procedure_code_17', 'procedure_code_18'
+               , 'procedure_code_19', 'procedure_code_20', 'procedure_code_21'
+               , 'procedure_code_22', 'procedure_code_23', 'procedure_code_24'
+               , 'procedure_code_25', 'procedure_date_1', 'procedure_date_2'
+               , 'procedure_date_3', 'procedure_date_4', 'procedure_date_5'
+               , 'procedure_date_6', 'procedure_date_7', 'procedure_date_8'
+               , 'procedure_date_9', 'procedure_date_10', 'procedure_date_11'
+               , 'procedure_date_12', 'procedure_date_13', 'procedure_date_14'
+               , 'procedure_date_15', 'procedure_date_16', 'procedure_date_17'
+               , 'procedure_date_18', 'procedure_date_19', 'procedure_date_20'
+               , 'procedure_date_21', 'procedure_date_22', 'procedure_date_23'
+               , 'procedure_date_24', 'procedure_date_25', 'data_source'
                ]) }}
            as row_hash
     from medical_claim_src

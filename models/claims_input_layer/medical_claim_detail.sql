@@ -95,137 +95,137 @@ joined as (
         , case
             when duplicate_record.row_hash is null then 0
             else 1
-          end as duplicate_record_med
+          end as duplicate_med_claim_record
         , case
             when duplicate_claim_id.claim_id is null then 0
             else 1
-          end as duplicate_claim_id_med
+          end as duplicate_med_claim_id
+        , {{ missing_field_check('medical_claim.patient_id') }} as missing_med_claim_patient_id
         , case
             when missing_fk_patient_id.row_hash is null then 0
             else 1
-          end as missing_fk_patient_id_med
-        , {{ missing_field_check('medical_claim.claim_id') }} as missing_claim_id_med
-        , {{ missing_field_check('medical_claim.claim_line_number') }} as missing_claim_line_number_med
-        , {{ missing_field_check('medical_claim.patient_id') }} as missing_patient_id_med
-        , {{ missing_field_check('medical_claim.claim_start_date') }} as missing_claim_start_date_med
-        , {{ missing_field_check('medical_claim.claim_end_date') }} as missing_claim_end_date_med
+          end as missing_med_claim_patient_id_fk
+        , {{ missing_field_check('medical_claim.claim_id') }} as missing_med_claim_id
+        , {{ missing_field_check('medical_claim.claim_line_number') }} as missing_med_claim_line_number
+        , {{ missing_field_check('medical_claim.claim_type') }} as missing_claim_type
         , case
-            when medical_claim.claim_type = 'institutional'
-            then {{ missing_field_check('medical_claim.admission_date') }}
-            else 0
-          end as missing_admission_date_med
-        , case
-            when medical_claim.claim_type = 'institutional'
-            then {{ missing_field_check('medical_claim.discharge_date') }}
-            else 0
-          end as missing_discharge_date_med
-        , {{ missing_field_check('medical_claim.claim_type') }} as missing_claim_type_med
-        , case
-            when medical_claim.claim_type = 'institutional'
-            then {{ missing_field_check('medical_claim.bill_type_code') }}
-            else 0
-          end as missing_bill_type_code_med
-        , case
-            when medical_claim.claim_type = 'professional'
-            then {{ missing_field_check('medical_claim.place_of_service_code') }}
-            else 0
-          end as missing_place_of_service_code_med
-        , case
-            when medical_claim.claim_type = 'institutional'
-            then {{ missing_field_check('medical_claim.revenue_center_code') }}
-            else 0
-          end as missing_revenue_center_code_med
-        , case
-            when medical_claim.claim_type = 'professional'
-            then {{ missing_field_check('medical_claim.hcpcs_code') }}
-            else 0
-          end as missing_hcpcs_code_med
-        , case
-            when medical_claim.claim_type = 'professional'
-            then {{ missing_field_check('medical_claim.billing_npi') }}
-            else 0
-          end as missing_billing_npi_med
-        , {{ missing_field_check('medical_claim.rendering_npi') }} as missing_rendering_npi_med
-        , case
-            when medical_claim.claim_type = 'institutional'
-            then {{ missing_field_check('medical_claim.facility_npi') }}
-            else 0
-          end as missing_facility_npi_med
-        , {{ missing_field_check('medical_claim.paid_date') }} as missing_paid_date_med
-        , {{ missing_field_check('medical_claim.paid_amount') }} as missing_paid_amount_med
-        , {{ missing_field_check('medical_claim.diagnosis_code_1') }} as missing_diagnosis_code_1_med
-        , case
-            when medical_claim.claim_type = 'institutional'
-            then {{ missing_field_check('medical_claim.diagnosis_poa_1') }}
-            else 0
-          end as missing_diagnosis_poa_1_med
-        , {{ valid_claim_date_check('medical_claim.claim_start_date') }} as invalid_claim_start_date_med
-        , {{ valid_claim_date_check('medical_claim.claim_end_date') }} as invalid_claim_end_date_med
-        , case
-            when medical_claim.claim_type = 'institutional'
-            then {{ valid_claim_date_check('medical_claim.admission_date') }}
-            else 0
-          end as invalid_admission_date_med
-        , case
-            when medical_claim.claim_type = 'institutional'
-            then {{ valid_claim_date_check('medical_claim.discharge_date') }}
-            else 0
-          end as invalid_discharge_date_med
-        , {{ valid_claim_date_check('medical_claim.paid_date') }} as invalid_paid_date_med
+            when medical_claim.claim_type is null then 0
+            when seed_claim_type.description is not null then 0
+            else 1
+          end as invalid_claim_type
+        , {{ missing_field_check('medical_claim.claim_start_date') }} as missing_claim_start_date
+        , {{ valid_claim_date_check('medical_claim.claim_start_date') }} as invalid_claim_start_date
+        , {{ missing_field_check('medical_claim.claim_end_date') }} as missing_claim_end_date
+        , {{ valid_claim_date_check('medical_claim.claim_end_date') }} as invalid_claim_end_date
         , case
             when medical_claim.claim_end_date is null then 0
             when medical_claim.claim_end_date is not null
               and medical_claim.claim_end_date >= medical_claim.claim_start_date
               then 0
             else 1
-          end as invalid_claim_end_before_start_med
+          end as invalid_claim_end_before_start
+        , case
+            when medical_claim.claim_type = 'institutional'
+            then {{ missing_field_check('medical_claim.admission_date') }}
+            else 0
+          end as missing_admission_date
+        , case
+            when medical_claim.claim_type = 'institutional'
+            then {{ valid_claim_date_check('medical_claim.admission_date') }}
+            else 0
+          end as invalid_admission_date
+        , case
+            when medical_claim.claim_type = 'institutional'
+            then {{ missing_field_check('medical_claim.discharge_date') }}
+            else 0
+          end as missing_discharge_date
+        , case
+            when medical_claim.claim_type = 'institutional'
+            then {{ valid_claim_date_check('medical_claim.discharge_date') }}
+            else 0
+          end as invalid_discharge_date
         , case
             when medical_claim.discharge_date is null then 0
             when medical_claim.discharge_date is not null
               and medical_claim.discharge_date >= medical_claim.admission_date
               then 0
             else 1
-          end as invalid_discharge_before_admission_med
+          end as invalid_discharge_before_admission
+        , {{ missing_field_check('medical_claim.paid_date') }} as missing_med_claim_paid_date
+        , {{ valid_claim_date_check('medical_claim.paid_date') }} as invalid_med_claim_paid_date
+        , {{ missing_field_check('medical_claim.paid_amount') }} as missing_med_claim_paid_amount
         , case
-            when medical_claim.claim_type is null then 0
-            when seed_claim_type.description is not null then 0
-            else 1
-          end as invalid_claim_type_med
+            when medical_claim.claim_type = 'institutional'
+            then {{ missing_field_check('medical_claim.bill_type_code') }}
+            else 0
+          end as missing_bill_type_code
         , case
             when medical_claim.bill_type_code is null then 0
             when seed_bill_type.code is not null then 0
             else 1
-          end as invalid_bill_type_code_med
+          end as invalid_bill_type_code
+        , case
+            when medical_claim.claim_type = 'professional'
+            then {{ missing_field_check('medical_claim.place_of_service_code') }}
+            else 0
+          end as missing_place_of_service_code
         , case
             when medical_claim.place_of_service_code is null then 0
             when seed_place_of_service.place_of_service_code is not null then 0
             else 1
-          end invalid_place_of_service_code_med
+          end invalid_place_of_service_code
         , case
-            when medical_claim.discharge_disposition_code is null then 0
-            when seed_discharge_disposition.discharge_disposition_code is not null then 0
-            else 1
-          end invalid_discharge_disposition_code_med
-        , case
-            when medical_claim.ms_drg is null then 0
-            when seed_ms_drg.code is not null then 0
-            else 1
-          end invalid_ms_drg_med
+            when medical_claim.claim_type = 'institutional'
+            then {{ missing_field_check('medical_claim.revenue_center_code') }}
+            else 0
+          end as missing_revenue_center_code
         , case
             when medical_claim.revenue_center_code is null then 0
             when seed_revenue_center.revenue_center_code is not null then 0
             else 1
-          end invalid_revenue_center_code_med
+          end invalid_revenue_center_code
+        , {{ missing_field_check('medical_claim.diagnosis_code_1') }} as missing_diagnosis_code_1
         , case
             when medical_claim.diagnosis_code_1 is null then 0
             when seed_icd_10_cm.icd_10_cm is not null then 0
             else 1
-          end invalid_diagnosis_code_1_med
-        , case
+          end invalid_diagnosis_code_1
+       , case
+            when medical_claim.claim_type = 'institutional'
+            then {{ missing_field_check('medical_claim.diagnosis_poa_1') }}
+            else 0
+          end as missing_diagnosis_poa_1
+       , case
             when medical_claim.diagnosis_poa_1 is null then 0
             when seed_present_on_admission.present_on_admit_code is not null then 0
             else 1
-          end invalid_diagnosis_poa_1_med
+          end invalid_diagnosis_poa_1
+        , case
+            when medical_claim.claim_type = 'professional'
+            then {{ missing_field_check('medical_claim.hcpcs_code') }}
+            else 0
+          end as missing_hcpcs_code
+        , case
+            when medical_claim.discharge_disposition_code is null then 0
+            when seed_discharge_disposition.discharge_disposition_code is not null then 0
+            else 1
+          end invalid_discharge_disposition_code
+        , case
+            when medical_claim.ms_drg is null then 0
+            when seed_ms_drg.code is not null then 0
+            else 1
+          end invalid_ms_drg
+        , case
+            when medical_claim.claim_type = 'professional'
+            then {{ missing_field_check('medical_claim.billing_npi') }}
+            else 0
+          end as missing_billing_npi
+        , case
+            when medical_claim.claim_type = 'institutional'
+            then {{ missing_field_check('medical_claim.facility_npi') }}
+            else 0
+          end as missing_facility_npi
+        , {{ missing_field_check('medical_claim.rendering_npi') }} as missing_rendering_npi
     from medical_claim
          left join duplicate_record
             on medical_claim.row_hash = duplicate_record.row_hash
@@ -256,42 +256,42 @@ joined as (
 select
       {{ cast_string_or_varchar('claim_id') }} as claim_id
     , {{ cast_string_or_varchar('claim_line_number') }} as claim_line_number
-    , duplicate_record_med
-    , duplicate_claim_id_med
-    , missing_fk_patient_id_med
-    , missing_claim_id_med
-    , missing_claim_line_number_med
-    , missing_patient_id_med
-    , missing_claim_start_date_med
-    , missing_claim_end_date_med
-    , missing_admission_date_med
-    , missing_discharge_date_med
-    , missing_claim_type_med
-    , missing_bill_type_code_med
-    , missing_place_of_service_code_med
-    , missing_revenue_center_code_med
-    , missing_hcpcs_code_med
-    , missing_billing_npi_med
-    , missing_rendering_npi_med
-    , missing_facility_npi_med
-    , missing_paid_date_med
-    , missing_paid_amount_med
-    , missing_diagnosis_code_1_med
-    , missing_diagnosis_poa_1_med
-    , invalid_claim_start_date_med
-    , invalid_claim_end_date_med
-    , invalid_admission_date_med
-    , invalid_discharge_date_med
-    , invalid_paid_date_med
-    , invalid_claim_end_before_start_med
-    , invalid_discharge_before_admission_med
-    , invalid_claim_type_med
-    , invalid_bill_type_code_med
-    , invalid_place_of_service_code_med
-    , invalid_discharge_disposition_code_med
-    , invalid_ms_drg_med
-    , invalid_revenue_center_code_med
-    , invalid_diagnosis_code_1_med
-    , invalid_diagnosis_poa_1_med
+    , duplicate_med_claim_record
+    , duplicate_med_claim_id
+    , missing_med_claim_patient_id
+    , missing_med_claim_patient_id_fk
+    , missing_med_claim_id
+    , missing_med_claim_line_number
+    , missing_claim_type
+    , invalid_claim_type
+    , missing_claim_start_date
+    , invalid_claim_start_date
+    , missing_claim_end_date
+    , invalid_claim_end_date
+    , invalid_claim_end_before_start
+    , missing_admission_date
+    , invalid_admission_date
+    , missing_discharge_date
+    , invalid_discharge_date
+    , invalid_discharge_before_admission
+    , missing_med_claim_paid_date
+    , invalid_med_claim_paid_date
+    , missing_med_claim_paid_amount
+    , missing_bill_type_code
+    , invalid_bill_type_code
+    , missing_place_of_service_code
+    , invalid_place_of_service_code
+    , missing_revenue_center_code
+    , invalid_revenue_center_code
+    , missing_diagnosis_code_1
+    , invalid_diagnosis_code_1
+    , missing_diagnosis_poa_1
+    , invalid_diagnosis_poa_1
+    , missing_hcpcs_code
+    , invalid_discharge_disposition_code
+    , invalid_ms_drg
+    , missing_billing_npi
+    , missing_facility_npi
+    , missing_rendering_npi
     , {{ current_date_or_timestamp('timestamp') }} as run_date
 from joined

@@ -7,5 +7,5 @@ models:
         schema: "{{ var('output_schema') }}"
         materialized: view
       description: >
-        Base model for medical claim source data. Includes logic to create a 
-        blank table if the source is missing and adds a row_hash column.
+        Base model for medical claim source data. Includes logic to create an 
+        empty table if the source is missing and adds a row_hash column.

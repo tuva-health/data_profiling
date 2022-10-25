@@ -11,74 +11,105 @@ models:
         primary keys and every data quality check performed.
       tests:
         - unique:
-            column_name: "(patient_id||'-'||month||'-'||year||'-'||payer||'-'||payer_type)"
+            column_name: "(patient_id||'-'||member_id||'-'||enrollment_start_date||'-'||enrollment_end_date||'-'||payer||'-'||payer_type)"
 
       columns:
         - name: patient_id
           description: Primary key for grain - value from source file
 
-        - name: month
+        - name: enrollment_start_date
           description: Primary key for grain - value from source file
 
-        - name: year
+        - name: enrollment_end_date
           description: Primary key for grain - value from source file
 
-        - name: duplicate_record_elig
+        - name: payer
+          description: Primary key for grain - value from source file
+
+        - name: payer_type
+          description: Primary key for grain - value from source file
+
+        - name: duplicate_eligibility_record
           description: >
             See test_catalog seed table and join on test_name 
             for more details.
 
-        - name: duplicate_patient_id_elig
+        - name: duplicate_eligibility_record
           description: >
             See test_catalog seed table and join on test_name 
             for more details.
 
-        - name: missing_patient_id_elig
+        - name: duplicate_patient_id
           description: >
             See test_catalog seed table and join on test_name 
             for more details.
 
-        - name: missing_month_elig
+        - name: missing_eligibility_patient_id
           description: >
             See test_catalog seed table and join on test_name 
             for more details.
 
-        - name: missing_year_elig
+        - name: missing_eligibility_member_id
           description: >
             See test_catalog seed table and join on test_name 
             for more details.
 
-        - name: missing_gender_elig
+        - name: missing_enrollment_start_date
           description: >
             See test_catalog seed table and join on test_name 
             for more details.
 
-        - name: missing_birth_date_elig
+        - name: invalid_enrollment_start_date
           description: >
             See test_catalog seed table and join on test_name 
             for more details.
 
-        - name: missing_deceased_date_elig
+        - name: missing_enrollment_end_date
           description: >
             See test_catalog seed table and join on test_name 
             for more details.
 
-        - name: invalid_birth_date_elig
+        - name: invalid_enrollment_end_date
           description: >
             See test_catalog seed table and join on test_name 
             for more details.
 
-        - name: invalid_deceased_date_elig
+        - name: invalid_enrollment_end_before_start
           description: >
             See test_catalog seed table and join on test_name 
             for more details.
 
-        - name: invalid_death_before_birth_elig
+        - name: missing_birth_date
           description: >
             See test_catalog seed table and join on test_name 
             for more details.
 
-        - name: invalid_gender_elig
+        - name: invalid_birth_date
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: missing_death_date
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: invalid_death_date
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: invalid_death_before_birth
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: missing_gender
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: invalid_gender
           description: >
             See test_catalog seed table and join on test_name 
             for more details.

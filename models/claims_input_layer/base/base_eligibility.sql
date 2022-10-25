@@ -13,7 +13,7 @@ with eligibility_src as (
     select * from {{ var('eligibility') }}
 
     {%- else -%}
-    {{- log("Eligibility source doesn't exist using blank table instead.", info=true) -}}
+    {{- log("Eligibility source doesn't exist using an empty table instead.", info=true) -}}
 
     /*
         casting fields used in joins and tested to correct data types

@@ -51,60 +51,60 @@
 ] -%}
 
 {% set medical_claim_column_list = [
-      'duplicate_record_med'
-    , 'duplicate_claim_id_med'
-    , 'missing_fk_patient_id_med'
-    , 'missing_claim_id_med'
-    , 'missing_claim_line_number_med'
-    , 'missing_patient_id_med'
-    , 'missing_claim_start_date_med'
-    , 'missing_claim_end_date_med'
-    , 'missing_admission_date_med'
-    , 'missing_discharge_date_med'
-    , 'missing_claim_type_med'
-    , 'missing_bill_type_code_med'
-    , 'missing_place_of_service_code_med'
-    , 'missing_revenue_center_code_med'
-    , 'missing_hcpcs_code_med'
-    , 'missing_billing_npi_med'
-    , 'missing_rendering_npi_med'
-    , 'missing_facility_npi_med'
-    , 'missing_paid_date_med'
-    , 'missing_paid_amount_med'
-    , 'missing_diagnosis_code_1_med'
-    , 'missing_diagnosis_poa_1_med'
-    , 'invalid_claim_start_date_med'
-    , 'invalid_claim_end_date_med'
-    , 'invalid_admission_date_med'
-    , 'invalid_discharge_date_med'
-    , 'invalid_paid_date_med'
-    , 'invalid_claim_end_before_start_med'
-    , 'invalid_discharge_before_admission_med'
-    , 'invalid_claim_type_med'
-    , 'invalid_bill_type_code_med'
-    , 'invalid_place_of_service_code_med'
-    , 'invalid_discharge_disposition_code_med'
-    , 'invalid_ms_drg_med'
-    , 'invalid_revenue_center_code_med'
-    , 'invalid_diagnosis_code_1_med'
-    , 'invalid_diagnosis_poa_1_med'
+      'duplicate_med_claim_record'
+    , 'duplicate_med_claim_id'
+    , 'missing_med_claim_patient_id'
+    , 'missing_med_claim_patient_id_fk'
+    , 'missing_med_claim_id'
+    , 'missing_med_claim_line_number'
+    , 'missing_claim_type'
+    , 'invalid_claim_type'
+    , 'missing_claim_start_date'
+    , 'invalid_claim_start_date'
+    , 'missing_claim_end_date'
+    , 'invalid_claim_end_date'
+    , 'invalid_claim_end_before_start'
+    , 'missing_admission_date'
+    , 'invalid_admission_date'
+    , 'missing_discharge_date'
+    , 'invalid_discharge_date'
+    , 'invalid_discharge_before_admission'
+    , 'missing_med_claim_paid_date'
+    , 'invalid_med_claim_paid_date'
+    , 'missing_med_claim_paid_amount'
+    , 'missing_bill_type_code'
+    , 'invalid_bill_type_code'
+    , 'missing_place_of_service_code'
+    , 'invalid_place_of_service_code'
+    , 'missing_revenue_center_code'
+    , 'invalid_revenue_center_code'
+    , 'missing_diagnosis_code_1'
+    , 'invalid_diagnosis_code_1'
+    , 'missing_diagnosis_poa_1'
+    , 'invalid_diagnosis_poa_1'
+    , 'missing_hcpcs_code'
+    , 'invalid_discharge_disposition_code'
+    , 'invalid_ms_drg'
+    , 'missing_billing_npi'
+    , 'missing_facility_npi'
+    , 'missing_rendering_npi'
 ] -%}
 
 {% set pharmacy_claim_column_list = [
-      'duplicate_record_pharm'
-    , 'duplicate_claim_id_pharm'
-    , 'missing_fk_patient_id_pharm'
-    , 'missing_claim_id_pharm'
-    , 'missing_claim_line_number_pharm'
-    , 'missing_patient_id_pharm'
-    , 'missing_prescribing_provider_npi_pharm'
-    , 'missing_dispensing_provider_npi_pharm'
-    , 'missing_dispensing_date_pharm'
-    , 'missing_ndc_pharm'
-    , 'missing_paid_amount_pharm'
-    , 'missing_paid_date_pharm'
-    , 'invalid_dispensing_date_pharm'
-    , 'invalid_paid_date_pharm'
+      'duplicate_pharm_claim_record'
+    , 'duplicate_pharm_claim_id'
+    , 'missing_pharm_claim_patient_id'
+    , 'missing_pharm_claim_patient_id_fk'
+    , 'missing_pharm_claim_id'
+    , 'missing_pharm_claim_line_number'
+    , 'missing_dispensing_date'
+    , 'invalid_dispensing_date'
+    , 'missing_pharm_claim_paid_date'
+    , 'invalid_pharm_claim_paid_date'
+    , 'missing_pharm_claim_paid_amount'
+    , 'missing_prescribing_provider_npi'
+    , 'missing_dispensing_provider_npi'
+    , 'missing_ndc'
 ] -%}
 
 with eligibility_detail as (
@@ -152,7 +152,8 @@ sum_pharmacy_claim_detail as (
 add_denominator_eligibility_detail as (
 
     select
-          table_name
+          table_name as test_table_name
+        , '{{ var("eligibility") }}' as source_table_name
         , test_name
         , test_fail_numerator
         , {{ total_eligibility_count }} as test_fail_denominator
@@ -163,24 +164,25 @@ add_denominator_eligibility_detail as (
 add_denominator_medical_claim_detail as (
 
     select
-          table_name
+          table_name as test_table_name
+        , '{{ var("medical_claim") }}' as source_table_name
         , test_name
         , test_fail_numerator
         , case
             when test_name in (
-                  'invalid_admission_date_med'
-                , 'invalid_discharge_date_med'
-                , 'missing_admission_date_med'
-                , 'missing_bill_type_code_med'
-                , 'missing_diagnosis_poa_1_med'
-                , 'missing_discharge_date_med'
-                , 'missing_facility_npi_med'
-                , 'missing_revenue_center_code_med'
+                  'invalid_admission_date'
+                , 'invalid_discharge_date'
+                , 'missing_admission_date'
+                , 'missing_bill_type_code'
+                , 'missing_diagnosis_poa_1'
+                , 'missing_discharge_date'
+                , 'missing_facility_npi'
+                , 'missing_revenue_center_code'
                ) then {{ institutional_claim_count }}
             when test_name in (
-                  'missing_billing_npi_med'
-                , 'missing_hcpcs_code_med'
-                , 'missing_place_of_service_code_med'
+                  'missing_billing_npi'
+                , 'missing_hcpcs_code'
+                , 'missing_place_of_service_code'
                 ) then {{ professional_claim_count }}
             else {{ total_med_claim_count }}
           end as test_fail_denominator
@@ -191,7 +193,8 @@ add_denominator_medical_claim_detail as (
 add_denominator_pharmacy_claim_detail as (
 
     select
-          table_name
+          table_name as test_table_name
+        , '{{ var("pharmacy_claim") }}' as source_table_name
         , test_name
         , test_fail_numerator
         , {{ total_pharm_claim_count }} as test_fail_denominator
@@ -202,7 +205,8 @@ add_denominator_pharmacy_claim_detail as (
 add_totals_eligibility_detail as (
 
     select
-          table_name
+          test_table_name
+        , source_table_name
         , test_name
         , test_fail_numerator
         , test_fail_denominator
@@ -215,7 +219,8 @@ add_totals_eligibility_detail as (
 add_totals_medical_claim_detail as (
 
     select
-          table_name
+          test_table_name
+        , source_table_name
         , test_name
         , test_fail_numerator
         , test_fail_denominator
@@ -228,7 +233,8 @@ add_totals_medical_claim_detail as (
 add_totals_pharmacy_claim_detail as (
 
     select
-          table_name
+          test_table_name
+        , source_table_name
         , test_name
         , test_fail_numerator
         , test_fail_denominator
@@ -251,12 +257,12 @@ union_details as (
 add_catalog_details as (
 
     select
-          union_details.table_name as test_table_name
+          union_details.test_table_name
+        , union_details.source_table_name
         , union_details.test_name
         , union_details.test_fail_numerator
         , union_details.test_fail_denominator
         , union_details.test_fail_percentage
-        , seed_test_catalog.source_table_name
         , seed_test_catalog.columns
         , seed_test_catalog.test_id
         , seed_test_catalog.test_description
@@ -274,13 +280,15 @@ add_catalog_details as (
 select
       test_id
     , test_name
-    , test_description
-    , test_table_name
     , source_table_name
-    , columns
+    , blocking_error_flag
+    , test_fail_percentage
     , test_fail_numerator
     , test_fail_denominator
-    , test_fail_percentage
-    , blocking_error_flag
+    , test_description
+    , test_table_name
+    , columns
     , {{ current_date_or_timestamp('timestamp') }} as run_date
 from add_catalog_details
+where (test_fail_numerator is not null
+and test_fail_denominator > 0)

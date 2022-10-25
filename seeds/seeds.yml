@@ -91,6 +91,8 @@ seeds:
           {%- else -%} varchar
           {%- endif -%}
     columns:
+      - name: row_id
+        description: Unique row identifier used for sorting tests in summary table
       - name: test_id
         description: Unique identifier for the test
         tests:
@@ -106,7 +108,7 @@ seeds:
           - not_null
       - name: test_description
         description: Guideline or reasoning for the test
-      - name: detail_table_name
+      - name: test_table_name
         description: The name of the data profiling detail table
       - name: source_table_name
         description: The name of the source table the test is ran on
