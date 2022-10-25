@@ -15,9 +15,13 @@ with eligibility_src as (
     {%- else -%}
     {{- log("Eligibility source doesn't exist using blank table instead.", info=true) -}}
 
+    /*
+        casting fields used in joins and tested to correct data types
+        integer fields do not need casting
+    */
     select
-          'blank' as patient_id
-        , null as gender
+          {{ cast_string_or_varchar('null') }} as patient_id
+        , {{ cast_string_or_varchar('null') }} as gender
         , cast(null as date) as birth_date
         , null as race
         , null as zip_code
@@ -30,6 +34,7 @@ with eligibility_src as (
         , null as medicare_status
         , null as month
         , null as year
+    limit 0
 
     {%- endif %}
 

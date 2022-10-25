@@ -15,10 +15,14 @@ with pharmacy_claim_src as (
     {%- else -%}
     {{- log("Pharmacy claim source doesn't exist using blank table instead.", info=true) -}}
 
+    /*
+        casting fields used in joins and tested to correct data types
+        integer fields do not need casting
+    */
     select
-          'blank' as claim_id
-        , 'blank' as claim_line_number
-        , 'blank' as patient_id
+          {{ cast_string_or_varchar('null') }} as claim_id
+        , null as claim_line_number
+        , {{ cast_string_or_varchar('null') }} as patient_id
         , null as prescribing_provider_npi
         , null as prescribing_provider_name
         , null as dispensing_provider_npi
@@ -35,6 +39,7 @@ with pharmacy_claim_src as (
         , cast(null as date) as paid_date
         , null as paid_amount
         , null as allowed_amount
+    limit 0
 
     {%- endif %}
 
