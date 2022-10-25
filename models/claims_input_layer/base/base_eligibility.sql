@@ -21,19 +21,26 @@ with eligibility_src as (
     */
     select
           {{ cast_string_or_varchar('null') }} as patient_id
+        , {{ cast_string_or_varchar('null') }} as member_id
         , {{ cast_string_or_varchar('null') }} as gender
-        , cast(null as date) as birth_date
         , null as race
-        , null as zip_code
-        , null as state
-        , null as deceased_flag
-        , cast(null as date) as deceased_date
+        , cast(null as date) as birth_date
+        , cast(null as date) as death_date
+        , null as death_flag
+        , cast(null as date) as enrollment_start_date
+        , cast(null as date) as enrollment_end_date
         , null as payer
         , null as payer_type
         , null as dual_status
         , null as medicare_status
-        , null as month
-        , null as year
+        , null as first_name
+        , null as last_name
+        , null as address
+        , null as city
+        , null as state
+        , null as zip_code
+        , null as phone
+        , null as data_source
     limit 0
 
     {%- endif %}
@@ -44,20 +51,27 @@ eligibility_with_row_hash as (
 
     select *
          , {{ dbt_utils.surrogate_key([
-                 'patient_id'
-               , 'gender'
-               , 'birth_date'
-               , 'race'
-               , 'zip_code'
-               , 'state'
-               , 'deceased_flag'
-               , 'deceased_date'
-               , 'payer'
-               , 'payer_type'
-               , 'dual_status'
-               , 'medicare_status'
-               , 'month'
-               , 'year'
+                  'patient_id'
+                , 'member_id'
+                , 'gender'
+                , 'race'
+                , 'birth_date'
+                , 'death_date'
+                , 'death_flag'
+                , 'enrollment_start_date'
+                , 'enrollment_end_date'
+                , 'payer'
+                , 'payer_type'
+                , 'dual_status'
+                , 'medicare_status'
+                , 'first_name'
+                , 'last_name'
+                , 'address'
+                , 'city'
+                , 'state'
+                , 'zip_code'
+                , 'phone'
+                , 'data_source'
                ]) }}
            as row_hash
     from eligibility_src

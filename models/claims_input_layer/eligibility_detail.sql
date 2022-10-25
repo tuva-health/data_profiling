@@ -33,15 +33,17 @@ duplicate_patient_id as (
     from (
         select
               patient_id
-            , month
-            , year
+            , member_id
+            , enrollment_start_date
+            , enrollment_end_date
             , payer
             , payer_type
         from eligibility
         group by
               patient_id
-            , month
-            , year
+            , member_id
+            , enrollment_start_date
+            , enrollment_end_date
             , payer
             , payer_type
         having count(*) > 1
@@ -53,46 +55,57 @@ joined as (
 
     select
           eligibility.patient_id
-        , eligibility.month
-        , eligibility.year
+        , eligibility.member_id
+        , eligibility.enrollment_start_date
+        , eligibility.enrollment_end_date
         , eligibility.payer
         , eligibility.payer_type
         , case
             when duplicate_record.row_hash is null then 0
             else 1
-          end as duplicate_record_elig
+          end as duplicate_eligibility_record
         , case
             when duplicate_patient_id.patient_id is null then 0
             else 1
-          end as duplicate_patient_id_elig
-        , {{ missing_field_check('eligibility.patient_id') }} as missing_patient_id_elig
-        , {{ missing_field_check('eligibility.month') }} as missing_month_elig
-        , {{ missing_field_check('eligibility.year') }} as missing_year_elig
-        , {{ missing_field_check('eligibility.gender') }} as missing_gender_elig
-        , {{ missing_field_check('eligibility.birth_date') }} as missing_birth_date_elig
+          end as duplicate_patient_id
+        , {{ missing_field_check('eligibility.patient_id') }} as missing_eligibility_patient_id
+        , {{ missing_field_check('eligibility.member_id') }} as missing_eligibility_member_id
+        , {{ missing_field_check('eligibility.enrollment_start_date') }} as missing_enrollment_start_date
+        , {{ valid_enrollment_date_check('eligibility.enrollment_start_date') }} as invalid_enrollment_start_date
+        , {{ missing_field_check('eligibility.enrollment_end_date') }} as missing_enrollment_end_date
+        , {{ valid_enrollment_date_check('eligibility.enrollment_end_date') }} as invalid_enrollment_end_date
         , case
-            when eligibility.deceased_date is null
-              and eligibility.deceased_flag is not null
+            when eligibility.enrollment_end_date is null then 0
+            when eligibility.enrollment_end_date is not null
+              and eligibility.enrollment_end_date > eligibility.enrollment_start_date
+              then 0
+            else 1
+          end as invalid_enrollment_end_before_start
+        , {{ missing_field_check('eligibility.birth_date') }} as missing_birth_date
+        , {{ valid_birth_or_death_date_check('eligibility.birth_date') }} as invalid_birth_date
+        , case
+            when eligibility.death_date is null
+              and eligibility.death_flag is not null
               then 1
-            when eligibility.deceased_date is null
+            when eligibility.death_date is null
               and deaths_from_claims.patient_id is not null
               then 1
             else 0
-          end as missing_deceased_date_elig
-        , {{ valid_birth_or_death_date_check('eligibility.birth_date') }} as invalid_birth_date_elig
-        , {{ valid_birth_or_death_date_check('eligibility.deceased_date') }} as invalid_deceased_date_elig
+          end as missing_death_date
+        , {{ valid_birth_or_death_date_check('eligibility.death_date') }} as invalid_death_date
         , case
-            when eligibility.deceased_date is null then 0
-            when eligibility.deceased_date is not null
-              and eligibility.deceased_date > eligibility.birth_date
+            when eligibility.death_date is null then 0
+            when eligibility.death_date is not null
+              and eligibility.death_date > eligibility.birth_date
               then 0
             else 1
-          end as invalid_death_before_birth_elig
+          end as invalid_death_before_birth
+        , {{ missing_field_check('eligibility.gender') }} as missing_gender
         , case
             when eligibility.gender is null then 0
             when seed_gender.description is not null then 0
             else 1
-          end as invalid_gender_elig
+          end as invalid_gender
     from eligibility
          left join duplicate_record
             on eligibility.row_hash = duplicate_record.row_hash
@@ -108,21 +121,26 @@ joined as (
 /* casting fields used as unique key in snapshot */
 select
       {{ cast_string_or_varchar('patient_id') }} as patient_id
-    , {{ cast_string_or_varchar('month') }} as month
-    , {{ cast_string_or_varchar('year') }} as year
+    , {{ cast_string_or_varchar('member_id') }} as member_id
+    , {{ cast_string_or_varchar('enrollment_start_date') }} as enrollment_start_date
+    , {{ cast_string_or_varchar('enrollment_end_date') }} as enrollment_end_date
     , {{ cast_string_or_varchar('payer') }} as payer
     , {{ cast_string_or_varchar('payer_type') }} as payer_type
-    , duplicate_record_elig
-    , duplicate_patient_id_elig
-    , missing_patient_id_elig
-    , missing_month_elig
-    , missing_year_elig
-    , missing_gender_elig
-    , missing_birth_date_elig
-    , missing_deceased_date_elig
-    , invalid_birth_date_elig
-    , invalid_deceased_date_elig
-    , invalid_death_before_birth_elig
-    , invalid_gender_elig
+    , duplicate_eligibility_record
+    , duplicate_patient_id
+    , missing_eligibility_patient_id
+    , missing_eligibility_member_id
+    , missing_enrollment_start_date
+    , invalid_enrollment_start_date
+    , missing_enrollment_end_date
+    , invalid_enrollment_end_date
+    , invalid_enrollment_end_before_start
+    , missing_birth_date
+    , invalid_birth_date
+    , missing_death_date
+    , invalid_death_date
+    , invalid_death_before_birth
+    , missing_gender
+    , invalid_gender
     , {{ current_date_or_timestamp('timestamp') }} as run_date
 from joined

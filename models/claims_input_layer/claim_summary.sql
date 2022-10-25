@@ -32,18 +32,22 @@
 {% endset -%}
 
 {% set eligibility_column_list = [
-      'duplicate_record_elig'
-    , 'duplicate_patient_id_elig'
-    , 'missing_patient_id_elig'
-    , 'missing_month_elig'
-    , 'missing_year_elig'
-    , 'missing_gender_elig'
-    , 'missing_birth_date_elig'
-    , 'missing_deceased_date_elig'
-    , 'invalid_birth_date_elig'
-    , 'invalid_deceased_date_elig'
-    , 'invalid_death_before_birth_elig'
-    , 'invalid_gender_elig'
+      'duplicate_eligibility_record'
+    , 'duplicate_patient_id'
+    , 'missing_eligibility_patient_id'
+    , 'missing_eligibility_member_id'
+    , 'missing_enrollment_start_date'
+    , 'invalid_enrollment_start_date'
+    , 'missing_enrollment_end_date'
+    , 'invalid_enrollment_end_date'
+    , 'invalid_enrollment_end_before_start'
+    , 'missing_birth_date'
+    , 'invalid_birth_date'
+    , 'missing_death_date'
+    , 'invalid_death_date'
+    , 'invalid_death_before_birth'
+    , 'missing_gender'
+    , 'invalid_gender'
 ] -%}
 
 {% set medical_claim_column_list = [
