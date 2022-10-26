@@ -79,7 +79,7 @@ duplicate_claim_id as (
 
 missing_fk_patient_id as (
 
-    select medical_claim.row_hash
+    select distinct medical_claim.row_hash
     from medical_claim
          left join {{ ref('base_eligibility') }} as eligibility
          on medical_claim.patient_id = eligibility.patient_id

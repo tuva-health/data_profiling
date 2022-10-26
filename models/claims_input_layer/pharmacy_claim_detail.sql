@@ -31,7 +31,7 @@ duplicate_claim_id as (
 
 missing_fk_patient_id as (
 
-    select pharmacy_claim.row_hash
+    select distinct pharmacy_claim.row_hash
     from pharmacy_claim
          left join {{ ref('base_eligibility') }} as eligibility
          on pharmacy_claim.patient_id = eligibility.patient_id
