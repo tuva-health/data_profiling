@@ -1,3 +1,18 @@
+{%- if target.type in ('redshift') -%}
+{{
+  config(
+    sort = ['test_id']
+  )
+}}
+{%- elif target.type in ('bigquery', 'snowflake') -%}
+{{
+  config(
+    cluster_by = ['test_id']
+  )
+}}
+{%- else -%}
+{%- endif -%}
+
 {#-
     ***************************************************************
     setting vars for unique counts, total counts, and test columns
