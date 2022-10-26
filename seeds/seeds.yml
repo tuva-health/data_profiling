@@ -91,8 +91,6 @@ seeds:
           {%- else -%} varchar
           {%- endif -%}
     columns:
-      - name: row_id
-        description: Unique row identifier used for sorting tests in summary table
       - name: test_id
         description: Unique identifier for the test
         tests:
@@ -100,13 +98,11 @@ seeds:
           - not_null
       - name: test_name
         description: >
-          Unique column name of the test in the format 
-          "[test type]_[field name]_[table]" or 
-          "[test type]_[table]" if test is unique
+          Unique column name of the test
         tests:
           - unique
           - not_null
-      - name: test_description
+      - name: description
         description: Guideline or reasoning for the test
       - name: test_table_name
         description: The name of the data profiling detail table
@@ -118,13 +114,13 @@ seeds:
         description: >
           Grain the test is ran on (table name or column name), may not always
           be the same as the table grain
-      - name: category
-        description: >
-          Category or class of test (e.g. data type, unique, missing, etc.)
       - name: record_source
         description: >
           Source of records the test is ran on 
           (e.g. all claims, institutional claims, etc.)
-      - name: blocking_error
+      - name: category
         description: >
-          Indicates whether the test is a blocking error for the input layer
+          Category or class of test (e.g. data type, unique, missing, etc.)
+      - name: severity
+        description: >
+          Indicates the severity of a test failure (1-high, 2-medium, 3-low)

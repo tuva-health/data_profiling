@@ -25,10 +25,9 @@ models:
         - name: source_table_name
           description: The name of the source table the test is ran on
 
-        - name: blocking_error_flag
+        - name: test_severity
           description: >
-            Indicates whether the test is a blocking error if 
-            test_fail_numerator > 0
+            Indicates the severity of a test failure if test_fail_numerator > 0
 
         - name: test_fail_percentage
           description: Percentage of records that failed test

@@ -71,9 +71,9 @@ joined as (
         , {{ missing_field_check('eligibility.patient_id') }} as missing_eligibility_patient_id
         , {{ missing_field_check('eligibility.member_id') }} as missing_eligibility_member_id
         , {{ missing_field_check('eligibility.enrollment_start_date') }} as missing_enrollment_start_date
-        , {{ valid_enrollment_date_check('eligibility.enrollment_start_date') }} as invalid_enrollment_start_date
+        , {{ valid_claim_date_check('eligibility.enrollment_start_date') }} as invalid_enrollment_start_date
         , {{ missing_field_check('eligibility.enrollment_end_date') }} as missing_enrollment_end_date
-        , {{ valid_enrollment_date_check('eligibility.enrollment_end_date') }} as invalid_enrollment_end_date
+        , {{ valid_claim_date_check('eligibility.enrollment_end_date') }} as invalid_enrollment_end_date
         , case
             when eligibility.enrollment_end_date is null then 0
             when eligibility.enrollment_end_date is not null
