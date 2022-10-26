@@ -31,8 +31,8 @@ with eligibility_src as (
         , cast(null as date) as enrollment_end_date
         , null as payer
         , null as payer_type
-        , null as dual_status
-        , null as medicare_status
+        , null as dual_status_code
+        , null as medicare_status_code
         , null as first_name
         , null as last_name
         , null as address
@@ -62,8 +62,8 @@ eligibility_with_row_hash as (
                 , 'enrollment_end_date'
                 , 'payer'
                 , 'payer_type'
-                , 'dual_status'
-                , 'medicare_status'
+                , 'dual_status_code'
+                , 'medicare_status_code'
                 , 'first_name'
                 , 'last_name'
                 , 'address'
