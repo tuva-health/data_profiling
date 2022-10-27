@@ -36,6 +36,7 @@ Complete the following steps to configure the data mart to run in your environme
       - input_schema - schema where sources feeding this project is stored 
       - output_database - database where output of this project should be written. We suggest using the Tuva database but any database will work. 
       - output_schema - name of the schema where output of this project should be written
+      - terminology_schema - name of the schema where terminology seeds should be written
 3. _Optional_ Configure [source.yml](/models/source.yml)
     - Update the table `identifier` properties if your source table names are different from what's expected
 4. Execute `dbt deps` to install packages.
