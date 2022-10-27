@@ -33,6 +33,18 @@
 
 {%- endmacro -%}
 
+{%- macro redshift__valid_claim_date_check(column_name) -%}
+
+    case
+      when {{ column_name }} is null then 0
+      when {{ column_name }} similar to '\\d{4}-\\d{2}-\\d{2}'
+        and cast({{ column_name }} as date) between '2000-01-01' and {{ current_date_or_timestamp('date') }}
+        then 0
+      else 1
+    end
+
+{%- endmacro -%}
+
 {%- macro snowflake__valid_claim_date_check(column_name) -%}
 
     case
