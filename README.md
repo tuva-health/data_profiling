@@ -14,7 +14,8 @@ The output data models of this engine are:
 - **Claims Input Layer**
   - **Eligibility Detail:** A data profiling table on the eligibility grain with columns for source primary keys and every data quality check performed.
   - **Medical Claim Detail:** A data profiling table on the medical claim line grain with columns for source primary keys and every data quality check performed.
-  - **Claim Summary:** A summary table of checks ran on every column in Eligibility Detail and Medical Claim Detail with test fail percentages.
+  - **Pharmacy Claim Detail:** A data profiling table on the pharmacy claim line grain with columns for source primary keys and every data quality check performed.
+  - **Claim Summary:** A summary table of checks ran on every column in Eligibility Detail, Medical Claim Detail, and Pharmacy Claim Detail with test fail percentages.
 - **Snapshots:** A "look back in time" of every model that gets generated during `dbt build` (or `dbt run` followed by `dbt snapshot`). 
 
 ## Pre-requisites
