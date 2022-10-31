@@ -45,8 +45,8 @@ with medical_claim_src as (
         , null as hcpcs_modifier_3
         , null as hcpcs_modifier_4
         , null as hcpcs_modifier_5
-        , null as billing_npi
         , null as rendering_npi
+        , null as billing_npi
         , null as facility_npi
         , cast(null as date) as paid_date
         , null as paid_amount
@@ -174,7 +174,7 @@ medical_claim_with_row_hash as (
                , 'bill_type_code', 'ms_drg', 'revenue_center_code'
                , 'service_unit_quantity', 'hcpcs_code', 'hcpcs_modifier_1'
                , 'hcpcs_modifier_2', 'hcpcs_modifier_3', 'hcpcs_modifier_4'
-               , 'hcpcs_modifier_5', 'billing_npi', 'rendering_npi'
+               , 'hcpcs_modifier_5', 'rendering_npi', 'billing_npi'
                , 'facility_npi', 'paid_date', 'paid_amount'
                , 'allowed_amount', 'charge_amount', 'diagnosis_code_type'
                , 'diagnosis_code_1', 'diagnosis_code_2', 'diagnosis_code_3'
