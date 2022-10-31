@@ -1,4 +1,4 @@
-{% snapshot snapshot_claim_summary %}
+{% snapshot snapshot_pharmacy_claim_detail %}
 
 {{
     config(
@@ -6,10 +6,10 @@
       , target_schema = var('output_schema')
       , strategy = 'timestamp'
       , updated_at = 'run_date'
-      , unique_key = 'test_name||run_date'
+      , unique_key = 'claim_id||claim_line_number||run_date'
     )
 }}
 
-select * from {{ ref('claim_summary') }}
+select * from {{ ref('pharmacy_claim_detail') }}
 
 {% endsnapshot %}

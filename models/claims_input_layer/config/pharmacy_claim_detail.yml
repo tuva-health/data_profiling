@@ -1,0 +1,99 @@
+version: 2
+
+models:
+    - name: pharmacy_claim_detail
+      config:
+        database: "{{ var('output_database') }}"
+        schema: "{{ var('output_schema') }}"
+        materialized: table
+      description: >
+        Data profiling on pharmacy claim line source data with columns for 
+        source primary keys and every data quality check performed.
+      tests:
+        - unique:
+            column_name: "(claim_id||'-'||claim_line_number)"
+
+      columns:
+        - name: claim_id
+          description: Primary key for grain - value from source file
+
+        - name: claim_line_number
+          description: Primary key for grain - value from source file
+
+        - name: duplicate_record_pharm
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: duplicate_pharm_claim_record
+          description: >
+            See test_catalog seed table and join on test_name
+            for more details.
+
+        - name: duplicate_pharm_claim_id
+          description: >
+            See test_catalog seed table and join on test_name
+            for more details.
+
+        - name: missing_pharm_claim_patient_id
+          description: >
+            See test_catalog seed table and join on test_name
+            for more details.
+
+        - name: missing_pharm_claim_patient_id_fk
+          description: >
+            See test_catalog seed table and join on test_name
+            for more details.
+
+        - name: missing_pharm_claim_id
+          description: >
+            See test_catalog seed table and join on test_name
+            for more details.
+
+        - name: missing_pharm_claim_line_number
+          description: >
+            See test_catalog seed table and join on test_name
+            for more details.
+
+        - name: missing_dispensing_date
+          description: >
+            See test_catalog seed table and join on test_name
+            for more details.
+
+        - name: invalid_dispensing_date
+          description: >
+            See test_catalog seed table and join on test_name
+            for more details.
+
+        - name: missing_pharm_claim_paid_date
+          description: >
+            See test_catalog seed table and join on test_name
+            for more details.
+
+        - name: invalid_pharm_claim_paid_date
+          description: >
+            See test_catalog seed table and join on test_name
+            for more details.
+
+        - name: missing_pharm_claim_paid_amount
+          description: >
+            See test_catalog seed table and join on test_name
+            for more details.
+
+        - name: missing_prescribing_provider_npi
+          description: >
+            See test_catalog seed table and join on test_name
+            for more details.
+
+        - name: missing_dispensing_provider_npi
+          description: >
+            See test_catalog seed table and join on test_name
+            for more details.
+
+        - name: missing_ndc
+          description: >
+            See test_catalog seed table and join on test_name
+            for more details.
+
+        - name: run_date
+          description: Datetime the model was run used for snapshots

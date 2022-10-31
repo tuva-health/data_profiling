@@ -1,0 +1,118 @@
+version: 2
+
+models:
+    - name: eligibility_detail
+      config:
+        database: "{{ var('output_database') }}"
+        schema: "{{ var('output_schema') }}"
+        materialized: table
+      description: >
+        Data profiling on eligibility source data with columns for source 
+        primary keys and every data quality check performed.
+      tests:
+        - unique:
+            column_name: "(patient_id||'-'||member_id||'-'||enrollment_start_date||'-'||enrollment_end_date||'-'||payer||'-'||payer_type)"
+
+      columns:
+        - name: patient_id
+          description: Primary key for grain - value from source file
+
+        - name: enrollment_start_date
+          description: Primary key for grain - value from source file
+
+        - name: enrollment_end_date
+          description: Primary key for grain - value from source file
+
+        - name: payer
+          description: Primary key for grain - value from source file
+
+        - name: payer_type
+          description: Primary key for grain - value from source file
+
+        - name: duplicate_eligibility_record
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: duplicate_eligibility_record
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: duplicate_patient_id
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: missing_eligibility_patient_id
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: missing_eligibility_member_id
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: missing_enrollment_start_date
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: invalid_enrollment_start_date
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: missing_enrollment_end_date
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: invalid_enrollment_end_date
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: invalid_enrollment_end_before_start
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: missing_birth_date
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: invalid_birth_date
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: missing_death_date
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: invalid_death_date
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: invalid_death_before_birth
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: missing_gender
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: invalid_gender
+          description: >
+            See test_catalog seed table and join on test_name 
+            for more details.
+
+        - name: run_date
+          description: Datetime the model was run used for snapshots

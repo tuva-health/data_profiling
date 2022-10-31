@@ -1,0 +1,11 @@
+version: 2
+
+models:
+    - name: base_medical_claim
+      config:
+        database: "{{ var('output_database') }}"
+        schema: "{{ var('output_schema') }}"
+        materialized: view
+      description: >
+        Base model for medical claim source data. Includes logic to create an 
+        empty table if the source is missing and adds a row_hash column.

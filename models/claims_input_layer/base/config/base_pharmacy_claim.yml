@@ -1,0 +1,11 @@
+version: 2
+
+models:
+    - name: base_pharmacy_claim
+      config:
+        database: "{{ var('output_database') }}"
+        schema: "{{ var('output_schema') }}"
+        materialized: view
+      description: >
+        Base model for pharmacy claim source data. Includes logic to create an 
+        empty table if the source is missing and adds a row_hash column.
