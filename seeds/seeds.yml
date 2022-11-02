@@ -84,7 +84,7 @@ seeds:
     description: A complete list of all data profiling tests
     config:
       database: "{{ var('output_database') }}"
-      schema: "{{ var('terminology_schema') }}"
+      schema: "{{ var('output_schema') }}"
       column_types:
         test_id: |
           {%- if target.type == "bigquery" -%} string

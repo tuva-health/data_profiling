@@ -16,25 +16,25 @@ with pharmacy_claim_src as (
     {{- log("Pharmacy claim source doesn't exist using an empty table instead.", info=true) -}}
 
     /*
-        casting fields used in joins and tested to correct data types
-        integer fields do not need casting
+        casting fields used in joins and tests to correct data types
+        casting other fields to varchar to prevent unknown type errors
     */
     select
           {{ cast_string_or_varchar('null') }} as claim_id
-        , null as claim_line_number
+        , {{ cast_string_or_varchar('null') }} as claim_line_number
         , {{ cast_string_or_varchar('null') }} as patient_id
         , {{ cast_string_or_varchar('null') }} as member_id
-        , null as prescribing_provider_npi
-        , null as dispensing_provider_npi
+        , {{ cast_string_or_varchar('null') }} as prescribing_provider_npi
+        , {{ cast_string_or_varchar('null') }} as dispensing_provider_npi
         , cast(null as date) as dispensing_date
-        , null as ndc
-        , null as quantity
-        , null as days_supply
-        , null as refills
+        , {{ cast_string_or_varchar('null') }} as ndc
+        , {{ cast_string_or_varchar('null') }} as quantity
+        , {{ cast_string_or_varchar('null') }} as days_supply
+        , {{ cast_string_or_varchar('null') }} as refills
         , cast(null as date) as paid_date
-        , null as paid_amount
-        , null as allowed_amount
-        , null as data_source
+        , {{ cast_string_or_varchar('null') }} as paid_amount
+        , {{ cast_string_or_varchar('null') }} as allowed_amount
+        , {{ cast_string_or_varchar('null') }} as data_source
     limit 0
 
     {%- endif %}

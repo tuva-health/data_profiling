@@ -16,31 +16,31 @@ with eligibility_src as (
     {{- log("Eligibility source doesn't exist using an empty table instead.", info=true) -}}
 
     /*
-        casting fields used in joins and tested to correct data types
-        integer fields do not need casting
+        casting fields used in joins and tests to correct data types
+        casting other fields to varchar to prevent unknown type errors
     */
     select
           {{ cast_string_or_varchar('null') }} as patient_id
         , {{ cast_string_or_varchar('null') }} as member_id
         , {{ cast_string_or_varchar('null') }} as gender
-        , null as race
+        , {{ cast_string_or_varchar('null') }} as race
         , cast(null as date) as birth_date
         , cast(null as date) as death_date
-        , null as death_flag
+        , {{ cast_string_or_varchar('null') }} as death_flag
         , cast(null as date) as enrollment_start_date
         , cast(null as date) as enrollment_end_date
-        , null as payer
-        , null as payer_type
-        , null as dual_status_code
-        , null as medicare_status_code
-        , null as first_name
-        , null as last_name
-        , null as address
-        , null as city
-        , null as state
-        , null as zip_code
-        , null as phone
-        , null as data_source
+        , {{ cast_string_or_varchar('null') }} as payer
+        , {{ cast_string_or_varchar('null') }} as payer_type
+        , {{ cast_string_or_varchar('null') }} as dual_status_code
+        , {{ cast_string_or_varchar('null') }} as medicare_status_code
+        , {{ cast_string_or_varchar('null') }} as first_name
+        , {{ cast_string_or_varchar('null') }} as last_name
+        , {{ cast_string_or_varchar('null') }} as address
+        , {{ cast_string_or_varchar('null') }} as city
+        , {{ cast_string_or_varchar('null') }} as state
+        , {{ cast_string_or_varchar('null') }} as zip_code
+        , {{ cast_string_or_varchar('null') }} as phone
+        , {{ cast_string_or_varchar('null') }} as data_source
     limit 0
 
     {%- endif %}
