@@ -16,12 +16,12 @@ with medical_claim_src as (
     {{- log("Medical claim source doesn't exist using an empty table instead.", info=true) -}}
 
     /*
-        casting fields used in joins and tested to correct data types
-        integer fields do not need casting
+        casting fields used in joins and tests to correct data types
+        casting other fields to varchar to prevent unknown type errors
     */
     select
           {{ cast_string_or_varchar('null') }} as claim_id
-        , null as claim_line_number
+        , {{ cast_string_or_varchar('null') }} as claim_line_number
         , {{ cast_string_or_varchar('null') }} as claim_type
         , {{ cast_string_or_varchar('null') }} as patient_id
         , {{ cast_string_or_varchar('null') }} as member_id
@@ -31,130 +31,130 @@ with medical_claim_src as (
         , cast(null as date) as claim_line_end_date
         , cast(null as date) as admission_date
         , cast(null as date) as discharge_date
-        , null as admit_source_code
-        , null as admit_type_code
+        , {{ cast_string_or_varchar('null') }} as admit_source_code
+        , {{ cast_string_or_varchar('null') }} as admit_type_code
         , {{ cast_string_or_varchar('null') }} as discharge_disposition_code
         , {{ cast_string_or_varchar('null') }} as place_of_service_code
         , {{ cast_string_or_varchar('null') }} as bill_type_code
         , {{ cast_string_or_varchar('null') }} as ms_drg
         , {{ cast_string_or_varchar('null') }} as revenue_center_code
-        , null as service_unit_quantity
+        , {{ cast_string_or_varchar('null') }} as service_unit_quantity
         , {{ cast_string_or_varchar('null') }} as hcpcs_code
-        , null as hcpcs_modifier_1
-        , null as hcpcs_modifier_2
-        , null as hcpcs_modifier_3
-        , null as hcpcs_modifier_4
-        , null as hcpcs_modifier_5
-        , null as rendering_npi
-        , null as billing_npi
-        , null as facility_npi
+        , {{ cast_string_or_varchar('null') }} as hcpcs_modifier_1
+        , {{ cast_string_or_varchar('null') }} as hcpcs_modifier_2
+        , {{ cast_string_or_varchar('null') }} as hcpcs_modifier_3
+        , {{ cast_string_or_varchar('null') }} as hcpcs_modifier_4
+        , {{ cast_string_or_varchar('null') }} as hcpcs_modifier_5
+        , {{ cast_string_or_varchar('null') }} as rendering_npi
+        , {{ cast_string_or_varchar('null') }} as billing_npi
+        , {{ cast_string_or_varchar('null') }} as facility_npi
         , cast(null as date) as paid_date
-        , null as paid_amount
-        , null as allowed_amount
-        , null as charge_amount
-        , null as diagnosis_code_type
+        , {{ cast_string_or_varchar('null') }} as paid_amount
+        , {{ cast_string_or_varchar('null') }} as allowed_amount
+        , {{ cast_string_or_varchar('null') }} as charge_amount
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_type
         , {{ cast_string_or_varchar('null') }} as diagnosis_code_1
-        , null as diagnosis_code_2
-        , null as diagnosis_code_3
-        , null as diagnosis_code_4
-        , null as diagnosis_code_5
-        , null as diagnosis_code_6
-        , null as diagnosis_code_7
-        , null as diagnosis_code_8
-        , null as diagnosis_code_9
-        , null as diagnosis_code_10
-        , null as diagnosis_code_11
-        , null as diagnosis_code_12
-        , null as diagnosis_code_13
-        , null as diagnosis_code_14
-        , null as diagnosis_code_15
-        , null as diagnosis_code_16
-        , null as diagnosis_code_17
-        , null as diagnosis_code_18
-        , null as diagnosis_code_19
-        , null as diagnosis_code_20
-        , null as diagnosis_code_21
-        , null as diagnosis_code_22
-        , null as diagnosis_code_23
-        , null as diagnosis_code_24
-        , null as diagnosis_code_25
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_2
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_3
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_4
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_5
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_6
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_7
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_8
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_9
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_10
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_11
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_12
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_13
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_14
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_15
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_16
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_17
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_18
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_19
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_20
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_21
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_22
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_23
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_24
+        , {{ cast_string_or_varchar('null') }} as diagnosis_code_25
         , {{ cast_string_or_varchar('null') }} as diagnosis_poa_1
-        , null as diagnosis_poa_2
-        , null as diagnosis_poa_3
-        , null as diagnosis_poa_4
-        , null as diagnosis_poa_5
-        , null as diagnosis_poa_6
-        , null as diagnosis_poa_7
-        , null as diagnosis_poa_8
-        , null as diagnosis_poa_9
-        , null as diagnosis_poa_10
-        , null as diagnosis_poa_11
-        , null as diagnosis_poa_12
-        , null as diagnosis_poa_13
-        , null as diagnosis_poa_14
-        , null as diagnosis_poa_15
-        , null as diagnosis_poa_16
-        , null as diagnosis_poa_17
-        , null as diagnosis_poa_18
-        , null as diagnosis_poa_19
-        , null as diagnosis_poa_20
-        , null as diagnosis_poa_21
-        , null as diagnosis_poa_22
-        , null as diagnosis_poa_23
-        , null as diagnosis_poa_24
-        , null as diagnosis_poa_25
-        , null as procedure_code_type
-        , null as procedure_code_1
-        , null as procedure_code_2
-        , null as procedure_code_3
-        , null as procedure_code_4
-        , null as procedure_code_5
-        , null as procedure_code_6
-        , null as procedure_code_7
-        , null as procedure_code_8
-        , null as procedure_code_9
-        , null as procedure_code_10
-        , null as procedure_code_11
-        , null as procedure_code_12
-        , null as procedure_code_13
-        , null as procedure_code_14
-        , null as procedure_code_15
-        , null as procedure_code_16
-        , null as procedure_code_17
-        , null as procedure_code_18
-        , null as procedure_code_19
-        , null as procedure_code_20
-        , null as procedure_code_21
-        , null as procedure_code_22
-        , null as procedure_code_23
-        , null as procedure_code_24
-        , null as procedure_code_25
-        , null as procedure_date_1
-        , null as procedure_date_2
-        , null as procedure_date_3
-        , null as procedure_date_4
-        , null as procedure_date_5
-        , null as procedure_date_6
-        , null as procedure_date_7
-        , null as procedure_date_8
-        , null as procedure_date_9
-        , null as procedure_date_10
-        , null as procedure_date_11
-        , null as procedure_date_12
-        , null as procedure_date_13
-        , null as procedure_date_14
-        , null as procedure_date_15
-        , null as procedure_date_16
-        , null as procedure_date_17
-        , null as procedure_date_18
-        , null as procedure_date_19
-        , null as procedure_date_20
-        , null as procedure_date_21
-        , null as procedure_date_22
-        , null as procedure_date_23
-        , null as procedure_date_24
-        , null as procedure_date_25
-        , null as data_source
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_2
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_3
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_4
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_5
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_6
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_7
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_8
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_9
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_10
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_11
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_12
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_13
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_14
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_15
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_16
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_17
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_18
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_19
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_20
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_21
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_22
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_23
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_24
+        , {{ cast_string_or_varchar('null') }} as diagnosis_poa_25
+        , {{ cast_string_or_varchar('null') }} as procedure_code_type
+        , {{ cast_string_or_varchar('null') }} as procedure_code_1
+        , {{ cast_string_or_varchar('null') }} as procedure_code_2
+        , {{ cast_string_or_varchar('null') }} as procedure_code_3
+        , {{ cast_string_or_varchar('null') }} as procedure_code_4
+        , {{ cast_string_or_varchar('null') }} as procedure_code_5
+        , {{ cast_string_or_varchar('null') }} as procedure_code_6
+        , {{ cast_string_or_varchar('null') }} as procedure_code_7
+        , {{ cast_string_or_varchar('null') }} as procedure_code_8
+        , {{ cast_string_or_varchar('null') }} as procedure_code_9
+        , {{ cast_string_or_varchar('null') }} as procedure_code_10
+        , {{ cast_string_or_varchar('null') }} as procedure_code_11
+        , {{ cast_string_or_varchar('null') }} as procedure_code_12
+        , {{ cast_string_or_varchar('null') }} as procedure_code_13
+        , {{ cast_string_or_varchar('null') }} as procedure_code_14
+        , {{ cast_string_or_varchar('null') }} as procedure_code_15
+        , {{ cast_string_or_varchar('null') }} as procedure_code_16
+        , {{ cast_string_or_varchar('null') }} as procedure_code_17
+        , {{ cast_string_or_varchar('null') }} as procedure_code_18
+        , {{ cast_string_or_varchar('null') }} as procedure_code_19
+        , {{ cast_string_or_varchar('null') }} as procedure_code_20
+        , {{ cast_string_or_varchar('null') }} as procedure_code_21
+        , {{ cast_string_or_varchar('null') }} as procedure_code_22
+        , {{ cast_string_or_varchar('null') }} as procedure_code_23
+        , {{ cast_string_or_varchar('null') }} as procedure_code_24
+        , {{ cast_string_or_varchar('null') }} as procedure_code_25
+        , {{ cast_string_or_varchar('null') }} as procedure_date_1
+        , {{ cast_string_or_varchar('null') }} as procedure_date_2
+        , {{ cast_string_or_varchar('null') }} as procedure_date_3
+        , {{ cast_string_or_varchar('null') }} as procedure_date_4
+        , {{ cast_string_or_varchar('null') }} as procedure_date_5
+        , {{ cast_string_or_varchar('null') }} as procedure_date_6
+        , {{ cast_string_or_varchar('null') }} as procedure_date_7
+        , {{ cast_string_or_varchar('null') }} as procedure_date_8
+        , {{ cast_string_or_varchar('null') }} as procedure_date_9
+        , {{ cast_string_or_varchar('null') }} as procedure_date_10
+        , {{ cast_string_or_varchar('null') }} as procedure_date_11
+        , {{ cast_string_or_varchar('null') }} as procedure_date_12
+        , {{ cast_string_or_varchar('null') }} as procedure_date_13
+        , {{ cast_string_or_varchar('null') }} as procedure_date_14
+        , {{ cast_string_or_varchar('null') }} as procedure_date_15
+        , {{ cast_string_or_varchar('null') }} as procedure_date_16
+        , {{ cast_string_or_varchar('null') }} as procedure_date_17
+        , {{ cast_string_or_varchar('null') }} as procedure_date_18
+        , {{ cast_string_or_varchar('null') }} as procedure_date_19
+        , {{ cast_string_or_varchar('null') }} as procedure_date_20
+        , {{ cast_string_or_varchar('null') }} as procedure_date_21
+        , {{ cast_string_or_varchar('null') }} as procedure_date_22
+        , {{ cast_string_or_varchar('null') }} as procedure_date_23
+        , {{ cast_string_or_varchar('null') }} as procedure_date_24
+        , {{ cast_string_or_varchar('null') }} as procedure_date_25
+        , {{ cast_string_or_varchar('null') }} as data_source
     limit 0
 
     {%- endif %}
