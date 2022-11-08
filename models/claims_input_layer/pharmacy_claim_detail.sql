@@ -66,7 +66,7 @@ joined as (
         , {{ missing_field_check('pharmacy_claim.paid_amount') }} as missing_pharm_claim_paid_amount
         , {{ missing_field_check('pharmacy_claim.prescribing_provider_npi') }} as missing_prescribing_provider_npi
         , {{ missing_field_check('pharmacy_claim.dispensing_provider_npi') }} as missing_dispensing_provider_npi
-        , {{ missing_field_check('pharmacy_claim.ndc') }} as missing_ndc
+        , {{ missing_field_check('pharmacy_claim.ndc_code') }} as missing_ndc_code
     from pharmacy_claim
          left join duplicate_record
             on pharmacy_claim.row_hash = duplicate_record.row_hash
@@ -93,6 +93,6 @@ select
     , missing_pharm_claim_paid_amount
     , missing_prescribing_provider_npi
     , missing_dispensing_provider_npi
-    , missing_ndc
+    , missing_ndc_code
     , {{ current_date_or_timestamp('timestamp') }} as run_date
 from joined

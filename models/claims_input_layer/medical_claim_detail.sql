@@ -211,10 +211,10 @@ joined as (
             else 1
           end invalid_discharge_disposition_code
         , case
-            when medical_claim.ms_drg is null then 0
+            when medical_claim.ms_drg_code is null then 0
             when seed_ms_drg.code is not null then 0
             else 1
-          end invalid_ms_drg
+          end invalid_ms_drg_code
         , case
             when medical_claim.claim_type = 'professional'
             then {{ missing_field_check('medical_claim.billing_npi') }}
@@ -242,7 +242,7 @@ joined as (
          left join seed_icd_10_cm
             on medical_claim.diagnosis_code_1 = seed_icd_10_cm.icd_10_cm
          left join seed_ms_drg
-            on medical_claim.ms_drg = seed_ms_drg.code
+            on medical_claim.ms_drg_code = seed_ms_drg.code
          left join seed_place_of_service
             on medical_claim.place_of_service_code = seed_place_of_service.place_of_service_code
          left join seed_present_on_admission
@@ -289,7 +289,7 @@ select
     , invalid_diagnosis_poa_1
     , missing_hcpcs_code
     , invalid_discharge_disposition_code
-    , invalid_ms_drg
+    , invalid_ms_drg_code
     , missing_billing_npi
     , missing_facility_npi
     , missing_rendering_npi
