@@ -36,7 +36,7 @@ with medical_claim_src as (
         , {{ cast_string_or_varchar('null') }} as discharge_disposition_code
         , {{ cast_string_or_varchar('null') }} as place_of_service_code
         , {{ cast_string_or_varchar('null') }} as bill_type_code
-        , {{ cast_string_or_varchar('null') }} as ms_drg
+        , {{ cast_string_or_varchar('null') }} as ms_drg_code
         , {{ cast_string_or_varchar('null') }} as revenue_center_code
         , {{ cast_string_or_varchar('null') }} as service_unit_quantity
         , {{ cast_string_or_varchar('null') }} as hcpcs_code
@@ -171,7 +171,7 @@ medical_claim_with_row_hash as (
                , 'claim_line_end_date', 'admission_date', 'discharge_date'
                , 'admit_source_code', 'admit_type_code'
                , 'discharge_disposition_code', 'place_of_service_code'
-               , 'bill_type_code', 'ms_drg', 'revenue_center_code'
+               , 'bill_type_code', 'ms_drg_code', 'revenue_center_code'
                , 'service_unit_quantity', 'hcpcs_code', 'hcpcs_modifier_1'
                , 'hcpcs_modifier_2', 'hcpcs_modifier_3', 'hcpcs_modifier_4'
                , 'hcpcs_modifier_5', 'rendering_npi', 'billing_npi'

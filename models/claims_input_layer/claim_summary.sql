@@ -99,7 +99,7 @@
     , 'invalid_diagnosis_poa_1'
     , 'missing_hcpcs_code'
     , 'invalid_discharge_disposition_code'
-    , 'invalid_ms_drg'
+    , 'invalid_ms_drg_code'
     , 'missing_billing_npi'
     , 'missing_facility_npi'
     , 'missing_rendering_npi'
@@ -119,7 +119,7 @@
     , 'missing_pharm_claim_paid_amount'
     , 'missing_prescribing_provider_npi'
     , 'missing_dispensing_provider_npi'
-    , 'missing_ndc'
+    , 'missing_ndc_code'
 ] -%}
 
 with eligibility_detail as (

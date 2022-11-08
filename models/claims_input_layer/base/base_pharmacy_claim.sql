@@ -27,7 +27,7 @@ with pharmacy_claim_src as (
         , {{ cast_string_or_varchar('null') }} as prescribing_provider_npi
         , {{ cast_string_or_varchar('null') }} as dispensing_provider_npi
         , cast(null as date) as dispensing_date
-        , {{ cast_string_or_varchar('null') }} as ndc
+        , {{ cast_string_or_varchar('null') }} as ndc_code
         , {{ cast_string_or_varchar('null') }} as quantity
         , {{ cast_string_or_varchar('null') }} as days_supply
         , {{ cast_string_or_varchar('null') }} as refills
@@ -52,7 +52,7 @@ pharmacy_claim_with_row_hash as (
                 , 'prescribing_provider_npi'
                 , 'dispensing_provider_npi'
                 , 'dispensing_date'
-                , 'ndc'
+                , 'ndc_code'
                 , 'quantity'
                 , 'days_supply'
                 , 'refills'
