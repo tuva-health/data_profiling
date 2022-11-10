@@ -15,6 +15,6 @@
 
 ## (Optional) Gif of how this PR makes you feel
 
-`![](url)`
+![](url)
 
 ## Loom link
