@@ -1,9 +1,9 @@
 version: 2
 
 sources:
-  - name: "{{ var('source_name') }}"
-    database: "{{ var('input_database') }}"
-    schema:  "{{ var('input_schema') }}"
+  - name: claims_input
+    database: "{{ var('data_profiling_input_database','tuva') }}"
+    schema:  "{{ var('data_profiling_input_schema','claims_input') }}"
     tables:
       - name: eligibility
         identifier: eligibility # configuration required if source table name is different

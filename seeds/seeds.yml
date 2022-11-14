@@ -1,90 +1,14 @@
 version: 2
 
 seeds:
-  - name: bill_type
-    description: Dataset from the Tuva Terminology repo
-    config:
-      database: "{{ var('output_database') }}"
-      schema:  "{{ var('terminology_schema') }}"
-      column_types:
-        CODE: |
-          {%- if target.type == "bigquery" -%} string
-          {%- else -%} varchar
-          {%- endif -%}
-
-  - name: claim_type
-    description: Dataset from the Tuva Terminology repo
-    config:
-      database: "{{ var('output_database') }}"
-      schema: "{{ var('terminology_schema') }}"
-
-  - name: discharge_disposition
-    description: Dataset from the Tuva Terminology repo
-    config:
-      database: "{{ var('output_database') }}"
-      schema: "{{ var('terminology_schema') }}"
-      column_types:
-        discharge_disposition_code: |
-          {%- if target.type == "bigquery" -%} string
-          {%- else -%} varchar
-          {%- endif -%}
-
-  - name: gender
-    description: Dataset from the Tuva Terminology repo
-    config:
-      database: "{{ var('output_database') }}"
-      schema: "{{ var('terminology_schema') }}"
-
-  - name: icd_10_cm
-    description: Dataset from the Tuva Terminology repo
-    config:
-      database: "{{ var('output_database') }}"
-      schema: "{{ var('terminology_schema') }}"
-
-  - name: ms_drg
-    description: Dataset from the Tuva Terminology repo
-    config:
-      database: "{{ var('output_database') }}"
-      schema: "{{ var('terminology_schema') }}"
-      column_types:
-        CODE: |
-          {%- if target.type == "bigquery" -%} string
-          {%- else -%} varchar
-          {%- endif -%}
-
-  - name: place_of_service
-    description: Dataset from the Tuva Terminology repo
-    config:
-      database: "{{ var('output_database') }}"
-      schema: "{{ var('terminology_schema') }}"
-      column_types:
-        place_of_service_code: |
-          {%- if target.type == "bigquery" -%} string
-          {%- else -%} varchar
-          {%- endif -%}
-
-  - name: present_on_admission
-    description: Dataset from the Tuva Terminology repo
-    config:
-      database: "{{ var('output_database') }}"
-      schema: "{{ var('terminology_schema') }}"
-
-  - name: revenue_center_code
-    description: Dataset from the Tuva Terminology repo
-    config:
-      database: "{{ var('output_database') }}"
-      schema: "{{ var('terminology_schema') }}"
-      column_types:
-        revenue_center_code: |
-          {%- if target.type == "bigquery" -%} string
-          {%- else -%} varchar
-          {%- endif -%}
-
-  - name: test_catalog
+  - name: data_profiling__test_catalog
     description: A complete list of all data profiling tests
     config:
-      database: "{{ var('output_database') }}"
-      schema: "{{ var('output_schema') }}"
+      database: "{{ var('data_profiling_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('data_profiling_schema',None) != None -%}{{var('data_profiling_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_data_profiling{% else %}data_profiling{%- endif -%}
+      enabled: "{{ var('data_profiling_enabled',var('tuva_packages_enabled',True)) }}"
+      tags: data_profiling
       column_types:
         test_id: |
           {%- if target.type == "bigquery" -%} string

@@ -1,0 +1,30 @@
+version: 2
+models:
+  - name: eligibility
+    config:
+      database: "{{ var('data_profiling_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('data_profiling_schema',None) != None -%}{{var('data_profiling_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_data_profiling{% else %}data_profiling{%- endif -%}
+      materialized: view
+      alias: eligibility2
+    description: >
+      Base model for eligibility source data. Includes logic to create an
+      empty table if the source is missing and adds a row_hash column.
+  - name: medical_claim
+    config:
+      database: "{{ var('data_profiling_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('data_profiling_schema',None) != None -%}{{var('data_profiling_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_data_profiling{% else %}data_profiling{%- endif -%}
+      materialized: view
+    description: >
+      Base model for medical claim source data. Includes logic to create an 
+      empty table if the source is missing and adds a row_hash column.
+  - name: pharmacy_claim
+    config:
+      database: "{{ var('data_profiling_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('data_profiling_schema',None) != None -%}{{var('data_profiling_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_data_profiling{% else %}data_profiling{%- endif -%}
+      materialized: view
+    description: >
+      Base model for pharmacy claim source data. Includes logic to create an 
+      empty table if the source is missing and adds a row_hash column.
