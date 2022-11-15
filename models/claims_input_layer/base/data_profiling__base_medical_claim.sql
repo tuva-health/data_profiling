@@ -14,7 +14,7 @@
   {% set other_medical_claim = {'exists': False, 'database': '', 'schema': '', 'alias': '' } %}
   {% for node in graph.nodes.values()
      |selectattr("resource_type", "equalto", "model")
-     |selectattr("name", "equalto", "meical_Claim") %}
+     |selectattr("name", "equalto", "meical_claim") %}
 
 
     {# |selectattr("package_name", "!=", "data_profiling")  dont need this anymore I dont think? #}
