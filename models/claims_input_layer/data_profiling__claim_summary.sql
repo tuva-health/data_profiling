@@ -2,9 +2,7 @@
 -- depends on: {{ var('eligibility') }}
 -- depends on: {{ var('medical_claim') }}
 -- depends on: {{ var('pharmacy_claim') }}
-
-
-{%- if target.type in ('redshift') -%}
+{% if target.type in ('redshift') -%}
 {{
   config(
     enabled=var('claims_preprocessing_enabled',var('tuva_packages_enabled',True))
