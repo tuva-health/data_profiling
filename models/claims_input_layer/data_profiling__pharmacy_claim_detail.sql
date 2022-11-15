@@ -1,5 +1,5 @@
 {{ config(
-    enabled=var('claims_preprocessing_enabled',var('tuva_packages_enabled',True))
+    enabled=var('data_profiling_enabled',var('tuva_packages_enabled',True))
 ) }}
 
 with pharmacy_claim as (

@@ -1,5 +1,5 @@
 {{ config(
-    enabled=var('claims_preprocessing_enabled',var('tuva_packages_enabled',True))
+    enabled=var('data_profiling_enabled',var('tuva_packages_enabled',True))
 ) }}
 
     -- depends on: {{ var('medical_claim') }}
@@ -14,7 +14,7 @@
   {% set other_medical_claim = {'exists': False, 'database': '', 'schema': '', 'alias': '' } %}
   {% for node in graph.nodes.values()
      |selectattr("resource_type", "equalto", "model")
-     |selectattr("name", "equalto", "meical_claim") %}
+     |selectattr("name", "equalto", "medical_claim") %}
 
 
     {# |selectattr("package_name", "!=", "data_profiling")  dont need this anymore I dont think? #}

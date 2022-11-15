@@ -5,14 +5,14 @@
 {% if target.type in ('redshift') -%}
 {{
   config(
-    enabled=var('claims_preprocessing_enabled',var('tuva_packages_enabled',True))
+    enabled=var('data_profiling_enabled',var('tuva_packages_enabled',True))
     ,sort = ['test_id']
   )
 }}
 {%- elif target.type in ('bigquery', 'snowflake') -%}
 {{
   config(
-    enabled=var('claims_preprocessing_enabled',var('tuva_packages_enabled',True))
+    enabled=var('data_profiling_enabled',var('tuva_packages_enabled',True))
     ,cluster_by = ['test_id']
   )
 }}
