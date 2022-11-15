@@ -2,6 +2,8 @@
     enabled=var('claims_preprocessing_enabled',var('tuva_packages_enabled',True))
 ) }}
 
+-- depends on: {{ var('eligibility') }}
+
 /*
     Not all data sources may exist. This block of code uses the relation_exists
     macro to check if a source exists. If the source does not exist it is logged

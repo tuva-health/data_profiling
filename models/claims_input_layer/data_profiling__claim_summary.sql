@@ -1,3 +1,9 @@
+
+-- depends on: {{ var('eligibility') }}
+-- depends on: {{ var('medical_claim') }}
+-- depends on: {{ var('pharmacy_claim') }}
+
+
 {%- if target.type in ('redshift') -%}
 {{
   config(

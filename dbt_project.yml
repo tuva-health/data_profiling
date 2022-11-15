@@ -42,7 +42,6 @@ vars:
 
 
   eligibility: "{% if project_name == 'data_profiling' %}{{ source('claims_input','eligibility') }}{% else %}{{ref('eligibility')}}{% endif %}"
-  eligibility_check: "{% if project_name == 'data_profiling' %}{{ source('claims_input','pharmacy_claim') }}{% else %}{{ref('eligibility')}}{% endif %}"
   medical_claim: "{% if project_name == 'data_profiling' %}{{ source('claims_input','medical_claim') }}{% else %}{{ref('medical_claim')}}{% endif %}"
   pharmacy_claim: "{% if project_name == 'data_profiling' %}{{ source('claims_input','pharmacy_claim') }}{% else %}{{ref('pharmacy_claim')}}{% endif %}"
 
