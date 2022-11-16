@@ -11,46 +11,21 @@
 */
 
 
-  {% set other_pharmacy_claim = {'exists': False, 'database': '', 'schema': '', 'alias': '' } %}
-  {% for node in graph.nodes.values()
-     |selectattr("resource_type", "equalto", "model")
-     |selectattr("name", "equalto", "pharmacy_claim") %}
-
-
-    {# |selectattr("package_name", "!=", "data_profiling")  dont need this anymore I dont think? #}
-
-
-    {% do other_pharmacy_claim.update({'exists': True }) %}   {# obnoxious workaround.  varaibles set in a jinja for loop are local to the for loop, but dictionaries persist #}
-    {% do other_pharmacy_claim.update({'database': node.database }) %}
-    {% do other_pharmacy_claim.update({'schema': node.schema }) %}
-    {% do other_pharmacy_claim.update({'alias': node.alias }) %}
-
-  {% endfor %}
-
-
-    {% set source_exists = (load_relation(source('claims_input','pharmacy_claim'))) is not none -%}
-    {# {- log(other_pharmacy_claim, info=true) -} #}
-
-
-
+  {% set source_exists = (load_relation(source('claims_input','pharmacy_claim'))) is not none -%}
 
 with pharmacy_claim_src as (
 
 
-    {% if project_name != 'data_profiling' and other_pharmacy_claim.exists  %}
-    {% if execute%}{{- log("pharmacy claim reference exists.", info=true) -}}{% endif %}
-    select * from {{other_pharmacy_claim.database}}.{{other_pharmacy_claim.schema}}.{{other_pharmacy_claim.alias}}
+    {% if project_name != 'data_profiling'   %}
+    select * from {{var('pharmacy_claim')}}
 
 
     {% elif project_name == 'data_profiling' and source_exists  %}
     {% if execute%}{{- log("pharmacy claim source exists.", info=true) -}}{% endif %}
-    select * from {{source('claims_input','pharmacy_claim')}}
+    select * from {{var('pharmacy_claim')}}
 
 
     {% else %}
-    {% if project_name != 'data_profiling' and execute %}
-    {{- log("pharmacy_claim ref does not exist, using empty table.", info=true) -}}
-    {% endif %}
 
     {% if project_name == 'data_profiling' and execute %}
     {{- log("pharmacy_claim soruce does not exist, using empty table.", info=true) -}}

@@ -10,46 +10,22 @@
     and an empty eligibility table is used instead.
 */
 
-  {% set other_eligibility = {'exists': False, 'database': '', 'schema': '', 'alias': '' } %}
-  {% for node in graph.nodes.values()
-     |selectattr("resource_type", "equalto", "model")
-     |selectattr("name", "equalto", "eligibility") %}
-
-
-    {# |selectattr("package_name", "!=", "data_profiling")  dont need this anymore I dont think? #}
-
-
-    {% do other_eligibility.update({'exists': True }) %}   {# obnoxious workaround.  varaibles set in a jinja for loop are local to the for loop, but dictionaries persist #}
-    {% do other_eligibility.update({'database': node.database }) %}
-    {% do other_eligibility.update({'schema': node.schema }) %}
-    {% do other_eligibility.update({'alias': node.alias }) %}
-
-  {% endfor %}
-
 
     {% set source_exists = (load_relation(source('claims_input','eligibility'))) is not none -%}
-    {# {- log(other_eligibility, info=true) -} #}
-
-
 
 with eligibility_src as (
 
 
-    {% if project_name != 'data_profiling' and other_eligibility.exists  %}
-    {% if execute%}{{- log("eligibility reference exists.", info=true) -}}{% endif %}
-    select * from {{other_eligibility.database}}.{{other_eligibility.schema}}.{{other_eligibility.alias}}
+    {% if project_name != 'data_profiling'   %}
+    select * from {{var('eligibility')}}
 
 
     {% elif project_name == 'data_profiling' and source_exists  %}
     {% if execute%}{{- log("eligibility source exists.", info=true) -}}{% endif %}
-    select * from {{source('claims_input','eligibility')}}
+    select * from {{var('eligibility')}}
 
 
     {% else %}
-    {% if project_name != 'data_profiling' and execute %}
-    {{- log("eligibility ref does not exist, using empty table.", info=true) -}}
-    {% endif %}
-
     {% if project_name == 'data_profiling' and execute %}
     {{- log("eligibility soruce does not exist, using empty table.", info=true) -}}
     {% endif %}

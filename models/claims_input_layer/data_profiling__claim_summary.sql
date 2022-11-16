@@ -170,47 +170,18 @@ sum_pharmacy_claim_detail as (
 
 ),
 
-{# getting aliases of refs #}
 
 {% set eligibility_source_exists = (load_relation(source('claims_input','eligibility'))) is not none -%}
 {% set medical_claim_source_exists = (load_relation(source('claims_input','medical_claim'))) is not none -%}
 {% set pharmacy_claim_source_exists = (load_relation(source('claims_input','pharmacy_claim'))) is not none -%}
 
-{% set other_eligibility = {'exists': False, 'database': '', 'schema': '', 'alias': '' } %}
-{% set other_medical_claim = {'exists': False, 'database': '', 'schema': '', 'alias': '' } %}
-{% set other_pharmacy_claim = {'exists': False, 'database': '', 'schema': '', 'alias': '' } %}
- {% for node in graph.nodes.values()
-     |selectattr("resource_type", "equalto", "model")
-     |selectattr("name", "equalto", "eligibility") %}
-    {% do other_eligibility.update({'exists': True }) %}
-    {% do other_eligibility.update({'database': node.database }) %}
-    {% do other_eligibility.update({'schema': node.schema }) %}
-    {% do other_eligibility.update({'alias': node.alias }) %}
-  {% endfor %}
- {% for node in graph.nodes.values()
-     |selectattr("resource_type", "equalto", "model")
-     |selectattr("name", "equalto", "medical_claim") %}
-    {% do other_medical_claim.update({'exists': True }) %}
-    {% do other_medical_claim.update({'database': node.database }) %}
-    {% do other_medical_claim.update({'schema': node.schema }) %}
-    {% do other_medical_claim.update({'alias': node.alias }) %}
- {% endfor %}
- {% for node in graph.nodes.values()
-     |selectattr("resource_type", "equalto", "model")
-     |selectattr("name", "equalto", "pharmacy_claim") %}
-    {% do other_pharmacy_claim.update({'exists': True }) %}
-    {% do other_pharmacy_claim.update({'database': node.database }) %}
-    {% do other_pharmacy_claim.update({'schema': node.schema }) %}
-    {% do other_pharmacy_claim.update({'alias': node.alias }) %}
- {% endfor %}
 
 add_denominator_eligibility_detail as (
 
     select
           table_name as test_table_name
-        , {% if project_name == 'data_profiling' and eligibility_source_exists -%}'{{ source("claims_input","eligibility") }}'
-          {%- elif project_name != 'data_profiling' and other_eligibility.exists -%}'{{other_eligibility.database}}.{{other_eligibility.schema}}.{{other_eligibility.alias}}'
-          {%- else -%} 'empty, auto-generated' {% endif %}  as source_table_name
+        , {% if project_name != 'data_profiling' or ( project_name == 'data_profiling' and eligibility_source_exists) -%}'{{ var("eligibility") }}'
+          {%- else -%} 'empty auto-generated eligibility' {% endif %}  as source_table_name
         , test_name
         , test_fail_numerator
         , {{ total_eligibility_count }} as test_fail_denominator
@@ -223,9 +194,8 @@ add_denominator_medical_claim_detail as (
 
     select
           table_name as test_table_name
-        , {% if project_name == 'data_profiling' and medical_claim_source_exists -%}'{{ source("claims_input","medical_claim") }}'
-          {%- elif project_name != 'data_profiling' and other_medical_claim.exists -%}'{{other_medical_claim.database}}.{{other_medical_claim.schema}}.{{other_medical_claim.alias}}'
-          {%- else -%} 'empty, auto-generated' {% endif %}  as source_table_name
+        , {% if project_name != 'data_profiling' or (  project_name == 'data_profiling' and medical_claim_source_exists) -%}'{{ var("medical_claim") }}'
+          {%- else -%} 'empty auto-generated medical claim' {% endif %}  as source_table_name
         , test_name
         , test_fail_numerator
         , case
@@ -254,9 +224,7 @@ add_denominator_pharmacy_claim_detail as (
 
     select
           table_name as test_table_name
-        , {% if project_name == 'data_profiling' and pharmacy_claim_source_exists -%}'{{ source("claims_input","pharmacy_claim") }}'
-          {%- elif project_name != 'data_profiling' and other_pharmacy_claim.exists -%}'{{other_pharmacy_claim.database}}.{{other_pharmacy_claim.schema}}.{{other_pharmacy_claim.alias}}'
-          {%- else -%} 'empty, auto-generated' {% endif %}  as source_table_name
+        , {% if project_name != 'data_profiling' or (  project_name == 'data_profiling' and pharmacy_claim_source_exists ) -%}'{{ var("pharmacy_claim") }}'          {%- else -%} 'empty, auto-generated' {% endif %}  as source_table_name
         , test_name
         , test_fail_numerator
         , {{ total_pharm_claim_count }} as test_fail_denominator
