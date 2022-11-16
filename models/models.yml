@@ -10,7 +10,6 @@ models:
         {%- if var('data_profiling_schema',None) != None -%}{{var('data_profiling_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_data_profiling{% else %}data_profiling{%- endif -%}
       materialized: view
       alias: base_pharmacy_claim
-      enabled: "{{ var('data_profiling_enabled',var('tuva_packages_enabled',True)) }}"
       tags: data_profiling
     description: >
       Base model for pharmacy claim source data. Includes logic to create an 
@@ -22,7 +21,6 @@ models:
         {%- if var('data_profiling_schema',None) != None -%}{{var('data_profiling_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_data_profiling{% else %}data_profiling{%- endif -%}
       materialized: view
       alias: base_medical_claim
-      enabled: "{{ var('data_profiling_enabled',var('tuva_packages_enabled',True)) }}"
       tags: data_profiling
     description: >
       Base model for medical claim source data. Includes logic to create an 
@@ -34,7 +32,6 @@ models:
         {%- if var('data_profiling_schema',None) != None -%}{{var('data_profiling_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_data_profiling{% else %}data_profiling{%- endif -%}
       materialized: view
       alias: base_eligibility
-      enabled: "{{ var('data_profiling_enabled',var('tuva_packages_enabled',True)) }}"
       tags: data_profiling
     description: >
       Base model for eligibility source data. Includes logic to create an
@@ -50,7 +47,6 @@ models:
         {%- if var('data_profiling_schema',None) != None -%}{{var('data_profiling_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_data_profiling{% else %}data_profiling{%- endif -%}
       materialized: table
       alias: eligibility_detail
-      enabled: "{{ var('data_profiling_enabled',var('tuva_packages_enabled',True)) }}"
       tags: data_profiling
     description: >
       Data profiling on eligibility source data with columns for source 
@@ -170,7 +166,6 @@ models:
         {%- if var('data_profiling_schema',None) != None -%}{{var('data_profiling_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_data_profiling{% else %}data_profiling{%- endif -%}
       materialized: table
       alias: medical_claim_detail
-      enabled: "{{ var('data_profiling_enabled',var('tuva_packages_enabled',True)) }}"
       tags: data_profiling
     description: >
       Data profiling on medical claim line source data with columns for 
@@ -381,7 +376,6 @@ models:
         {%- if var('data_profiling_schema',None) != None -%}{{var('data_profiling_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_data_profiling{% else %}data_profiling{%- endif -%}
       materialized: table
       alias: pharmacy_claim_detail
-      enabled: "{{ var('data_profiling_enabled',var('tuva_packages_enabled',True)) }}"
       tags: data_profiling
     description: >
       Data profiling on pharmacy claim line source data with columns for 
@@ -482,7 +476,6 @@ models:
         {%- if var('data_profiling_schema',None) != None -%}{{var('data_profiling_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_data_profiling{% else %}data_profiling{%- endif -%}
       materialized: table
       alias: claim_summary
-      enabled: "{{ var('data_profiling_enabled',var('tuva_packages_enabled',True)) }}"
       tags: data_profiling
     description: >
       Summary of checks ran on every column in eligibility_detail,

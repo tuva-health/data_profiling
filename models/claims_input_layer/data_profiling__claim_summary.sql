@@ -348,7 +348,3 @@ select
     , columns
     , {{ current_date_or_timestamp('timestamp') }} as run_date
 from add_catalog_details
-where (test_fail_numerator is not null
--- and test_fail_denominator > 0
--- to do: this filter causes a snowflake error?  not sure whats happening????
-)

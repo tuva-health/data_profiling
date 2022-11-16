@@ -8,6 +8,7 @@ seeds:
       schema: |
         {%- if var('data_profiling_schema',None) != None -%}{{var('data_profiling_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_data_profiling{% else %}data_profiling{%- endif -%}
       enabled: "{{ var('data_profiling_enabled',var('tuva_packages_enabled',True)) }}"
+      alias: test_catalog
       tags: data_profiling
       column_types:
         test_id: |
