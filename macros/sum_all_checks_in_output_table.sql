@@ -3,15 +3,27 @@
 
     This macros loops through a list of provided columns from a single table
     and sums the results of data profiling tests.
+
+
+
 #}
+
 
 {% macro sum_all_checks_in_table(table_name, column_list) %}
 
+{%- if (var('data_profiling_schema',None) != None or (var('data_profiling_schema',None) == None and var('tuva_schema_prefix',None) == None))  -%}
     {%- set source_relation = adapter.get_relation(
-        database = var('output_database'),
-        schema = var('output_schema'),
+        database = var('data_profiling_database',var('tuva_database','tuva')),
+        schema = var('data_profiling_schema','data_profiling'),
         identifier = table_name
     ) -%}
+{%- elif var('tuva_schema_prefix',None) != None -%}
+    {%- set source_relation = adapter.get_relation(
+        database = var('data_profiling_database',var('tuva_database','tuva')),
+        schema = var('tuva_schema_prefix')~'_data_profiling',
+        identifier = table_name
+    ) -%}
+{%- endif -%}
 
     {%- set current_table = source_relation -%}
 
