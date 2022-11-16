@@ -12,7 +12,7 @@ vars:
 #  tuva_database: tuva                                      # optional: name of the database where tables from this package will be written
 #                                                           # default: tuva
 #
-#  tuva_schema_prefix: project_test                                 # optional: prefix (+_) that will be prerpended to all tuva package schema defaults
+#  tuva_schema_prefix: test                                 # optional: prefix (+_) that will be prerpended to all tuva package schema defaults
 #                                                           # default schema: core (no prefix by default
 #
 #
@@ -22,7 +22,7 @@ vars:
 #  data_profiling_database: tuva                            # optional: name of the database where tables from this package will be written
 #                                                           # default: tuva
 #
-#  data_profiling_schema: pkg_core_test                     # optional: name of the schema where tables from this package will be written
+#  data_profiling_schema: test_data_profiling               # optional: name of the schema where tables from this package will be written
 #                                                           # default: core
 #
 
