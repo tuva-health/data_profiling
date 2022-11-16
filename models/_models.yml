@@ -1,0 +1,524 @@
+version: 2
+
+models:
+
+### base
+  - name: data_profiling__base_pharmacy_claim
+    config:
+      database: "{{ var('data_profiling_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('data_profiling_schema',None) != None -%}{{var('data_profiling_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_data_profiling{% else %}data_profiling{%- endif -%}
+      materialized: view
+      alias: base_pharmacy_claim
+      tags: data_profiling
+    description: >
+      Base model for pharmacy claim source data. Includes logic to create an 
+      empty table if the source is missing and adds a row_hash column.
+  - name: data_profiling__base_medical_claim
+    config:
+      database: "{{ var('data_profiling_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('data_profiling_schema',None) != None -%}{{var('data_profiling_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_data_profiling{% else %}data_profiling{%- endif -%}
+      materialized: view
+      alias: base_medical_claim
+      tags: data_profiling
+    description: >
+      Base model for medical claim source data. Includes logic to create an 
+      empty table if the source is missing and adds a row_hash column.
+  - name: data_profiling__base_eligibility
+    config:
+      database: "{{ var('data_profiling_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('data_profiling_schema',None) != None -%}{{var('data_profiling_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_data_profiling{% else %}data_profiling{%- endif -%}
+      materialized: view
+      alias: base_eligibility
+      tags: data_profiling
+    description: >
+      Base model for eligibility source data. Includes logic to create an
+      empty table if the source is missing and adds a row_hash column.
+
+
+### main
+
+  - name: data_profiling__eligibility_detail
+    config:
+      database: "{{ var('data_profiling_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('data_profiling_schema',None) != None -%}{{var('data_profiling_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_data_profiling{% else %}data_profiling{%- endif -%}
+      materialized: table
+      alias: eligibility_detail
+      tags: data_profiling
+    description: >
+      Data profiling on eligibility source data with columns for source 
+      primary keys and every data quality check performed.
+    tests:
+      - unique:
+          column_name: "(patient_id||'-'||member_id||'-'||enrollment_start_date||'-'||enrollment_end_date||'-'||payer||'-'||payer_type)"
+
+    columns:
+      - name: patient_id
+        description: Primary key for grain - value from source file
+
+      - name: enrollment_start_date
+        description: Primary key for grain - value from source file
+
+      - name: enrollment_end_date
+        description: Primary key for grain - value from source file
+
+      - name: payer
+        description: Primary key for grain - value from source file
+
+      - name: payer_type
+        description: Primary key for grain - value from source file
+
+      - name: duplicate_eligibility_record
+        description: >
+          See test_catalog seed table and join on test_name 
+          for more details.
+
+      - name: duplicate_eligibility_record
+        description: >
+          See test_catalog seed table and join on test_name 
+          for more details.
+
+      - name: duplicate_patient_id
+        description: >
+          See test_catalog seed table and join on test_name 
+          for more details.
+
+      - name: missing_eligibility_patient_id
+        description: >
+          See test_catalog seed table and join on test_name 
+          for more details.
+
+      - name: missing_eligibility_member_id
+        description: >
+          See test_catalog seed table and join on test_name 
+          for more details.
+
+      - name: missing_enrollment_start_date
+        description: >
+          See test_catalog seed table and join on test_name 
+          for more details.
+
+      - name: invalid_enrollment_start_date
+        description: >
+          See test_catalog seed table and join on test_name 
+          for more details.
+
+      - name: missing_enrollment_end_date
+        description: >
+          See test_catalog seed table and join on test_name 
+          for more details.
+
+      - name: invalid_enrollment_end_date
+        description: >
+          See test_catalog seed table and join on test_name 
+          for more details.
+
+      - name: invalid_enrollment_end_before_start
+        description: >
+          See test_catalog seed table and join on test_name 
+          for more details.
+
+      - name: missing_birth_date
+        description: >
+          See test_catalog seed table and join on test_name 
+          for more details.
+
+      - name: invalid_birth_date
+        description: >
+          See test_catalog seed table and join on test_name 
+          for more details.
+
+      - name: missing_death_date
+        description: >
+          See test_catalog seed table and join on test_name 
+          for more details.
+
+      - name: invalid_death_date
+        description: >
+          See test_catalog seed table and join on test_name 
+          for more details.
+
+      - name: invalid_death_before_birth
+        description: >
+          See test_catalog seed table and join on test_name 
+          for more details.
+
+      - name: missing_gender
+        description: >
+          See test_catalog seed table and join on test_name 
+          for more details.
+
+      - name: invalid_gender
+        description: >
+          See test_catalog seed table and join on test_name 
+          for more details.
+
+      - name: run_date
+        description: Datetime the model was run used for snapshots
+
+  - name: data_profiling__medical_claim_detail
+    config:
+      database: "{{ var('data_profiling_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('data_profiling_schema',None) != None -%}{{var('data_profiling_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_data_profiling{% else %}data_profiling{%- endif -%}
+      materialized: table
+      alias: medical_claim_detail
+      tags: data_profiling
+    description: >
+      Data profiling on medical claim line source data with columns for 
+      source primary keys and every data quality check performed.
+    tests:
+      - unique:
+          column_name: "(claim_id||'-'||claim_line_number)"
+
+    columns:
+      - name: claim_id
+        description: Primary key for grain - value from source file
+
+      - name: claim_line_number
+        description: Primary key for grain - value from source file
+
+      - name: duplicate_med_claim_record
+        description: >
+          See test_catalog seed table and join on test_name 
+          for more details.
+
+      - name: duplicate_med_claim_id
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_med_claim_patient_id
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_med_claim_patient_id_fk
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_med_claim_id
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_med_claim_line_number
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_claim_type
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: invalid_claim_type
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_claim_start_date
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: invalid_claim_start_date
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_claim_end_date
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: invalid_claim_end_date
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: invalid_claim_end_before_start
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_admission_date
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: invalid_admission_date
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_discharge_date
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: invalid_discharge_date
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: invalid_discharge_before_admission
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_med_claim_paid_date
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: invalid_med_claim_paid_date
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_med_claim_paid_amount
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_bill_type_code
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: invalid_bill_type_code
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_place_of_service_code
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: invalid_place_of_service_code
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_revenue_center_code
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: invalid_revenue_center_code
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_diagnosis_code_1
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: invalid_diagnosis_code_1
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_diagnosis_poa_1
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: invalid_diagnosis_poa_1
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_hcpcs_code
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: invalid_discharge_disposition_code
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: invalid_ms_drg
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_billing_npi
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_facility_npi
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_rendering_npi
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: run_date
+        description: Datetime the model was run used for snapshots
+
+  - name: data_profiling__pharmacy_claim_detail
+    config:
+      database: "{{ var('data_profiling_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('data_profiling_schema',None) != None -%}{{var('data_profiling_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_data_profiling{% else %}data_profiling{%- endif -%}
+      materialized: table
+      alias: pharmacy_claim_detail
+      tags: data_profiling
+    description: >
+      Data profiling on pharmacy claim line source data with columns for 
+      source primary keys and every data quality check performed.
+    tests:
+      - unique:
+          column_name: "(claim_id||'-'||claim_line_number)"
+
+    columns:
+      - name: claim_id
+        description: Primary key for grain - value from source file
+
+      - name: claim_line_number
+        description: Primary key for grain - value from source file
+
+      - name: duplicate_record_pharm
+        description: >
+          See test_catalog seed table and join on test_name 
+          for more details.
+
+      - name: duplicate_pharm_claim_record
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: duplicate_pharm_claim_id
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_pharm_claim_patient_id
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_pharm_claim_patient_id_fk
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_pharm_claim_id
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_pharm_claim_line_number
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_dispensing_date
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: invalid_dispensing_date
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_pharm_claim_paid_date
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: invalid_pharm_claim_paid_date
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_pharm_claim_paid_amount
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_prescribing_provider_npi
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_dispensing_provider_npi
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: missing_ndc
+        description: >
+          See test_catalog seed table and join on test_name
+          for more details.
+
+      - name: run_date
+        description: Datetime the model was run used for snapshots
+
+  - name: data_profiling__claim_summary
+    config:
+      database: "{{ var('data_profiling_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('data_profiling_schema',None) != None -%}{{var('data_profiling_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_data_profiling{% else %}data_profiling{%- endif -%}
+      materialized: table
+      alias: claim_summary
+      tags: data_profiling
+    description: >
+      Summary of checks ran on every column in eligibility_detail,
+      medical_claim_detail, and pharmacy_claim_detail.
+    columns:
+      - name: test_id
+        description: Unique identifier for the data profiling test
+
+      - name: test_name
+        description: >
+          Unique column name of the test. Join to test_catalog 
+          on test_name for more details.
+        tests:
+          - unique:
+              column_name: test_name
+
+      - name: source_table_name
+        description: The name of the source table the test is ran on
+
+      - name: test_severity
+        description: >
+          Indicates the severity of a test failure if test_fail_numerator > 0
+      - name: test_fail_percentage
+        description: Percentage of records that failed test
+
+      - name: test_fail_numerator
+        description: Total count of records that failed the test
+
+      - name: test_fail_denominator
+        description: >
+          Total count of records the test was applied to, in some cases
+          this may be a claim type count (institutional claims, 
+          professional claims)
+      - name: test_description
+        description: Guideline or reasoning for the test
+
+      - name: test_table_name
+        description: The name of the data profiling detail table
+
+      - name: columns
+        description: >
+          List of column(s) the test runs on - makes it easy to filter test 
+          results to certain columns
+      - name: run_date
+        description: Datetime the model was run used for snapshots
+
