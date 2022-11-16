@@ -18,15 +18,9 @@ seeds:
     columns:
       - name: test_id
         description: Unique identifier for the test
-        tests:
-          - unique
-          - not_null
       - name: test_name
         description: >
           Unique column name of the test
-        tests:
-          - unique
-          - not_null
       - name: description
         description: Guideline or reasoning for the test
       - name: test_table_name
