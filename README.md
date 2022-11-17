@@ -4,7 +4,7 @@
 
 ## 🧰 What does this project do?
 
-The Tuva Project's Data Profiling data mart tests your claims data for data quality issues.  For a detailed overview of what the project does and how it works, check out our Knowledge Base.  For information on data models and to view the entire DAG check out our dbt [Docs](https://tuva-health.github.io/data_profiling/#!/overview).
+The Tuva Project's Data Profiling data mart tests your claims data for data quality issues.  For a detailed overview of what the project does and how it works, check out our [Knowledge Base](https://thetuvaproject.com/docs/intro).  For information on data models and to view the entire DAG check out our dbt [Docs](https://tuva-health.github.io/data_profiling/#!/overview).
 
 ## 🔌 Database Support
 
