@@ -2,59 +2,25 @@
 
 # Data Profiling
 
-This is the Tuva Project's Data Profiling data mart, which is a dbt project to test raw claims data for data quality issues. 
-Data profiling systematically identifies problems in your data with a special focus on issues that can cause downstream analysis problems. 
-These data integrity checks include general fill rates, fill rates specific to claim types, uniqueness, referential integrity, date validation, and valid values (gender, healthcare codes, etc). 
-This engine runs off of the input layer of source data upstream of Claims Preprocessing and high-level marts.
+## 🧰 What does this project do?
 
-Check out the [DAG](https://tuva-health.github.io/data_profiling/#!/overview?g_v=1) for data profiling.
+The Tuva Project's Data Profiling data mart tests your claims data for data quality issues.  For a detailed overview of what the project does and how it works, check out our Knowledge Base.  For information on data models and to view the entire DAG check out our dbt [Docs](https://tuva-health.github.io/data_profiling/#!/overview).
 
-The output data models of this engine are:
+## 🔌 Database Support
 
-- **Claims Input Layer**
-  - **Eligibility Detail:** A data profiling table on the eligibility grain with columns for source primary keys and every data quality check performed.
-  - **Medical Claim Detail:** A data profiling table on the medical claim line grain with columns for source primary keys and every data quality check performed.
-  - **Pharmacy Claim Detail:** A data profiling table on the pharmacy claim line grain with columns for source primary keys and every data quality check performed.
-  - **Claim Summary:** A summary table of checks ran on every column in Eligibility Detail, Medical Claim Detail, and Pharmacy Claim Detail with test fail percentages.
-- **Snapshots:** A "look back in time" of every model that gets generated during `dbt build` (or `dbt run` followed by `dbt snapshot`). 
+This package has been tested on **Snowflake, Redshift, and BigQuery**.
 
-## Pre-requisites
-1. You have healthcare data (e.g. claims data) in a data warehouse (e.g. Snowflake)
-2. You have [dbt](https://www.getdbt.com/) installed and configured (i.e. connected to your data warehouse)
-3. You have mapped your claims data to [Claims Input Layer](https://thetuvaproject.com/docs/data-models/claims-input-layer)
-    
-[Here](https://docs.getdbt.com/dbt-cli/installation) are instructions for installing dbt.
+## ✅ How to get started
 
-## Getting Started
-Complete the following steps to configure the data mart to run in your environment.
+### Pre-requisites
 
-1. [Clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) this repo to your local machine or environment
-2. Configure [dbt_project.yml](/dbt_project.yml)
-    - Profile: set to 'default' by default - change this to an active profile in the profile.yml file that connects to your data warehouse 
-    - Fill in the following vars (variables):
-      - source_name - description of the dataset feeding this project 
-      - input_database - database where sources feeding this project are stored 
-      - input_schema - schema where sources feeding this project is stored 
-      - output_database - database where output of this project should be written. We suggest using the Tuva database but any database will work. 
-      - output_schema - name of the schema where output of this project should be written
-      - terminology_schema - name of the schema where terminology seeds should be written
-3. _Optional_ Configure [source.yml](/models/source.yml)
-    - Update the table `identifier` properties if your source table names are different from what's expected
-4. Execute `dbt deps` to install packages.
-5. Execute `dbt build` to load seed files, run models, and perform tests.
+This package is dependent on other Tuva packages.  We strongly recommend using [The Tuva Project](https://github.com/tuva-health/the_tuva_project) package for all the building blocks needed to establish a comprehensive analytics platform. Please review the ReadMe in [The Tuva Project](https://github.com/tuva-health/the_tuva_project) package for a detailed walkthrough and setup.
 
-Alternatively you can execute the following code and skip step 2b and step 3.
-```
-dbt deps \
-&& dbt build --vars '{input_database: my_database, input_schema: my_input, output_database: my_other_database, output_schema: i_love_data}'
-```
+## 🙋🏻‍♀️ Contributions
 
-## Contributions
-Have an opinion on the mappings? Notice any bugs when installing and running the package? 
-If so, we highly encourage and welcome contributions!
+Have an opinion on the mappings? Notice any bugs when installing and running the package?
+If so, we highly encourage and welcome feedback!
 
-## Community
+## 🤝 Community
+
 Join our growing community of healthcare data practitioners on [Slack](https://join.slack.com/t/thetuvaproject/shared_invite/zt-16iz61187-G522Mc2WGA2mHF57e0il0Q)!
-
-## Database Support
-This package has been tested on BigQuery, Redshift, and Snowflake.
