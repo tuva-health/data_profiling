@@ -8,7 +8,7 @@ models:
       database: "{{ var('data_profiling_database',var('tuva_database','tuva')) }}"
       schema: |
         {%- if var('data_profiling_schema',None) != None -%}{{var('data_profiling_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_data_profiling{% else %}data_profiling{%- endif -%}
-      materialized: view
+      materialized: table
       alias: base_pharmacy_claim
       tags: data_profiling
     description: >
@@ -19,7 +19,7 @@ models:
       database: "{{ var('data_profiling_database',var('tuva_database','tuva')) }}"
       schema: |
         {%- if var('data_profiling_schema',None) != None -%}{{var('data_profiling_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_data_profiling{% else %}data_profiling{%- endif -%}
-      materialized: view
+      materialized: table
       alias: base_medical_claim
       tags: data_profiling
     description: >
@@ -30,7 +30,7 @@ models:
       database: "{{ var('data_profiling_database',var('tuva_database','tuva')) }}"
       schema: |
         {%- if var('data_profiling_schema',None) != None -%}{{var('data_profiling_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_data_profiling{% else %}data_profiling{%- endif -%}
-      materialized: view
+      materialized: table
       alias: base_eligibility
       tags: data_profiling
     description: >
