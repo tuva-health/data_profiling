@@ -154,19 +154,19 @@ seed_test_catalog as (
 
 sum_eligibility_detail as (
 
-    {{ sum_all_checks_in_table('eligibility_detail', eligibility_column_list) }}
+    {{ sum_all_checks_in_table(builtins.ref('data_profiling__eligibility_detail'), eligibility_column_list) }}
 
 ),
 
 sum_medical_claim_detail as (
 
-    {{ sum_all_checks_in_table('medical_claim_detail', medical_claim_column_list) }}
+    {{ sum_all_checks_in_table(builtins.ref('data_profiling__medical_claim_detail'), medical_claim_column_list) }}
 
 ),
 
 sum_pharmacy_claim_detail as (
 
-    {{ sum_all_checks_in_table('pharmacy_claim_detail', pharmacy_claim_column_list) }}
+    {{ sum_all_checks_in_table(builtins.ref('data_profiling__pharmacy_claim_detail'), pharmacy_claim_column_list) }}
 
 ),
 
