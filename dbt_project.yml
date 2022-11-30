@@ -1,5 +1,5 @@
 name: 'data_profiling'
-version: '0.1.1'
+version: '0.1.2'
 config-version: 2
 
 
@@ -7,44 +7,9 @@ profile: 'default'
 
 vars:
 
-## optional output config option 1 (configs apply to all tuva packages)
-#
-#  tuva_database: tuva                                      # optional: name of the database where tables from this package will be written
-#                                                           # default: tuva
-#
-#  tuva_schema_prefix: test                                 # optional: prefix (+_) that will be prerpended to all tuva package schema defaults
-#                                                           # default schema: core (no prefix by default
-#
-#
-#
-## optional output config option 2 (package specific config), overrides option 1
-#
-#  data_profiling_database: tuva                            # optional: name of the database where tables from this package will be written
-#                                                           # default: tuva
-#
-#  data_profiling_schema: test_data_profiling               # optional: name of the schema where tables from this package will be written
-#                                                           # default: core
-#
-
-
-
-
-
-
-
-### optional overrides for input data, only for use as a project
-#  data_profiling_input_database: tuva                  # optional: name of the database where sources feeding this prorject are stored
-#                                                      # default: tuva
-
-#  data_profiling_input_schema: claims_input            # optional: name of the schema where sources feeding this project are stored
-#                                                      # default: claims_input
-
-
-
   eligibility: "{% if project_name == 'data_profiling' %}{{ source('claims_input','eligibility') }}{% else %}{{ref('eligibility')}}{% endif %}"
   medical_claim: "{% if project_name == 'data_profiling' %}{{ source('claims_input','medical_claim') }}{% else %}{{ref('medical_claim')}}{% endif %}"
   pharmacy_claim: "{% if project_name == 'data_profiling' %}{{ source('claims_input','pharmacy_claim') }}{% else %}{{ref('pharmacy_claim')}}{% endif %}"
-
 
 
 
