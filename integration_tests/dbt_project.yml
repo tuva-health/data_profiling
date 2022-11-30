@@ -10,36 +10,23 @@ vars:
 
 ## optional output config option 1 (configs apply to all tuva packages)
 #
-#  tuva_database: tuva                                      # optional: name of the database where tables from this package will be written
-#                                                           # default: tuva
-#
-#  tuva_schema_prefix: test                                 # optional: prefix (+_) that will be prerpended to all tuva package schema defaults
-#                                                           # default schema: core (no prefix by default
-#
-#
+#  tuva_database: tuva
+#  tuva_schema_prefix: test
 #
 ## optional output config option 2 (package specific config), overrides option 1
-#
-#  data_profiling_database: tuva                            # optional: name of the database where tables from this package will be written
-#                                                           # default: tuva
-#
-#  data_profiling_schema: test_data_profiling               # optional: name of the schema where tables from this package will be written
-#                                                           # default: core
-#
+#  data_profiling_database: tuva
+#  data_profiling_schema: test_data_profiling
 
 
-
-
-
+  cliams_input_eligibility: "{{source('claims_input','eligibility')"
+  cliams_input_medical_claim: "{{source('claims_input','medical_claim')"
+  cliams_input_pharmacy_claim: "{{source('claims_input','pharmacy_claim')"
 
 
 ### optional overrides for input data, only for use as a project
-#  data_profiling_input_database: tuva                  # optional: name of the database where sources feeding this prorject are stored
-#                                                      # default: tuva
-
-#  data_profiling_input_schema: test_claims_input            # optional: name of the schema where sources feeding this project are stored
-#                                                      # default: claims_input
-
+#  data_profiling_input_database: syntegra_synthetic_sample
+#  data_profiling_input_schema: tuva_claims_input
+#
 
 
 model-paths: ["models"]
@@ -49,8 +36,8 @@ seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
-target-path: "target"  # directory which will store compiled SQL files
-clean-targets:         # directories to be removed by `dbt clean`
+target-path: "target"
+clean-targets:
   - "target"
   - "dbt_packages"
 

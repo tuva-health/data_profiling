@@ -7,9 +7,9 @@ profile: 'default'
 
 vars:
 
-  eligibility: "{% if project_name == 'data_profiling' %}{{ source('claims_input','eligibility') }}{% else %}{{ref('eligibility')}}{% endif %}"
-  medical_claim: "{% if project_name == 'data_profiling' %}{{ source('claims_input','medical_claim') }}{% else %}{{ref('medical_claim')}}{% endif %}"
-  pharmacy_claim: "{% if project_name == 'data_profiling' %}{{ source('claims_input','pharmacy_claim') }}{% else %}{{ref('pharmacy_claim')}}{% endif %}"
+  eligibility: "{{ var('data_profiling_eligibility', var('claims_input_eligibility',ref('eligibility')))}}"
+  medical_claim: "{{ var('data_profiling_medical_claim', var('claims_input_medical_claim',ref('medical_claim')))}}"
+  pharmacy_claim: "{{ var('data_profiling_pharmacy_claim', var('claims_input_pharmacy_claim',ref('pharmacy_claim')))}}"
 
 
 
@@ -20,7 +20,7 @@ seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
-target-path: "target"  # directory which will store compiled SQL files
-clean-targets:         # directories to be removed by `dbt clean`
+target-path: "target"
+clean-targets:
   - "target"
   - "dbt_packages"
