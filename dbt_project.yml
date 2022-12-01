@@ -9,17 +9,17 @@ vars:
   eligibility: |
     {% if var('data_profiling_eligibility_override',none) is not none %}{{var('data_profiling_eligibility_override')}}
     {%- elif var('claims_input_eligibility_override',none) is not none %}{{var('claims_input_eligibility_override')}}
-    {%- else %}{{ref('claims_preprocessing__eligibility')}}
+    {%- else %}{{ref('eligibility')}}
     {% endif %}
   medical_claim: |
     {% if var('data_profiling_medical_claim_override',none) is not none %}{{var('data_profiling_medical_claim_override')}}
     {%- elif var('claims_input_medical_claim_override',none) is not none %}{{var('claims_input_medical_claim_override')}}
-    {%- else %}{{ref('claims_preprocessing__medical_claim')}}
+    {%- else %}{{ref('medical_claim')}}
     {% endif %}
   pharmacy_claim: |
     {% if var('data_profiling_pharmacy_claim_override',none) is not none %}{{var('data_profiling_pharmacy_claim_override')}}
     {%- elif var('claims_input_pharmacy_claim_override',none) is not none %}{{var('claims_input_pharmacy_claim_override')}}
-    {%- else %}{{ref('claims_preprocessing__pharmacy_claim')}}
+    {%- else %}{{ref('pharmacy_claim')}}
     {% endif %}
 
 model-paths: ["models"]
