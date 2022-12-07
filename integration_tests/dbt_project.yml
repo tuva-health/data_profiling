@@ -7,26 +7,42 @@ profile: 'default'
 
 
 vars:
+### output config option 1, applies to all tuva packages
+  tuva_database: dev_user
 
-## optional output config option 1 (configs apply to all tuva packages)
-#
-#  tuva_database: tuva
-#  tuva_schema_prefix: test
-#
-## optional output config option 2 (package specific config), overrides option 1
+### output config option 2, applies to claims_preprocessing, overrides option 1
 #  data_profiling_database: tuva
-#  data_profiling_schema: test_data_profiling
+#  data_profiling_schema: test_claims_preprocessing
 
 
-  cliams_input_eligibility: "{{source('claims_input','eligibility')"
-  cliams_input_medical_claim: "{{source('claims_input','medical_claim')"
-  cliams_input_pharmacy_claim: "{{source('claims_input','pharmacy_claim')"
+### input override config
+  pharmacy_claim_override: "{{ref('pharmacy_claim')}}"
+#  medical_claim_override: "{{ref('medical_claim')}}"
+#  eligibility_override: "{{ref('eligibility')}}"
+
+## you can also point these to sources
+#  pharmacy_claim_override:  "{{source('claims_input','pharmacy_claim')}}"
+  medical_claim_override:   "{{source('claims_input','medical_claim')}}"
+  eligibility_override:     "{{source('claims_input','eligibility')}}"
+
+## if you're using sources, only in this integration tests, you can override default db and schema here
+#  data_profiling_input_database: tuva
+#  data_profiling_input_schema: claims_input
 
 
-### optional overrides for input data, only for use as a project
-#  data_profiling_input_database: syntegra_synthetic_sample
-#  data_profiling_input_schema: tuva_claims_input
-#
+
+### enabled/disabled configs
+## applies to all packages
+  tuva_packages_enabled: false
+
+## applies to claims_preprocessing only
+  data_profiling_enabled: true
+#  terminology_enabled: false
+
+#dispatch:
+#  - macro_namespace: dbt
+#    search_order: [ 'claims_preprocessing', 'dbt']
+
 
 
 model-paths: ["models"]
@@ -44,3 +60,5 @@ clean-targets:
 models:
   integration_tests:
     +materialized: ephemeral
+    +schema: claims_input
+    +database: dev_user
