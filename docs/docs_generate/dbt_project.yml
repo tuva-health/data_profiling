@@ -1,0 +1,30 @@
+name: 'data_profiling_input'
+version: '1.0.0'
+config-version: 2
+
+profile: 'default'
+
+
+
+
+
+dispatch:
+  - macro_namespace: dbt
+    search_order: [ 'data_profiling', 'dbt']
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+docs-paths: ["documents"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  data_profiling_input:
+    +materialized: view
