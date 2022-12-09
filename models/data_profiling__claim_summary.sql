@@ -177,7 +177,7 @@ add_denominator_eligibility_detail as (
 
     select
           table_name as test_table_name
-        ,'{{ var("eligibility") }}' as source_table_name
+        , case when lower('{{ var("eligibility") }}') = 'none' then 'No Eligibility Input' else '{{ var("eligibility") }}' end as source_table_name
         , test_name
         , test_fail_numerator
         , {{ total_eligibility_count }} as test_fail_denominator
@@ -190,7 +190,7 @@ add_denominator_medical_claim_detail as (
 
     select
           table_name as test_table_name
-        , '{{ var("medical_claim") }}' as source_table_name
+        , case when lower('{{ var("medical_claim") }}') = 'none' then 'No Medical Claim Input' else '{{ var("medical_claim") }}' end as source_table_name
         , test_name
         , test_fail_numerator
         , case
@@ -219,7 +219,7 @@ add_denominator_pharmacy_claim_detail as (
 
     select
           table_name as test_table_name
-        , '{{ var("pharmacy_claim") }}' as source_table_name
+        , case when lower('{{ var("pharmacy_claim") }}') = 'none' then 'No Pharmacy Claim Input' else '{{ var("pharmacy_claim") }}' end as source_table_name
         , test_name
         , test_fail_numerator
         , {{ total_pharm_claim_count }} as test_fail_denominator

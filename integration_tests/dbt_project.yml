@@ -8,7 +8,7 @@ profile: 'default'
 
 vars:
 ### output config option 1, applies to all tuva packages
-  tuva_database: dev_forrest
+  tuva_database: dev_user
 
 ### output config option 2, applies to claims_preprocessing, overrides option 1
 #  data_profiling_database: tuva
@@ -17,14 +17,18 @@ vars:
 
 ### input override config
   pharmacy_claim_override: "{{ref('pharmacy_claim')}}"
-#  medical_claim_override: "{{ref('medical_claim')}}"
-#  eligibility_override: "{{ref('eligibility')}}"
+  medical_claim_override: "{{ref('medical_claim')}}"
+  eligibility_override: "{{ref('eligibility')}}"
+
+## you can also configure these to be "None" instead, and it will use an empty table
+#  pharmacy_claim_override: "None"
+
 
 ## you can also point these to sources
 #  pharmacy_claim_override: "{{source('claims_input','pharmacy_claim')}}"
 #  medical_claim_override: "{{source('claims_input','medical_claim')}}"
-  medical_claim_override: "None"
-  eligibility_override: "{{source('claims_input','eligibility')}}"
+#  eligibility_override: "{{source('claims_input','eligibility')}}"
+
 
 ## if you're using sources, only in this integration tests, you can override default db and schema here
 #  data_profiling_input_database: tuva
@@ -62,4 +66,4 @@ models:
   integration_tests:
     +materialized: view
     +schema: claims_input
-    +database: dev_forrest
+    +database: dev_user
