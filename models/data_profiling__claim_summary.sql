@@ -171,17 +171,13 @@ sum_pharmacy_claim_detail as (
 ),
 
 
-{% set eligibility_source_exists = (load_relation(source('claims_input','eligibility'))) is not none -%}
-{% set medical_claim_source_exists = (load_relation(source('claims_input','medical_claim'))) is not none -%}
-{% set pharmacy_claim_source_exists = (load_relation(source('claims_input','pharmacy_claim'))) is not none -%}
 
 
 add_denominator_eligibility_detail as (
 
     select
           table_name as test_table_name
-        , {% if project_name != 'data_profiling' or ( project_name == 'data_profiling' and eligibility_source_exists) -%}'{{ var("eligibility") }}'
-          {%- else -%} 'empty auto-generated eligibility' {% endif %}  as source_table_name
+        ,'{{ var("eligibility") }}' as source_table_name
         , test_name
         , test_fail_numerator
         , {{ total_eligibility_count }} as test_fail_denominator
@@ -194,8 +190,7 @@ add_denominator_medical_claim_detail as (
 
     select
           table_name as test_table_name
-        , {% if project_name != 'data_profiling' or (  project_name == 'data_profiling' and medical_claim_source_exists) -%}'{{ var("medical_claim") }}'
-          {%- else -%} 'empty auto-generated medical claim' {% endif %}  as source_table_name
+        , '{{ var("medical_claim") }}' as source_table_name
         , test_name
         , test_fail_numerator
         , case
@@ -224,7 +219,7 @@ add_denominator_pharmacy_claim_detail as (
 
     select
           table_name as test_table_name
-        , {% if project_name != 'data_profiling' or (  project_name == 'data_profiling' and pharmacy_claim_source_exists ) -%}'{{ var("pharmacy_claim") }}'          {%- else -%} 'empty, auto-generated' {% endif %}  as source_table_name
+        , '{{ var("pharmacy_claim") }}' as source_table_name
         , test_name
         , test_fail_numerator
         , {{ total_pharm_claim_count }} as test_fail_denominator
@@ -240,8 +235,8 @@ add_totals_eligibility_detail as (
         , test_name
         , test_fail_numerator
         , test_fail_denominator
-        , (round(test_fail_numerator / test_fail_denominator, 5)
-          )*100 as test_fail_percentage
+        , case when test_fail_denominator = 0 then 0 else  (round(test_fail_numerator / test_fail_denominator, 5)
+          )*100  end as test_fail_percentage
     from add_denominator_eligibility_detail
 
 ),
@@ -254,8 +249,8 @@ add_totals_medical_claim_detail as (
         , test_name
         , test_fail_numerator
         , test_fail_denominator
-        , (round(test_fail_numerator / test_fail_denominator, 5)
-          )*100 as test_fail_percentage
+        , case when test_fail_denominator = 0 then 0 else  (round(test_fail_numerator / test_fail_denominator, 5)
+          )*100  end  test_fail_percentage
     from add_denominator_medical_claim_detail
 
 ),
@@ -268,8 +263,8 @@ add_totals_pharmacy_claim_detail as (
         , test_name
         , test_fail_numerator
         , test_fail_denominator
-        , (round(test_fail_numerator / test_fail_denominator, 5)
-          )*100 as test_fail_percentage
+        , case when test_fail_denominator = 0 then 0 else  (round(test_fail_numerator / test_fail_denominator, 5)
+          )*100  end  as test_fail_percentage
     from add_denominator_pharmacy_claim_detail
 
 ),

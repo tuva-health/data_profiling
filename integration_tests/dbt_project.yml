@@ -8,7 +8,7 @@ profile: 'default'
 
 vars:
 ### output config option 1, applies to all tuva packages
-  tuva_database: dev_user
+  tuva_database: dev_forrest
 
 ### output config option 2, applies to claims_preprocessing, overrides option 1
 #  data_profiling_database: tuva
@@ -21,9 +21,10 @@ vars:
 #  eligibility_override: "{{ref('eligibility')}}"
 
 ## you can also point these to sources
-#  pharmacy_claim_override:  "{{source('claims_input','pharmacy_claim')}}"
-  medical_claim_override:   "{{source('claims_input','medical_claim')}}"
-  eligibility_override:     "{{source('claims_input','eligibility')}}"
+#  pharmacy_claim_override: "{{source('claims_input','pharmacy_claim')}}"
+#  medical_claim_override: "{{source('claims_input','medical_claim')}}"
+  medical_claim_override: "None"
+  eligibility_override: "{{source('claims_input','eligibility')}}"
 
 ## if you're using sources, only in this integration tests, you can override default db and schema here
 #  data_profiling_input_database: tuva
@@ -39,9 +40,9 @@ vars:
   data_profiling_enabled: true
 #  terminology_enabled: false
 
-#dispatch:
-#  - macro_namespace: dbt
-#    search_order: [ 'claims_preprocessing', 'dbt']
+dispatch:
+  - macro_namespace: dbt
+    search_order: [ 'data_profiling', 'dbt']
 
 
 
@@ -59,6 +60,6 @@ clean-targets:
 
 models:
   integration_tests:
-    +materialized: ephemeral
+    +materialized: view
     +schema: claims_input
-    +database: dev_user
+    +database: dev_forrest

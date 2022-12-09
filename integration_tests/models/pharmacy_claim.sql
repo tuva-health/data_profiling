@@ -15,4 +15,4 @@ select
     , cast(null as numeric) as paid_amount
     , cast(null as numeric) as allowed_amount
     , cast(null as varchar) as data_source
-where 1=0
+ limit 0

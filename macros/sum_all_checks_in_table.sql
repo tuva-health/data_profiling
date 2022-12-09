@@ -20,7 +20,7 @@
         select
               '{{ relation.identifier }}' as table_name
             , '{{ column_item.name|lower }}' as test_name
-            , sum( {{ column_item.name }} ) as test_fail_numerator
+            , coalesce(sum( {{ column_item.name }} ),0) as test_fail_numerator
         from {{ relation }}
 
         {% if not loop.last -%}

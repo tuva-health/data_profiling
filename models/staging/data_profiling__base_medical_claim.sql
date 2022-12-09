@@ -2,41 +2,36 @@
     enabled=var('data_profiling_enabled',var('tuva_packages_enabled',True))
 ) }}
 
-    -- depends on: {{ var('medical_claim') }}
 /*
     Not all data sources may exist. This block of code uses the relation_exists
     macro to check if a source exists. If the source does not exist it is logged
     and an empty medical claim table is used instead.
 */
 
-    {% set source_exists = (load_relation(source('claims_input','medical_claim'))) is not none -%}
-
-
+{% if builtins.var('medical_claim')|lower == "none" %}
+{% set source_exists = false %}
+{% else %}
+{% set source_exists = true %}
+{% endif %}
 
 
 with medical_claim_src as (
 
 
-    {% if project_name != 'data_profiling' %}
+    {% if source_exists %}
     select * from {{var('medical_claim')}}
-
-
-    {% elif project_name == 'data_profiling' and source_exists  %}
-    {% if execute %}{{- log("medical claim source exists.", info=true) -}}{% endif %}
-    select * from {{var('medical_claim')}}
-
 
     {% else %}
 
-    {% if project_name == 'data_profiling' and execute %}
+    {% if execute %}
     {{- log("medical claim soruce does not exist, using empty table.", info=true) -}}
     {% endif %}
-
 
     /*
         casting fields used in joins and tests to correct data types
         casting other fields to varchar to prevent unknown type errors
     */
+
     select
           {{ cast_string_or_varchar('null') }} as claim_id
         , {{ cast_string_or_varchar('null') }} as claim_line_number

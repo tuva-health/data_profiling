@@ -2,31 +2,27 @@
     enabled=var('data_profiling_enabled',var('tuva_packages_enabled',True))
 ) }}
 
--- depends on: {{ var('eligibility') }}
-
 /*
     Not all data sources may exist. This block of code uses the relation_exists
     macro to check if a source exists. If the source does not exist it is logged
     and an empty eligibility table is used instead.
 */
 
-
-    {% set source_exists = (load_relation(source('claims_input','eligibility'))) is not none -%}
+{% if builtins.var('eligibility')|lower == "none" %}
+{% set source_exists = false %}
+{% else %}
+{% set source_exists = true %}
+{% endif %}
 
 with eligibility_src as (
 
 
-    {% if project_name != 'data_profiling'   %}
-    select * from {{var('eligibility')}}
-
-
-    {% elif project_name == 'data_profiling' and source_exists  %}
-    {% if execute%}{{- log("eligibility source exists.", info=true) -}}{% endif %}
+    {% if source_exists %}
     select * from {{var('eligibility')}}
 
 
     {% else %}
-    {% if project_name == 'data_profiling' and execute %}
+    {% if execute %}
     {{- log("eligibility soruce does not exist, using empty table.", info=true) -}}
     {% endif %}
 
