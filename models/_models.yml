@@ -59,6 +59,9 @@ models:
       - name: patient_id
         description: Primary key for grain - value from source file
 
+      - name: member_id
+        description: Primary key for grain - value from source file
+
       - name: enrollment_start_date
         description: Primary key for grain - value from source file
 
