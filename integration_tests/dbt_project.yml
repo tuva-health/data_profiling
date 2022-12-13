@@ -2,52 +2,7 @@ name: 'integration_tests'
 version: '1.0.0'
 config-version: 2
 
-profile: 'default'
-
-
-
-vars:
-### output config option 1, applies to all tuva packages
-  tuva_database: dev_user
-
-### output config option 2, applies to claims_preprocessing, overrides option 1
-#  data_profiling_database: tuva
-#  data_profiling_schema: test_claims_preprocessing
-
-
-### input override config
-  pharmacy_claim_override: "{{ref('pharmacy_claim')}}"
-  medical_claim_override: "{{ref('medical_claim')}}"
-  eligibility_override: "{{ref('eligibility')}}"
-
-## you can also configure these to be "None" instead, and it will use an empty table
-#  pharmacy_claim_override: "None"
-
-
-## you can also point these to sources
-#  pharmacy_claim_override: "{{source('claims_input','pharmacy_claim')}}"
-#  medical_claim_override: "{{source('claims_input','medical_claim')}}"
-#  eligibility_override: "{{source('claims_input','eligibility')}}"
-
-
-## if you're using sources, only in this integration tests, you can override default db and schema here
-#  data_profiling_input_database: tuva
-#  data_profiling_input_schema: claims_input
-
-
-
-### enabled/disabled configs
-## applies to all packages
-  tuva_packages_enabled: false
-
-## applies to claims_preprocessing only
-  data_profiling_enabled: true
-#  terminology_enabled: false
-
-dispatch:
-  - macro_namespace: dbt
-    search_order: [ 'data_profiling', 'dbt']
-
+profile: 'tuva_redshift'
 
 
 model-paths: ["models"]
@@ -61,9 +16,3 @@ target-path: "target"
 clean-targets:
   - "target"
   - "dbt_packages"
-
-models:
-  integration_tests:
-    +materialized: view
-    +schema: claims_input
-    +database: dev_user
