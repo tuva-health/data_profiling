@@ -6,18 +6,18 @@ config-version: 2
 profile: 'default'
 
 vars:
-  eligibility: |
+  eligibility: >
     {% if var('eligibility_override',none) is not none %}{{var('eligibility_override')}}
     {%- else %}{{ref('eligibility')}}
-    {% endif %}
-  medical_claim: |
+    {%- endif %}
+  medical_claim: >
     {% if var('medical_claim_override',none) is not none %}{{var('medical_claim_override')}}
     {%- else %}{{ref('medical_claim')}}
-    {% endif %}
-  pharmacy_claim: |
+    {%- endif %}
+  pharmacy_claim: >
     {% if var('pharmacy_claim_override',none) is not none %}{{var('pharmacy_claim_override')}}
     {%- else %}{{ref('pharmacy_claim')}}
-    {% endif %}
+    {%- endif %}
     
 
 model-paths: ["models"]
