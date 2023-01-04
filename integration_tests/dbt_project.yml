@@ -2,8 +2,12 @@ name: 'integration_tests'
 version: '1.0.0'
 config-version: 2
 
-profile: 'tuva_redshift'
+profile: 'default'
 
+
+dispatch:
+  - macro_namespace: dbt
+    search_order: [ 'data_profiling', 'dbt']
 
 model-paths: ["models"]
 analysis-paths: ["analyses"]
