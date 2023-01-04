@@ -1,7 +1,7 @@
 version: 2
 
 sources:
-  - name: claims_input
+  - name: claims_common
     database: "{{ var('data_profiling_input_database','tuva') }}"
     schema:  "{{ var('data_profiling_input_schema','claims_common') }}"
     tables:
